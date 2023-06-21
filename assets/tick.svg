@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="67" height="67" viewBox="0 0 67 67">
+  <defs>
+    <filter id="WhatsApp_Image_2023-05-03_at_8.13.16_PM" x="0" y="0" width="67" height="67" filterUnits="userSpaceOnUse">
+      <feOffset dx="3" dy="3" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="7.5" result="blur"/>
+      <feFlood flood-opacity="0.161"/>
+      <feComposite operator="in" in2="blur"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+  </defs>
+  <g id="Component_11_1" data-name="Component 11 – 1" transform="translate(19.5 19.5)">
+    <g transform="matrix(1, 0, 0, 1, -19.5, -19.5)" filter="url(#WhatsApp_Image_2023-05-03_at_8.13.16_PM)">
+      <g id="WhatsApp_Image_2023-05-03_at_8.13.16_PM-2" data-name="WhatsApp Image 2023-05-03 at 8.13.16 PM" transform="translate(19.5 19.5)">
+        <path d="M 11 21.5 C 5.210279941558838 21.5 0.5 16.78972053527832 0.5 11 C 0.5 5.210279941558838 5.210279941558838 0.5 11 0.5 C 16.78972053527832 0.5 21.5 5.210279941558838 21.5 11 C 21.5 16.78972053527832 16.78972053527832 21.5 11 21.5 Z" stroke="none"/>
+        <path d="M 11 1 C 5.485979080200195 1 1 5.485979080200195 1 11 C 1 16.51401901245117 5.485979080200195 21 11 21 C 16.51401901245117 21 21 16.51401901245117 21 11 C 21 5.485979080200195 16.51401901245117 1 11 1 M 11 0 C 17.07513046264648 0 22 4.924869537353516 22 11 C 22 17.07513046264648 17.07513046264648 22 11 22 C 4.924869537353516 22 0 17.07513046264648 0 11 C 0 4.924869537353516 4.924869537353516 0 11 0 Z" stroke="none" fill="#000"/>
+      </g>
+    </g>
+    <g id="Iconly_Broken_Tick_Square" data-name="Iconly/Broken/Tick Square" transform="translate(7.293 8.349)">
+      <g id="Tick_Square" data-name="Tick Square" transform="translate(0 0)">
+        <path id="Tick_Square-2" data-name="Tick Square" d="M6.536.2,2.781,3.951,1.14,2.309A.668.668,0,1,0,.2,3.253L2.309,5.367a.67.67,0,0,0,.945,0L7.48,1.14A.668.668,0,1,0,6.536.2" fill="#fff"/>
+      </g>
+    </g>
+  </g>
+</svg>
