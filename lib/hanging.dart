@@ -1,10 +1,6 @@
 import 'package:crime_investigation/checlist.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:crime_investigation/body.dart';
-import 'package:crime_investigation/bullets.dart';
-import 'package:crime_investigation/savedata.dart';
-import 'package:crime_investigation/shooting.dart';
 
 class hanging extends StatefulWidget {
   const hanging({Key? key}) : super(key: key);

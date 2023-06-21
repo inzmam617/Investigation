@@ -1,21 +1,18 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:crime_investigation/savedata.dart';
+import 'package:crime_investigation/UploadCases.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:crime_investigation/notebook.dart';
-import 'package:crime_investigation/scenesketch.dart';
-import 'package:crime_investigation/weapon.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
-class basic extends StatefulWidget {
-  const basic({Key? key}) : super(key: key);
+class AllCasesPage extends StatefulWidget {
+  const AllCasesPage({Key? key}) : super(key: key);
 
   @override
-  State<basic> createState() => _basicState();
+  State<AllCasesPage> createState() => _AllCasesPageState();
 }
 
-class _basicState extends State<basic> {
+class _AllCasesPageState extends State<AllCasesPage> {
   List<List<TextEditingController>> controllers = [];
   List<List<TextEditingController>> controllers2 = [];
 
@@ -67,11 +64,7 @@ class _basicState extends State<basic> {
 
   DatabaseReference databaseReference = FirebaseDatabase.instance.reference();
   FirebaseFirestore firestore = FirebaseFirestore.instance;
-
-
-
   List<String> textValues = [];
-
   List<String> textValues1 = [];
 
   @override
@@ -101,7 +94,7 @@ class _basicState extends State<basic> {
                       scale: 2,
                       child: InkWell(
                         onTap: () {
-                          Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) {return const savedata(); }));
+                          Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) {return const UploadCase(); }));
 
                         },
                         child: CircleAvatar(
@@ -110,7 +103,7 @@ class _basicState extends State<basic> {
                               offset: const Offset(0, 0),
                               child: InkWell(
                                 onTap: () {
-                                  Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) {return const savedata(); }));
+                                  Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) {return const UploadCase(); }));
 
                                 },
                                 child: const Icon(
@@ -285,8 +278,8 @@ class _basicState extends State<basic> {
                       padding: const EdgeInsets.only(left: 40, right: 24),
                       child: TextField(
                         decoration: InputDecoration(
-                            label: Row(children: [
-                              const Text('Offense',
+                            label: Row(children: const [
+                              Text('Offense',
                                   style: TextStyle(fontSize: 14,fontWeight: FontWeight.bold)),
                             ]),
                             border: const UnderlineInputBorder()),
@@ -300,8 +293,8 @@ class _basicState extends State<basic> {
                         padding: const EdgeInsets.only(left: 40, right: 24),
                         child: TextField(
                           decoration: InputDecoration(
-                              label: Row(children: [
-                                const Text('Address:',
+                              label: Row(children: const [
+                                Text('Address:',
                                     style: TextStyle(fontSize: 14,fontWeight: FontWeight.bold)),
                               ]),
                               border: const UnderlineInputBorder()),
@@ -315,8 +308,8 @@ class _basicState extends State<basic> {
                           padding: const EdgeInsets.only(left: 40, right: 24),
                           child: TextField(
                             decoration: InputDecoration(
-                                label: Row(children: [
-                                  const Text('CSI and ID:',
+                                label: Row(children: const [
+                                  Text('CSI and ID:',
                                       style: TextStyle(fontSize: 14,fontWeight: FontWeight.bold)),
                                 ]),
                                 border: const UnderlineInputBorder()),
@@ -330,8 +323,8 @@ class _basicState extends State<basic> {
                             padding: const EdgeInsets.only(left: 40, right: 24),
                             child: TextField(
                               decoration: InputDecoration(
-                                  label: Row(children: [
-                                    const Text('Time of Arrival:',
+                                  label: Row(children: const [
+                                    Text('Time of Arrival:',
                                         style: TextStyle(fontSize: 14,fontWeight: FontWeight.bold)),
                                   ]),
                                   border: const UnderlineInputBorder()),
@@ -346,8 +339,8 @@ class _basicState extends State<basic> {
                                   const EdgeInsets.only(left: 40, right: 24),
                               child: TextField(
                                 decoration: InputDecoration(
-                                    label: Row(children: [
-                                      const Text('Time I Cleared the Call:',
+                                    label: Row(children: const [
+                                      Text('Time I Cleared the Call:',
                                           style: TextStyle(fontSize: 14,fontWeight: FontWeight.bold)),
                                     ]),
                                     border: const UnderlineInputBorder()),
@@ -362,8 +355,8 @@ class _basicState extends State<basic> {
                                     const EdgeInsets.only(left: 40, right: 24),
                                 child: TextField(
                                   decoration: InputDecoration(
-                                      label: Row(children: [
-                                        const Text('Time Call was Received:',
+                                      label: Row(children: const [
+                                        Text('Time Call was Received:',
                                             style: TextStyle(fontSize: 14,fontWeight: FontWeight.bold)),
                                       ]),
                                       border: const UnderlineInputBorder()),
@@ -379,8 +372,8 @@ class _basicState extends State<basic> {
                                         left: 40, right: 24),
                                     child: TextField(
                                       decoration: InputDecoration(
-                                          label: Row(children: [
-                                            const Text(
+                                          label: Row(children: const [
+                                            Text(
                                                 'Primary Detective and ID:',
                                                 style: TextStyle(fontSize: 14,fontWeight: FontWeight.bold)),
                                           ]),
@@ -400,8 +393,8 @@ class _basicState extends State<basic> {
                                               label: SingleChildScrollView(
                                                 scrollDirection:
                                                     Axis.horizontal,
-                                                child: Row(children: [
-                                                  const Text(
+                                                child: Row(children: const [
+                                                  Text(
                                                       'Primary Officer/Deputy and ID:',
                                                       style: TextStyle(
                                                           fontSize: 14,fontWeight: FontWeight.bold)),
@@ -911,7 +904,7 @@ class _basicState extends State<basic> {
     FirebaseFirestore.instance.collection('Cases').doc().set(data).then((value) {
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => const savedata()),
+        MaterialPageRoute(builder: (context) => const UploadCase()),
       );
     });
   }

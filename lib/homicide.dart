@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:crime_investigation/body.dart';
 import 'package:crime_investigation/bullets.dart';
-import 'package:crime_investigation/dob.dart';
+import 'package:crime_investigation/AllCases.dart';
 import 'package:crime_investigation/homicide.dart';
-import 'package:crime_investigation/savedata.dart';
+import 'package:crime_investigation/UploadCases.dart';
 
 class homicide extends StatefulWidget {
   const homicide({Key? key}) : super(key: key);

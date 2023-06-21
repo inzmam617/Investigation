@@ -1,4 +1,4 @@
-import 'package:crime_investigation/savedata.dart';
+import 'package:crime_investigation/UploadCases.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:crime_investigation/baseline.dart';
@@ -165,7 +165,7 @@ class _settingState extends State<setting> {
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                            builder: (context) => savedata()),
+                                            builder: (context) => UploadCase()),
                                       );
                                     },
                                       child: CircleAvatar(
@@ -174,7 +174,7 @@ class _settingState extends State<setting> {
                                           Navigator.push(
                                             context,
                                             MaterialPageRoute(
-                                                builder: (context) => savedata()),
+                                                builder: (context) => UploadCase()),
                                           );
                                         },
                                           child: Icon(

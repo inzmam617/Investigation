@@ -1,31 +1,20 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:crime_investigation/create.dart';
-import 'package:crime_investigation/filter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:crime_investigation/courtdate.dart';
-import 'package:crime_investigation/setting.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'AllCases.dart';
 
-import 'dob.dart';
-import 'notebook.dart';
-
-class savedata extends StatefulWidget {
-  const savedata({Key? key}) : super(key: key);
-
+class UploadCase extends StatefulWidget {
+  const UploadCase({Key? key}) : super(key: key);
   @override
-  State<savedata> createState() => _savedataState();
+  State<UploadCase> createState() => _UploadCaseState();
 }
 
-class _savedataState extends State<savedata> {
-
-
+class _UploadCaseState extends State<UploadCase> {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
-
   List<String> textValues = [];
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.white,
@@ -33,7 +22,7 @@ class _savedataState extends State<savedata> {
         print("object");
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => const basic()),
+          MaterialPageRoute(builder: (context) => const AllCasesPage()),
         );
       },child: Container(
         decoration: BoxDecoration(

@@ -2,14 +2,14 @@ import 'package:crime_investigation/baseline.dart';
 import 'package:crime_investigation/body.dart';
 import 'package:crime_investigation/bullets.dart';
 import 'package:crime_investigation/death.dart';
-import 'package:crime_investigation/dob.dart';
+import 'package:crime_investigation/AllCases.dart';
 import 'package:crime_investigation/drawning.dart';
 import 'package:crime_investigation/evidence.dart';
 import 'package:crime_investigation/hanging.dart';
 import 'package:crime_investigation/homicide.dart';
 import 'package:crime_investigation/mystory.dart';
 import 'package:crime_investigation/robbery.dart';
-import 'package:crime_investigation/savedata.dart';
+import 'package:crime_investigation/UploadCases.dart';
 import 'package:crime_investigation/scene.dart';
 import 'package:crime_investigation/scenesketch.dart';
 import 'package:crime_investigation/setting.dart';
@@ -142,7 +142,7 @@ scrollDirection: Axis.horizontal,physics: const NeverScrollableScrollPhysics(),
                       onPressed: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) =>const basic()),
+                          MaterialPageRoute(builder: (context) =>const AllCasesPage()),
                         );
                       },
                       child: const Text(

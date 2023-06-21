@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:crime_investigation/body.dart';
 import 'package:crime_investigation/bullets.dart';
-import 'package:crime_investigation/savedata.dart';
+import 'package:crime_investigation/UploadCases.dart';
 
 class drawning extends StatefulWidget {
   const drawning({Key? key}) : super(key: key);
@@ -424,7 +424,7 @@ class _drawningState extends State<drawning> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => savedata()),
+                                builder: (context) => UploadCase()),
                           );
                         },
                         child: InkWell(onTap:() {
