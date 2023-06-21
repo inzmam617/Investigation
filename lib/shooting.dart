@@ -4,7 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:crime_investigation/body.dart';
 import 'package:crime_investigation/bullets.dart';
 import 'package:crime_investigation/death.dart';
-import 'package:crime_investigation/UploadCases.dart';
+import 'package:crime_investigation/AllCasesPage.dart';
 
 class shooting extends StatefulWidget {
   const shooting({Key? key}) : super(key: key);

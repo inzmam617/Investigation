@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:crime_investigation/courtdate.dart';
 import 'package:crime_investigation/notebook.dart';
-import 'package:crime_investigation/UploadCases.dart';
+import 'package:crime_investigation/AllCasesPage.dart';
 import 'package:crime_investigation/setting.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -18,8 +18,6 @@ class _CreatePageState extends State<CreatePage> {
   void initState(){
     super.initState();
     initialize();
-
-
   }
   String? name ;
   initialize() async {
@@ -76,7 +74,7 @@ class _CreatePageState extends State<CreatePage> {
 
               children: [
 
-                SizedBox(height: 50,),
+                const SizedBox(height: 50,),
 
                 Align(
                   alignment: Alignment.topLeft,
@@ -146,7 +144,7 @@ class _CreatePageState extends State<CreatePage> {
               ],
             ),
           ),
-          SizedBox(height: 50,),
+          const SizedBox(height: 50,),
           InkWell(onTap:() {
             Navigator.push(
               context,
@@ -202,7 +200,7 @@ class _CreatePageState extends State<CreatePage> {
                               size: 30,
                             ),
                           ),
-                          SizedBox(height: 10,),
+                          const SizedBox(height: 10,),
                           const Text(
                             'Create New',style: TextStyle(
                               color: Colors.black,

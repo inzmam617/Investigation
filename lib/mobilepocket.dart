@@ -5,7 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:crime_investigation/baseline.dart';
 import 'package:crime_investigation/body.dart';
 import 'package:crime_investigation/drawning.dart';
-import 'package:crime_investigation/UploadCases.dart';
+import 'package:crime_investigation/AllCasesPage.dart';
 
 class mobile extends StatefulWidget {
   const mobile({Key? key}) : super(key: key);

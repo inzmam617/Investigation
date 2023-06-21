@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:crime_investigation/UploadCases.dart';
+import 'package:crime_investigation/AllCasesPage.dart';
 import 'package:crime_investigation/scenesketch.dart';
 
 class courtdate extends StatelessWidget {
@@ -492,7 +492,7 @@ class courtdate extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => UploadCase()),
+                              builder: (context) => AllCases()),
                         );
                       },
 

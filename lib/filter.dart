@@ -1,7 +1,7 @@
 import 'dart:ui';
 
 import 'package:crime_investigation/mobilepocket.dart';
-import 'package:crime_investigation/UploadCases.dart';
+import 'package:crime_investigation/AllCasesPage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:crime_investigation/baseline.dart';
@@ -424,7 +424,7 @@ class _filterState extends State<filter> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => UploadCase()),
+                                      builder: (context) => AllCases()),
                                 );
                               },
                               child: Text(

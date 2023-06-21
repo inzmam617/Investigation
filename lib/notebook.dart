@@ -2,15 +2,15 @@ import 'package:crime_investigation/baseline.dart';
 import 'package:crime_investigation/body.dart';
 import 'package:crime_investigation/bullets.dart';
 import 'package:crime_investigation/death.dart';
-import 'package:crime_investigation/AllCases.dart';
+import 'package:crime_investigation/UploadCases/BasicInformationPage.dart';
 import 'package:crime_investigation/drawning.dart';
 import 'package:crime_investigation/evidence.dart';
 import 'package:crime_investigation/hanging.dart';
 import 'package:crime_investigation/homicide.dart';
-import 'package:crime_investigation/mystory.dart';
+import 'package:crime_investigation/UploadCases/StoryPage.dart';
 import 'package:crime_investigation/robbery.dart';
-import 'package:crime_investigation/UploadCases.dart';
-import 'package:crime_investigation/scene.dart';
+import 'package:crime_investigation/AllCasesPage.dart';
+import 'package:crime_investigation/UploadCases/SceneMeasurementPage.dart';
 import 'package:crime_investigation/scenesketch.dart';
 import 'package:crime_investigation/setting.dart';
 import 'package:crime_investigation/shooting.dart';
@@ -24,52 +24,8 @@ class notebook extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // bottomNavigationBar: BottomNavigationBar(
-      //   backgroundColor: Colors.black,
-      //   items: <BottomNavigationBarItem>[
-      //     BottomNavigationBarItem(
-      //       icon: Transform.translate(
-      //         offset: Offset(0, 10),
-      //         child: SvgPicture.asset('assets/Component 12 – 1.svg'),
-      //       ),
-      //       label: '',
-      //     ),
-      //     BottomNavigationBarItem(
-      //       icon: Transform.translate(
-      //         offset: Offset(0, -20),
-      //         child: Container(
-      //           decoration: BoxDecoration(
-      //               border: Border.all(
-      //             color: Colors.black,
-      //           )),
-      //           child: SizedBox(
-      //             height: 25,
-      //             width: 25,
-      //             child: Transform.scale(
-      //               scale: 2,
-      //               child: CircleAvatar(
-      //                   backgroundColor: Colors.white,
-      //                   child: Icon(
-      //                     Icons.add,
-      //                     color: Colors.black,
-      //                     size: 25,
-      //                   )),
-      //             ),
-      //           ),
-      //         ),
-      //       ),
-      //       label: '',
-      //     ),
-      //     BottomNavigationBarItem(
-      //       icon: Transform.translate(
-      //           offset: Offset(0, 10),
-      //           child: Image.asset('assets/Iconly-Bold-Setting.png')),
-      //       label: '',
-      //     ),
-      //   ],
-      // ),
       body: SingleChildScrollView(
-scrollDirection: Axis.horizontal,physics: const NeverScrollableScrollPhysics(),
+        scrollDirection: Axis.horizontal,physics: const NeverScrollableScrollPhysics(),
         child: SingleChildScrollView(scrollDirection: Axis.vertical,
           child: Column(
             children: [
@@ -142,7 +98,7 @@ scrollDirection: Axis.horizontal,physics: const NeverScrollableScrollPhysics(),
                       onPressed: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) =>const AllCasesPage()),
+                          MaterialPageRoute(builder: (context) =>const BasicInformationPage()),
                         );
                       },
                       child: const Text(
@@ -171,7 +127,7 @@ scrollDirection: Axis.horizontal,physics: const NeverScrollableScrollPhysics(),
                       onPressed: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) =>const mystory()),
+                          MaterialPageRoute(builder: (context) =>StoryPage()),
                         );
                       },
                       child: const Text(
@@ -188,7 +144,7 @@ scrollDirection: Axis.horizontal,physics: const NeverScrollableScrollPhysics(),
                 child: InkWell(onTap:() {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) =>const scene()),
+                    MaterialPageRoute(builder: (context) =>const SceneMeasurementPage()),
                   );
                 },
                   child: Container(
@@ -206,7 +162,7 @@ scrollDirection: Axis.horizontal,physics: const NeverScrollableScrollPhysics(),
                         onPressed: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) =>const scene()),
+                            MaterialPageRoute(builder: (context) =>const SceneMeasurementPage()),
                           );
                         },
                         child: const Text(

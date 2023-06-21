@@ -1,4 +1,4 @@
-import 'package:crime_investigation/mystory.dart';
+import 'package:crime_investigation/UploadCases/StoryPage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:crime_investigation/notebook.dart';
@@ -37,7 +37,7 @@ class scenesketch extends StatelessWidget {
                         onTap: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => mystory()),
+                            MaterialPageRoute(builder: (context) => StoryPage()),
                           );
                         },
                         child: CircleAvatar(
@@ -49,7 +49,7 @@ class scenesketch extends StatelessWidget {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => mystory()),
+                                        builder: (context) => StoryPage()),
                                   );
                                 },
                                 child: InkWell(
@@ -57,7 +57,7 @@ class scenesketch extends StatelessWidget {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) => mystory()),
+                                          builder: (context) => StoryPage()),
                                     );
                                   },
                                   child: Icon(
