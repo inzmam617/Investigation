@@ -254,6 +254,7 @@ class StoryPage extends StatelessWidget {
                                       topRight: Radius.circular(20)))),
                           onPressed: () {
                             Map<String, dynamic> data = {
+                              "Type" : "Story",
                               'Title': 'Story Title2',
                               'Story': story.text,
 

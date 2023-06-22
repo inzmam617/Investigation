@@ -2,8 +2,8 @@ import 'package:crime_investigation/filter.dart';
 import 'package:crime_investigation/notebook.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:crime_investigation/baseline.dart';
-import 'package:crime_investigation/body.dart';
+import 'package:crime_investigation/UploadCases/BaseLinePage.dart';
+import 'package:crime_investigation/UploadCases/BodyMeasurementsPage.dart';
 import 'package:crime_investigation/drawning.dart';
 import 'package:crime_investigation/AllCasesPage.dart';
 

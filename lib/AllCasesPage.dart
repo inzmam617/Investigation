@@ -159,8 +159,9 @@ class _AllCasesState extends State<AllCases> {
               ],
             ),
           ),
+
           StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-            stream: FirebaseFirestore.instance.collection('Cases').snapshots(),
+            stream:  FirebaseFirestore.instance.collection('Cases').snapshots(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const CircularProgressIndicator();
@@ -177,7 +178,6 @@ class _AllCasesState extends State<AllCases> {
                   padding: EdgeInsets.only(top: 100),
                     child: Text('No documents found'));
               }
-
               return Expanded(
                 // height: 100,
                 child: Padding(
@@ -196,6 +196,14 @@ class _AllCasesState extends State<AllCases> {
 
                       return InkWell(
                         onTap: () {
+                          if(data?["Type"] == "Basic"){
+                            Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) {
+                              return const BasicInformationPage();
+                            }));
+                          }
+                          else{
+                            print("asd");
+                          }
 
                         },
                         child: Container(

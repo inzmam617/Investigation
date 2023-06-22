@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:crime_investigation/body.dart';
-import 'package:crime_investigation/bullets.dart';
+import 'package:crime_investigation/UploadCases/BodyMeasurementsPage.dart';
+import 'package:crime_investigation/BalisticPage.dart';
 import 'package:crime_investigation/notebook.dart';
 
 class evidence extends StatefulWidget {
@@ -60,7 +60,7 @@ class _evidenceState extends State<evidence> {
                         onTap: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => body()),
+                            MaterialPageRoute(builder: (context) => BodyMeasurementsPage()),
                           );
                         },
                         child: CircleAvatar(
@@ -72,7 +72,7 @@ class _evidenceState extends State<evidence> {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => body()),
+                                        builder: (context) => BodyMeasurementsPage()),
                                   );
                                 },
                                 child: InkWell(
@@ -80,7 +80,7 @@ class _evidenceState extends State<evidence> {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) => body()),
+                                          builder: (context) => BodyMeasurementsPage()),
                                     );
                                   },
                                   child: Icon(

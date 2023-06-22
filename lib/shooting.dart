@@ -1,10 +1,7 @@
 import 'package:crime_investigation/checlist.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:crime_investigation/body.dart';
-import 'package:crime_investigation/bullets.dart';
-import 'package:crime_investigation/death.dart';
-import 'package:crime_investigation/AllCasesPage.dart';
+
 
 class shooting extends StatefulWidget {
   const shooting({Key? key}) : super(key: key);
@@ -25,11 +22,11 @@ class _shootingState extends State<shooting> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Transform.translate(
-            offset: Offset(0, -25),
+            offset: const Offset(0, -25),
             child: Container(
               height: MediaQuery.of(context).size.height / 3.5,
               width: MediaQuery.of(context).size.width,
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                   color: Colors.black,
                   borderRadius: BorderRadius.only(
                     bottomLeft: Radius.circular(30),
@@ -37,13 +34,13 @@ class _shootingState extends State<shooting> {
               child: Padding(
                 padding: const EdgeInsets.only(top: 60, right: 70),
                 child: Transform.translate(
-                  offset: Offset(-45, 0),
+                  offset: const Offset(-45, 0),
                   child: Align(
                     alignment: Alignment.centerLeft,
                     child: SingleChildScrollView(
                       child: Column(
                         children: [
-                          SizedBox(
+                          const SizedBox(
                             height: 30,
                             child: TextField(
                                 decoration: InputDecoration(
@@ -66,8 +63,8 @@ class _shootingState extends State<shooting> {
                                             topRight: Radius.circular(30))))),
                           ),
                           Transform.translate(
-                            offset: Offset(-75, -28),
-                            child: SizedBox(
+                            offset: const Offset(-75, -28),
+                            child: const SizedBox(
                               height: 26,
                               width: 26,
                               child: CircleAvatar(
@@ -78,8 +75,8 @@ class _shootingState extends State<shooting> {
                             ),
                           ),
                           Transform.translate(
-                              offset: Offset(40, -50),
-                              child: Text(
+                              offset: const Offset(40, -50),
+                              child: const Text(
                                 'Shooting Investigation Checklist',
                                 style: TextStyle(color: Color(0xff86898E)),
                               ))
@@ -92,7 +89,7 @@ class _shootingState extends State<shooting> {
             ),
           ),
           Transform.translate(
-              offset: Offset(120, -155),
+              offset: const Offset(120, -155),
               child: SvgPicture.asset(
                 'assets/Checklist-bro.svg',
                 fit: BoxFit.cover,
@@ -100,16 +97,16 @@ class _shootingState extends State<shooting> {
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: Transform.translate(
-              offset: Offset(0, -60),
+              offset: const Offset(0, -60),
               child: Row(
                 children: [
                   Image.asset('assets/tik.png'),
                   Transform.translate(
-                    offset: Offset(-15, 0),
+                    offset: const Offset(-15, 0),
                     child: Container(
                       height: 140,
                       width: MediaQuery.of(context).size.width / 1.3,
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                           boxShadow: [
                             BoxShadow(blurRadius: 2.5, color: Colors.grey)
                           ],
@@ -125,29 +122,29 @@ class _shootingState extends State<shooting> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
+                            const Text(
                                 ' Complete the "Basic Information"portion of ',
                                 style: TextStyle(
                                     color: Color(0xff86898E),
                                     fontWeight: FontWeight.bold)),
-                            SizedBox(height: 10,),
-                            Text(
+                            const SizedBox(height: 10,),
+                            const Text(
                                 ' your notebook.',
                                 style: TextStyle(
                                     color: Color(0xff86898E),
                                     fontWeight: FontWeight.bold)),
-                            SizedBox(
+                            const SizedBox(
                               height:10,
                             ),
-                            Text(
+                            const Text(
                               '-Make sure you observe the scene and have  ',
                               style: TextStyle(
                                   fontSize: 13, color: Color(0xff86898E)),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 10,
                             ),
-                            Text(
+                            const Text(
                               " an idea of what you're dealing with.",
                               style: TextStyle(
                                   fontSize: 13, color: Color(0xff86898E)),
@@ -164,16 +161,16 @@ class _shootingState extends State<shooting> {
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: Transform.translate(
-              offset: Offset(0, -40),
+              offset: const Offset(0, -40),
               child: Row(
                 children: [
                   Image.asset('assets/white tick.png'),
                   Transform.translate(
-                    offset: Offset(-15, 0),
+                    offset: const Offset(-15, 0),
                     child: Container(
                       height: 250,
                       width: MediaQuery.of(context).size.width / 1.3,
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                           boxShadow: [
                             BoxShadow(blurRadius: 2.5, color: Colors.grey)
                           ],
@@ -189,35 +186,35 @@ class _shootingState extends State<shooting> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
+                            const Text(
                                 ' If the victim(s)or suspect(s are available ',
                                 style: TextStyle(
                                     color: Color(0xff86898E),
                                     fontWeight: FontWeight.bold)),
-                            SizedBox(
+                            const SizedBox(
                               height: 10,
                             ),
-                            Text(
+                            const Text(
                               " take care of )",
                               style: TextStyle(
                                   fontSize: 13,
                                   color: Color(0xff86898E),
                                   fontWeight: FontWeight.bold),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 10,
                             ),
-                            Text(
+                            const Text(
                               "their information and photograph before  ",
                               style: TextStyle(
                                   fontSize: 13,
                                   color: Color(0xff86898E),
                                   fontWeight: FontWeight.bold),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 10,
                             ),
-                            Text(
+                            const Text(
                               " they're taken away. ",
                               style: TextStyle(
                                   fontSize: 13,
@@ -225,40 +222,40 @@ class _shootingState extends State<shooting> {
                                   fontWeight: FontWeight.bold),
                             ),
 
-                            SizedBox(
+                            const SizedBox(
                               height: 10,
                             ),
-                            Text(
+                            const Text(
                               "- Do not forget your Gunshot Residue kit!",
                               style: TextStyle(
                                 fontSize: 13,
                                 color: Color(0xff86898E),
                               ),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 10,
                             ),
-                            Text(
+                            const Text(
                               "-Buccal swabs",
                               style: TextStyle(
                                 fontSize: 13,
                                 color: Color(0xff86898E),
                               ),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 10,
                             ),
-                            Text(
+                            const Text(
                               "-Ten Inked prints,palm prints",
                               style: TextStyle(
                                 fontSize: 13,
                                 color: Color(0xff86898E),
                               ),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 10,
                             ),
-                            Text(
+                            const Text(
                               "-Swab fingernails if applicable",
                               style: TextStyle(
                                 fontSize: 13,
@@ -274,22 +271,22 @@ class _shootingState extends State<shooting> {
               ),
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: Transform.translate(
-              offset: Offset(0, -40),
+              offset: const Offset(0, -40),
               child: Row(
                 children: [
                   Image.asset('assets/white tick.png'),
                   Transform.translate(
-                    offset: Offset(-15, 0),
+                    offset: const Offset(-15, 0),
                     child: Container(
                       height: 170,
                       width: MediaQuery.of(context).size.width / 1.3,
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                           boxShadow: [
                             BoxShadow(blurRadius: 2.5, color: Colors.grey)
                           ],
@@ -305,49 +302,49 @@ class _shootingState extends State<shooting> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(' Photograph the scene and possible ',
+                            const Text(' Photograph the scene and possible ',
                                 style: TextStyle(
                                     color: Color(0xff86898E),
                                     fontWeight: FontWeight.bold)),
-                        SizedBox(
+                        const SizedBox(
                           height: 10,
                         ),
-                        Text(
+                        const Text(
                           " evidence. ",
                           style: TextStyle(
                             fontSize: 13,
                             color: Color(0xff86898E),fontWeight: FontWeight.bold
                           ),),
-                            SizedBox(
+                            const SizedBox(
                               height: 10,
                             ),
-                            Text(
+                            const Text(
                               "-If there's any shoe prints that might be the the ",
                               style: TextStyle(
                                 fontSize: 13,
                                 color: Color(0xff86898E),
                               ),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 10,
                             ),
-                            Text(
+                            const Text(
                               " suspects,pho- tograph that and start your  ",
                               style: TextStyle(
                                   fontSize: 13, color: Color(0xff86898E)),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 10,
                             ),
-                            Text(
+                            const Text(
                               " casting as soon as possible.",
                               style: TextStyle(
                                   fontSize: 13, color: Color(0xff86898E)),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 10,
                             ),
-                            Text(
+                            const Text(
                               " (Especially if it looks like it's about to rain)",
                               style: TextStyle(
                                   fontSize: 13, color: Color(0xff86898E)),
@@ -361,22 +358,22 @@ class _shootingState extends State<shooting> {
               ),
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: Transform.translate(
-              offset: Offset(0, -40),
+              offset: const Offset(0, -40),
               child: Row(
                 children: [
                   Image.asset('assets/white tick.png'),
                   Transform.translate(
-                    offset: Offset(-15, 0),
+                    offset: const Offset(-15, 0),
                     child: Container(
                       height: 260,
                       width: MediaQuery.of(context).size.width / 1.3,
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                           boxShadow: [
                             BoxShadow(blurRadius: 2.5, color: Colors.grey)
                           ],
@@ -392,75 +389,75 @@ class _shootingState extends State<shooting> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(' Locate items of evidence ',
+                            const Text(' Locate items of evidence ',
                                 style: TextStyle(
                                     color: Color(0xff86898E),
                                     fontWeight: FontWeight.bold)),
-                            SizedBox(
+                            const SizedBox(
                               height: 10,
                             ),
-                            Text(
+                            const Text(
                               " (weapon,casing,projectiles)",
                               style: TextStyle(
                                 fontSize: 13,
                                 color: Color(0xff86898E),
                               ),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 10,
                             ),
-                            Text(
+                            const Text(
                               "-Photograph without marking them",
                               style: TextStyle(
                                 fontSize: 13,
                                 color: Color(0xff86898E),
                               ),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 10,
                             ),
-                            Text(
+                            const Text(
                               "-Mark them with stand up numbers are letters",
                               style: TextStyle(
                                   fontSize: 13, color: Color(0xff86898E)),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 10,
                             ),
-                            Text(
+                            const Text(
                               "-Take more photos!",
                               style: TextStyle(
                                   fontSize: 13, color: Color(0xff86898E)),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 10,
                             ),
-                            Text(
+                            const Text(
                               "-Complete the ' Baseline Measurements'portion ",
                               style: TextStyle(
                                   fontSize: 13, color: Color(0xff86898E)),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 10,
                             ),
-                            Text(
+                            const Text(
                               "if needed.",
                               style: TextStyle(
                                   fontSize: 13, color: Color(0xff86898E)),
                             ),
 
-                            SizedBox(
+                            const SizedBox(
                               height: 10,
                             ),
-                            Text(
+                            const Text(
                               "-Complete the 'weapon measurement'portion ",
                               style: TextStyle(
                                   fontSize: 13, color: Color(0xff86898E)),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 10,
                             ),
-                            Text(
+                            const Text(
                               " if needed.",
                               style: TextStyle(
                                   fontSize: 13, color: Color(0xff86898E)),
@@ -474,22 +471,22 @@ class _shootingState extends State<shooting> {
               ),
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: Transform.translate(
-              offset: Offset(0, -40),
+              offset: const Offset(0, -40),
               child: Row(
                 children: [
                   Image.asset('assets/tik.png'),
                   Transform.translate(
-                    offset: Offset(-15, 0),
+                    offset: const Offset(-15, 0),
                     child: Container(
                       height: 90,
                       width: MediaQuery.of(context).size.width / 1.3,
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                           boxShadow: [
                             BoxShadow(blurRadius: 2.5, color: Colors.grey)
                           ],
@@ -505,25 +502,25 @@ class _shootingState extends State<shooting> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
+                            const Text(
                                 ' After all measurements,collect!',
                                 style: TextStyle(
                                     color: Color(0xff86898E),
                                     fontWeight: FontWeight.bold)),
-                            SizedBox(
+                            const SizedBox(
                               height: 10,
                             ),
-                            Text(
+                            const Text(
                               "-Remember to use tweezer for casing into a",
                               style: TextStyle(
                                 fontSize: 13,
                                 color: Color(0xff86898E),
                               ),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 10,
                             ),
-                            Text(
+                            const Text(
                               " paper back",
                               style: TextStyle(
                                 fontSize: 13,
@@ -540,22 +537,22 @@ class _shootingState extends State<shooting> {
               ),
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: Transform.translate(
-              offset: Offset(0, -40),
+              offset: const Offset(0, -40),
               child: Row(
                 children: [
                   Image.asset('assets/tik.png'),
                   Transform.translate(
-                    offset: Offset(-15, 0),
+                    offset: const Offset(-15, 0),
                     child: Container(
                       height: 180,
                       width: MediaQuery.of(context).size.width / 1.3,
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                           boxShadow: [
                             BoxShadow(blurRadius: 2.5, color: Colors.grey)
                           ],
@@ -571,44 +568,44 @@ class _shootingState extends State<shooting> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(' Photograph bullet holes u c on seen.',
+                            const Text(' Photograph bullet holes u c on seen.',
                                 style: TextStyle(
                                     color: Color(0xff86898E),
                                     fontWeight: FontWeight.bold)),
-                            SizedBox(
+                            const SizedBox(
                               height: 10,
                             ),
-                            Text(
+                            const Text(
                               "-Identify each one with adhesive ruler ",
                               style: TextStyle(
                                 fontSize: 13,
                                 color: Color(0xff86898E),
                               ),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 10,
                             ),
-                            Text(
+                            const Text(
                               " if you have them. ",
                               style: TextStyle(
                                 fontSize: 13,
                                 color: Color(0xff86898E),
                               ),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 10,
                             ),
-                            Text(
+                            const Text(
                               "-Complete the 'Bullet hole measurement'portion  ",
                               style: TextStyle(
                                 fontSize: 13,
                                 color: Color(0xff86898E),
                               ),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 10,
                             ),
-                            Text(
+                            const Text(
                               " of your notebook.",
                               style: TextStyle(
                                 fontSize: 13,
@@ -624,22 +621,22 @@ class _shootingState extends State<shooting> {
               ),
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: Transform.translate(
-              offset: Offset(0, -40),
+              offset: const Offset(0, -40),
               child: Row(
                 children: [
                   Image.asset('assets/white tick.png'),
                   Transform.translate(
-                    offset: Offset(-15, 0),
+                    offset: const Offset(-15, 0),
                     child: Container(
                       height: 140,
                       width: MediaQuery.of(context).size.width / 1.3,
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                           boxShadow: [
                             BoxShadow(blurRadius: 2.5, color: Colors.grey)
                           ],
@@ -655,34 +652,34 @@ class _shootingState extends State<shooting> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(' Collect Colect Collect! ',
+                            const Text(' Collect Colect Collect! ',
                                 style: TextStyle(
                                     color: Color(0xff86898E),
                                     fontWeight: FontWeight.bold)),
-                            SizedBox(
+                            const SizedBox(
                               height: 10,
                             ),
-                            Text(
+                            const Text(
                               "-you may collect any projectiles from the walls.",
                               style: TextStyle(
                                 fontSize: 13,
                                 color: Color(0xff86898E),
                               ),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 10,
                             ),
-                            Text(
+                            const Text(
                               "-Collect touch DNA if applicable.",
                               style: TextStyle(
                                 fontSize: 13,
                                 color: Color(0xff86898E),
                               ),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 10,
                             ),
-                            Text(
+                            const Text(
                               "-Collect Weapons",
                               style: TextStyle(
                                 fontSize: 13,
@@ -698,22 +695,22 @@ class _shootingState extends State<shooting> {
               ),
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
           SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: Transform.translate(
-              offset: Offset(0, -40),
+              offset: const Offset(0, -40),
               child: Row(
                 children: [
                   Image.asset('assets/white tick.png'),
                   Transform.translate(
-                    offset: Offset(-15, 0),
+                    offset: const Offset(-15, 0),
                     child: Container(
                       height: 100,
                       width: MediaQuery.of(context).size.width / 1.3,
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                           boxShadow: [
                             BoxShadow(blurRadius: 2.5, color: Colors.grey)
                           ],
@@ -729,20 +726,20 @@ class _shootingState extends State<shooting> {
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(' If a vehicle is being processed,make   ',
+                            const Text(' If a vehicle is being processed,make   ',
                                 style: TextStyle(
                                     color: Color(0xff86898E),
                                     fontWeight: FontWeight.bold)),
-                            SizedBox(height: 10,),
-                            Text(' sure to collect Vehicle information.  ',
+                            const SizedBox(height: 10,),
+                            const Text(' sure to collect Vehicle information.  ',
                                 style: TextStyle(
                                     color: Color(0xff86898E),
                                     fontWeight: FontWeight.bold)),
 
-                            SizedBox(
+                            const SizedBox(
                               height: 10,
                             ),
-                            Text(
+                            const Text(
                               "-Stay Focused Stay Organized, Stay Geek'd!",
                               style: TextStyle(
                                 fontSize: 13,
@@ -759,13 +756,13 @@ class _shootingState extends State<shooting> {
               ),
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
           SizedBox(
             height: 30,
             child: Container(
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                   boxShadow: [BoxShadow(blurRadius: 3.5, color: Colors.grey)],
                   color: Colors.white,
                   borderRadius: BorderRadius.only(
@@ -778,7 +775,7 @@ class _shootingState extends State<shooting> {
                 child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.black,
-                        shape: RoundedRectangleBorder(
+                        shape: const RoundedRectangleBorder(
                             borderRadius: BorderRadius.only(
                                 bottomLeft: Radius.circular(20),
                                 topLeft: Radius.circular(20),
@@ -787,17 +784,17 @@ class _shootingState extends State<shooting> {
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) =>checklist()),
+                        MaterialPageRoute(builder: (context) =>const checklist()),
                       );
                     },
-                    child: Text(
+                    child: const Text(
                       'Save',
                       style: TextStyle(color: Colors.white),
                     )),
               ),
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 40,
           ),
         ],

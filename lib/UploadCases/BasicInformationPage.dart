@@ -79,51 +79,52 @@ class _BasicInformationPageState extends State<BasicInformationPage> {
                   child: Image.asset('assets/vvv.png')),
               label: '',
             ),
-            BottomNavigationBarItem(
-              icon: Transform.translate(
-                offset: const Offset(0, -20),
-                child: Container(
-                  decoration: BoxDecoration(
-                      border: Border.all(
-                    color: Colors.black,
-                  )),
-                  child: SizedBox(
-                    height: 25,
-                    width: 25,
-                    child: Transform.scale(
-                      scale: 2,
-                      child: InkWell(
-                        onTap: () {
-                          Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) {return const BasicInformationPage(); }));
-
-                        },
-                        child: CircleAvatar(
-                            backgroundColor: Colors.white,
-                            child: Transform.translate(
-                              offset: const Offset(0, 0),
-                              child: InkWell(
-                                onTap: () {
-                                  Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) {return const BasicInformationPage(); }));
-
-                                },
-                                child: const Icon(
-                                  Icons.add,
-                                  color: Colors.black,
-                                  size: 25,
-                                ),
-                              ),
-                            )),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              label: '',
-            ),
+            // BottomNavigationBarItem(
+            //   icon: Transform.translate(
+            //     offset: const Offset(0, -20),
+            //     child: Container(
+            //       decoration: BoxDecoration(
+            //           border: Border.all(
+            //         color: Colors.black,
+            //       )),
+            //       child: SizedBox(
+            //         height: 25,
+            //         width: 25,
+            //         child: Transform.scale(
+            //           scale: 2,
+            //           child: InkWell(
+            //             onTap: () {
+            //               Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) {return const BasicInformationPage(); }));
+            //
+            //             },
+            //             child: CircleAvatar(
+            //                 backgroundColor: Colors.white,
+            //                 child: Transform.translate(
+            //                   offset: const Offset(0, 0),
+            //                   child: InkWell(
+            //                     onTap: () {
+            //                       Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) {return const BasicInformationPage(); }));
+            //
+            //                     },
+            //                     child: const Icon(
+            //                       Icons.add,
+            //                       color: Colors.black,
+            //                       size: 25,
+            //                     ),
+            //                   ),
+            //                 )),
+            //           ),
+            //         ),
+            //       ),
+            //     ),
+            //   ),
+            //   label: '',
+            // ),
             BottomNavigationBarItem(
               icon: Transform.translate(
                   offset: const Offset(0, 10),
                   child: InkWell(onTap: () {
+                    Navigator.of(context).pop();
 
                   },
 
@@ -826,6 +827,7 @@ class _BasicInformationPageState extends State<BasicInformationPage> {
   }
   void saveTableData() {
     Map<String, dynamic> data = {
+      "Type" : "Basic",
       'Title': 'John Doe',
       'Date': 25,
       'Case': 'asd@example.com',
@@ -880,27 +882,8 @@ class _BasicInformationPageState extends State<BasicInformationPage> {
         return; // Stop further processing
       }
     }
-    // for (int i = 0; i < textValues.length; i++) {
-    //   var rowControllers = controllers[i];
-    //   Map<String, dynamic> rowData = {
-    //     'Victim': rowControllers[0].text,
-    //     'DOB': rowControllers[1].text,
-    //   };
-    //   victimsData.add(rowData);
-    // }
-    //
-    // for (int i = 0; i < textValues.length; i++) {
-    //   var rowControllers = controllers2[i];
-    //   Map<String, dynamic> rowData = {
-    //     'Suspects': rowControllers[0].text,
-    //     'DOB': rowControllers[1].text,
-    //   };
-    //   SuspectData.add(rowData);
-    // }
-
     data['Victims'] = victimsData;
     data['Suspects'] = suspectData;
-
     FirebaseFirestore.instance.collection('Cases').doc().set(data).then((value) {
       Navigator.push(
         context,

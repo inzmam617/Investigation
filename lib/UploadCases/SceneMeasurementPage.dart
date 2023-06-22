@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:crime_investigation/baseline.dart';
-import 'package:crime_investigation/body.dart';
+import 'package:crime_investigation/UploadCases/BaseLinePage.dart';
+import 'package:crime_investigation/UploadCases/BodyMeasurementsPage.dart';
 import 'package:crime_investigation/notebook.dart';
 
 import '../AllCasesPage.dart';
@@ -20,14 +20,15 @@ class _SceneMeasurementPageState extends State<SceneMeasurementPage> {
     super.initState();
     setState(() {
       textValues.add('');
-
+      controllers.add([TextEditingController(), TextEditingController(), TextEditingController()]);
+      errorMessages.add(['', '', '']);
     });
-
   }
 
 
 
-    List<String> textValues = [];
+
+  List<String> textValues = [];
   List<List<String>> tableData = [];
   List<List<String>> errorMessages = [];
   List<List<TextEditingController>> controllers = [];
@@ -269,76 +270,74 @@ class _SceneMeasurementPageState extends State<SceneMeasurementPage> {
                   ],
                   rows: List<DataRow>.generate(
                     textValues.length,
-                    // Generate rows based on the number of text fields
                         (index) => DataRow(
                       cells: [
                         DataCell(Row(
                           children: <Widget>[
                             SizedBox(
                               width: MediaQuery.of(context).size.width / 3.5,
-                              child: TextField(
+                              child:  TextField(
                                 controller: controllers[index][0],
-                                decoration: InputDecoration(
+                                decoration: const InputDecoration(
                                   isDense: true,
-                                  focusedBorder: const OutlineInputBorder(
+                                  focusedBorder: OutlineInputBorder(
                                     borderSide: BorderSide(
                                         color: Colors.black, width: 1.0),
                                   ),
-                                  enabledBorder: const OutlineInputBorder(
+                                  enabledBorder: OutlineInputBorder(
                                     borderSide: BorderSide(
                                         color: Colors.black, width: 1.0),
                                   ),
                                   hintText: '',
-                                  hintStyle: const TextStyle(fontSize: 14),
-                                  errorText: errorMessages[index][0], // Show error message
                                 ),
+                                textAlign: TextAlign.center,
                               ),
                             ),
                             SizedBox(
                               width: MediaQuery.of(context).size.width / 3.5,
-                              child: TextField(
+                              child:  TextField(
                                 controller: controllers[index][1],
-                                decoration: InputDecoration(
+                                decoration: const InputDecoration(
                                   isDense: true,
-                                  focusedBorder: const OutlineInputBorder(
+                                  focusedBorder: OutlineInputBorder(
                                     borderSide: BorderSide(
                                         color: Colors.black, width: 1.0),
                                   ),
-                                  enabledBorder: const OutlineInputBorder(
+                                  enabledBorder: OutlineInputBorder(
                                     borderSide: BorderSide(
                                         color: Colors.black, width: 1.0),
                                   ),
                                   hintText: '',
-                                  hintStyle: const TextStyle(fontSize: 14),
-                                  errorText: errorMessages[index][1], // Show error message
                                 ),
+                                textAlign: TextAlign.center,
                               ),
                             ),
                             SizedBox(
                               width: MediaQuery.of(context).size.width / 3.5,
-                              child: TextField(
+                              child:  TextField(
                                 controller: controllers[index][2],
-                                decoration: InputDecoration(
+                                decoration: const InputDecoration(
                                   isDense: true,
-                                  focusedBorder: const OutlineInputBorder(
+                                  focusedBorder: OutlineInputBorder(
                                     borderSide: BorderSide(
                                         color: Colors.black, width: 1.0),
                                   ),
-                                  enabledBorder: const OutlineInputBorder(
+                                  enabledBorder: OutlineInputBorder(
                                     borderSide: BorderSide(
                                         color: Colors.black, width: 1.0),
                                   ),
                                   hintText: '',
-                                  hintStyle: const TextStyle(fontSize: 14),
-                                  errorText: errorMessages[index][2], // Show error message
                                 ),
+                                textAlign: TextAlign.center,
                               ),
-                            ),
+                            )
                           ],
                         )),
+
                       ],
                     ),
                   ),
+
                 ),
                 const SizedBox(
                   height: 20,
@@ -372,8 +371,9 @@ class _SceneMeasurementPageState extends State<SceneMeasurementPage> {
                                           topRight: Radius.circular(20)))),
                               onPressed: () {
                                 setState(() {
-                                  textValues.add(
-                                      ''); // Add an empty value to the list
+                                  textValues.add('');
+                                  controllers.add([TextEditingController(), TextEditingController(), TextEditingController()]);
+                                  errorMessages.add(['', '', '']);
                                 });
                               },
                               child: const Text(
@@ -451,45 +451,43 @@ class _SceneMeasurementPageState extends State<SceneMeasurementPage> {
                                       topRight: Radius.circular(20)))),
                           onPressed: () {
 
-                              // Clear previous table data and error messages
-                              tableData.clear();
-                              errorMessages.clear();
 
-                              // Retrieve the values from the text fields and validate
-                              for (int i = 0; i < textValues.length; i++) {
-                                var rowControllers = controllers[i];
-                                List<String> rowData = [
-                                  rowControllers[0].text,
-                                  rowControllers[1].text,
-                                  rowControllers[2].text,
-                                ];
-                                tableData.add(rowData);
+                            List<Map<String, dynamic>> Rooms = [];
 
-                                // Validate the text fields
-                                List<String> rowErrorMessages = [];
-                                for (var controller in rowControllers) {
-                                  if (controller.text.isEmpty) {
-                                    rowErrorMessages.add('Field cannot be empty');
-                                  } else {
-                                    rowErrorMessages.add("null");
-                                  }
-                                }
-                                errorMessages.add(rowErrorMessages);
+                            Map<String, dynamic> data = {
+                              "Type" : "Measurement",
+                              "Title" : "Scene",
 
+                            };
+                            for (int i = 0; i < textValues.length; i++) {
+                              var rowControllers = controllers[i];
+                              String rooms = rowControllers[0].text;
+                              String d1 = rowControllers[1].text;
+                              String d2 = rowControllers[2].text;
 
-                              // Print the table data
-                              print(tableData);
+                              if (rooms.isNotEmpty && d1.isNotEmpty && d2.isNotEmpty) {
+                                Map<String, dynamic>  rowDataa = {
+                                  'Rooms ${i +1}': rooms,
+                                  'direction 1': d1,
+                                  'direction 2': d2,
+                                };
+                                Rooms.add(rowDataa);
+                              } else {
+                                // Show SnackBar with error message
+                                showErrorMessage('Field values cannot be empty');
+                                return; // Stop further processing
+                              }
                             }
-                            // Map<String, dynamic> data = {
-                            //   'Title': 'Scene Title',
-                            //   'Story': "tory.text",
-                            // };
-                            // FirebaseFirestore.instance.collection('Cases').doc().set(data).then((value) {
-                            //   Navigator.push(
-                            //     context,
-                            //     MaterialPageRoute(builder: (context) => const AllCases()),
-                            //   );
-                            // });
+                            data['Rooms'] = Rooms;
+                            print(data);
+                            FirebaseFirestore.instance.collection('Cases').doc().set(data).then((value) {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => const AllCases()),
+                              );
+                            });
+
+
                           },
                           child: const Text(
                             'Save',
@@ -506,5 +504,9 @@ class _SceneMeasurementPageState extends State<SceneMeasurementPage> {
         ],
       ),
     );
+  }
+  void showErrorMessage(String message) {
+    final snackBar = SnackBar(content: Text(message));
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 }

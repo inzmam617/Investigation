@@ -1,6 +1,6 @@
-import 'package:crime_investigation/baseline.dart';
-import 'package:crime_investigation/body.dart';
-import 'package:crime_investigation/bullets.dart';
+import 'package:crime_investigation/UploadCases/BaseLinePage.dart';
+import 'package:crime_investigation/UploadCases/BodyMeasurementsPage.dart';
+import 'package:crime_investigation/BalisticPage.dart';
 import 'package:crime_investigation/death.dart';
 import 'package:crime_investigation/UploadCases/BasicInformationPage.dart';
 import 'package:crime_investigation/drawning.dart';
@@ -14,7 +14,7 @@ import 'package:crime_investigation/UploadCases/SceneMeasurementPage.dart';
 import 'package:crime_investigation/scenesketch.dart';
 import 'package:crime_investigation/setting.dart';
 import 'package:crime_investigation/shooting.dart';
-import 'package:crime_investigation/weapon.dart';
+import 'package:crime_investigation/UploadCases/WeasponsPage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -180,7 +180,7 @@ class notebook extends StatelessWidget {
                 child: InkWell(onTap:() {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) =>const body()),
+                    MaterialPageRoute(builder: (context) =>const BodyMeasurementsPage()),
                   );
                 },
                   child: Container(
@@ -198,7 +198,7 @@ class notebook extends StatelessWidget {
                         onPressed: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) =>const body()),
+                            MaterialPageRoute(builder: (context) =>const BodyMeasurementsPage()),
                           );
                         },
                         child: const Text(
@@ -216,7 +216,7 @@ class notebook extends StatelessWidget {
                 child: InkWell(onTap: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) =>const weapon()),
+                    MaterialPageRoute(builder: (context) =>const WeaponsPage()),
                   );
                 },
                   child: Container(
@@ -234,7 +234,7 @@ class notebook extends StatelessWidget {
                         onPressed: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) =>const weapon()),
+                            MaterialPageRoute(builder: (context) =>const WeaponsPage()),
                           );
                         },
                         child: const Text(
@@ -252,7 +252,7 @@ class notebook extends StatelessWidget {
                 child: InkWell(onTap:() {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) =>const baseline()),
+                    MaterialPageRoute(builder: (context) =>const BaseLinePage()),
                   );
                 },
                   child: Container(
@@ -270,11 +270,11 @@ class notebook extends StatelessWidget {
                         onPressed: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) =>const baseline()),
+                            MaterialPageRoute(builder: (context) =>const BaseLinePage()),
                           );
                         },
                         child: const Text(
-                          'Baseline Measurments',
+                          'Baseline Measurements',
                           style: TextStyle(color: Color(0xff86898E), fontSize: 16),
                         )),
                   ),
@@ -288,7 +288,7 @@ class notebook extends StatelessWidget {
                 child: InkWell(onTap: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) =>const bullets()),
+                    MaterialPageRoute(builder: (context) =>const BalisticPage()),
                   );
                 },
                   child: Container(
@@ -306,7 +306,7 @@ class notebook extends StatelessWidget {
                         onPressed: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) =>const bullets()),
+                            MaterialPageRoute(builder: (context) =>const BalisticPage()),
                           );
                         },
                         child: const Text(

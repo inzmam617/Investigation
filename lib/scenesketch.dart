@@ -2,7 +2,7 @@ import 'package:crime_investigation/UploadCases/StoryPage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:crime_investigation/notebook.dart';
-import 'package:crime_investigation/weapon.dart';
+import 'package:crime_investigation/UploadCases/WeasponsPage.dart';
 
 class scenesketch extends StatelessWidget {
   const scenesketch ({Key? key}) : super(key: key);
