@@ -234,16 +234,160 @@ class _BaseLinePageState extends State<BaseLinePage> {
               )
             ],
           ),
+          const SizedBox(
+            height: 20,
+          ),
           Column(children: [
+            DataTable(
+              columns: [
+                DataColumn(
+                    label: Row(
+                  children: [
+                    Container(
+                      height: 100,
+                      width: MediaQuery.of(context).size.width / 1.14,
+                      decoration: const BoxDecoration(
+                        color: Color(0xff86898E),
+                        borderRadius: BorderRadius.only(
+                            topRight: Radius.circular(25),
+                            bottomLeft: Radius.circular(0),
+                            bottomRight: Radius.circular(0),
+                            topLeft: Radius.circular(25)),
+                      ),
+                      child: const Center(
+                          child: Text(
+                        'Marker # / item',
+                        style: TextStyle(color: Colors.white),
+                      )),
+                    ),
+                  ],
+                ))
+              ],
+              rows: List<DataRow>.generate(
+                textValues.length,
+                // Generate rows based on the number of text fields
+                (index) => DataRow(
+                  cells: [
+                    DataCell(Row(
+                      children: <Widget>[
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width / 1.14,
+                          child:  TextField(
+                            controller: controllers[index][0],
+                            decoration: const InputDecoration(
+                              isDense: true,
+                              focusedBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Colors.black, width: 1.0),
+                              ),
+                              enabledBorder: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                    color: Colors.black, width: 1.0),
+                              ),
+                              hintText: '',
+                            ),
+                          ),
+                        ),
+                      ],
+                    )),
+                  ],
+                ),
+              ),
+            ),
             const SizedBox(
               height: 20,
             ),
-            Column(children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                SizedBox(
+                  height: 30,
+                  child: Container(
+                    decoration: const BoxDecoration(
+                        boxShadow: [
+                          BoxShadow(blurRadius: 3.5, color: Colors.grey)
+                        ],
+                        color: Colors.white,
+                        borderRadius: BorderRadius.only(
+                            topRight: Radius.circular(20),
+                            bottomRight: Radius.circular(20),
+                            topLeft: Radius.circular(20),
+                            bottomLeft: Radius.circular(20))),
+                    child: SizedBox(
+                      width: 140,
+                      child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.white,
+                              shape: const RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.only(
+                                      bottomLeft: Radius.circular(20),
+                                      topLeft: Radius.circular(20),
+                                      bottomRight: Radius.circular(20),
+                                      topRight: Radius.circular(20)))),
+                          onPressed: () {
+                            setState(() {
+                              textValues.add(''); // Add an empty value to the list
+                              controllers.add([
+                                TextEditingController(),
+                                TextEditingController(),
+                                TextEditingController(),
+                                TextEditingController(),
+                                TextEditingController(),
+                              ]); // Add corresponding TextEditingController instances to the controllers list
+                            });
+                          },
+                          child: const Text(
+                            'Add',
+                            style: TextStyle(color: Colors.black),
+                          )),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 30,
+                  child: Container(
+                    decoration: const BoxDecoration(
+                        boxShadow: [
+                          BoxShadow(blurRadius: 3.5, color: Colors.grey)
+                        ],
+                        color: Colors.white,
+                        borderRadius: BorderRadius.only(
+                            topRight: Radius.circular(20),
+                            bottomRight: Radius.circular(20),
+                            topLeft: Radius.circular(20),
+                            bottomLeft: Radius.circular(20))),
+                    child: SizedBox(
+                      width: 140,
+                      child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.white,
+                              shape: const RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.only(
+                                      bottomLeft: Radius.circular(20),
+                                      topLeft: Radius.circular(20),
+                                      bottomRight: Radius.circular(20),
+                                      topRight: Radius.circular(20)))),
+                          onPressed: () {
+                            setState(() {
+                              textValues.remove(
+                                  ''); // Add an empty value to the list
+                            });
+                          },
+                          child: const Text(
+                            'Delete',
+                            style: TextStyle(color: Colors.black),
+                          )),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            Column(children: [const SizedBox(height: 30,),
               DataTable(
                 columns: [
                   DataColumn(
                       label: Row(
-                    children: [
+                      children: [
                       Container(
                         height: 100,
                         width: MediaQuery.of(context).size.width / 1.14,
@@ -257,7 +401,7 @@ class _BaseLinePageState extends State<BaseLinePage> {
                         ),
                         child: const Center(
                             child: Text(
-                          'Marker # / item',
+                          'Direction',
                           style: TextStyle(color: Colors.white),
                         )),
                       ),
@@ -265,16 +409,15 @@ class _BaseLinePageState extends State<BaseLinePage> {
                   ))
                 ],
                 rows: List<DataRow>.generate(
-                  textValues.length,
-                  // Generate rows based on the number of text fields
+                  textValues1.length,
                   (index) => DataRow(
                     cells: [
                       DataCell(Row(
                         children: <Widget>[
                           SizedBox(
                             width: MediaQuery.of(context).size.width / 1.14,
-                            child:  TextField(
-                              controller: controllers[index][0],
+                            child: TextField(
+                              controller: controllers[index][1],
                               decoration: const InputDecoration(
                                 isDense: true,
                                 focusedBorder: OutlineInputBorder(
@@ -327,14 +470,15 @@ class _BaseLinePageState extends State<BaseLinePage> {
                                         topRight: Radius.circular(20)))),
                             onPressed: () {
                               setState(() {
-                                textValues.add(''); // Add an empty value to the list
+                                textValues1.add(
+                                    ''); // Add an empty value to the list
                                 controllers.add([
                                   TextEditingController(),
                                   TextEditingController(),
                                   TextEditingController(),
                                   TextEditingController(),
                                   TextEditingController(),
-                                ]); // Add corresponding TextEditingController instances to the controllers list
+                                ]);
                               });
                             },
                             child: const Text(
@@ -370,7 +514,7 @@ class _BaseLinePageState extends State<BaseLinePage> {
                                         topRight: Radius.circular(20)))),
                             onPressed: () {
                               setState(() {
-                                textValues.remove(
+                                textValues1.remove(
                                     ''); // Add an empty value to the list
                               });
                             },
@@ -383,13 +527,19 @@ class _BaseLinePageState extends State<BaseLinePage> {
                   ),
                 ],
               ),
-              Column(children: [const SizedBox(height: 30,),
-                DataTable(
-                  columns: [
-                    DataColumn(
-                        label: Row(
-                        children: [
-                        Container(
+
+              const SizedBox(
+                height: 50,
+              ),
+
+
+              DataTable(
+                columns: [
+                  DataColumn(
+                      label: Row(
+                    children: [
+                      Transform.translate(offset: const Offset(0,0),
+                        child: Container(
                           height: 100,
                           width: MediaQuery.of(context).size.width / 1.14,
                           decoration: const BoxDecoration(
@@ -402,277 +552,294 @@ class _BaseLinePageState extends State<BaseLinePage> {
                           ),
                           child: const Center(
                               child: Text(
-                            'Direction',
+                            'Ist Measurement',
                             style: TextStyle(color: Colors.white),
                           )),
                         ),
-                      ],
-                    ))
-                  ],
-                  rows: List<DataRow>.generate(
-                    textValues1.length,
-                    (index) => DataRow(
-                      cells: [
-                        DataCell(Row(
-                          children: <Widget>[
-                            SizedBox(
-                              width: MediaQuery.of(context).size.width / 1.14,
-                              child: TextField(
-                                controller: controllers[index][1],
-                                decoration: const InputDecoration(
-                                  isDense: true,
-                                  focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Colors.black, width: 1.0),
-                                  ),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Colors.black, width: 1.0),
-                                  ),
-                                  hintText: '',
+                      ),
+                    ],
+                  ))
+                ],
+                rows: List<DataRow>.generate(
+                  textValues2.length,
+                  (index) => DataRow(
+                    cells: [
+                      DataCell(Row(
+                        children: <Widget>[
+                          SizedBox(
+                            width:
+                                MediaQuery.of(context).size.width / 1.14,
+                            child: TextField(
+                              controller: controllers[index][2],
+
+                              decoration: const InputDecoration(
+                                isDense: true,
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: Colors.black, width: 1.0),
                                 ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: Colors.black, width: 1.0),
+                                ),
+                                hintText: '',
                               ),
+
                             ),
-                          ],
-                        )),
-                      ],
-                    ),
+                          ),
+                        ],
+                      )),
+                    ],
                   ),
                 ),
-                const SizedBox(
-                  height: 20,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    SizedBox(
-                      height: 30,
-                      child: Container(
-                        decoration: const BoxDecoration(
-                            boxShadow: [
-                              BoxShadow(blurRadius: 3.5, color: Colors.grey)
-                            ],
-                            color: Colors.white,
-                            borderRadius: BorderRadius.only(
-                                topRight: Radius.circular(20),
-                                bottomRight: Radius.circular(20),
-                                topLeft: Radius.circular(20),
-                                bottomLeft: Radius.circular(20))),
-                        child: SizedBox(
-                          width: 140,
-                          child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                  backgroundColor: Colors.white,
-                                  shape: const RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.only(
-                                          bottomLeft: Radius.circular(20),
-                                          topLeft: Radius.circular(20),
-                                          bottomRight: Radius.circular(20),
-                                          topRight: Radius.circular(20)))),
-                              onPressed: () {
-                                setState(() {
-                                  textValues1.add(
-                                      ''); // Add an empty value to the list
-                                });
-                              },
-                              child: const Text(
-                                'Add',
-                                style: TextStyle(color: Colors.black),
-                              )),
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 30,
-                      child: Container(
-                        decoration: const BoxDecoration(
-                            boxShadow: [
-                              BoxShadow(blurRadius: 3.5, color: Colors.grey)
-                            ],
-                            color: Colors.white,
-                            borderRadius: BorderRadius.only(
-                                topRight: Radius.circular(20),
-                                bottomRight: Radius.circular(20),
-                                topLeft: Radius.circular(20),
-                                bottomLeft: Radius.circular(20))),
-                        child: SizedBox(
-                          width: 140,
-                          child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                  backgroundColor: Colors.white,
-                                  shape: const RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.only(
-                                          bottomLeft: Radius.circular(20),
-                                          topLeft: Radius.circular(20),
-                                          bottomRight: Radius.circular(20),
-                                          topRight: Radius.circular(20)))),
-                              onPressed: () {
-                                setState(() {
-                                  textValues1.remove(
-                                      ''); // Add an empty value to the list
-                                });
-                              },
-                              child: const Text(
-                                'Delete',
-                                style: TextStyle(color: Colors.black),
-                              )),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-          
-                const SizedBox(
-                  height: 50,
-                ),
-
-           
-                DataTable(
-                  columns: [
-                    DataColumn(
-                        label: Row(
-                      children: [
-                        Transform.translate(offset: const Offset(0,0),
-                          child: Container(
-                            height: 100,
-                            width: MediaQuery.of(context).size.width / 1.14,
-                            decoration: const BoxDecoration(
-                              color: Color(0xff86898E),
-                              borderRadius: BorderRadius.only(
-                                  topRight: Radius.circular(25),
-                                  bottomLeft: Radius.circular(0),
-                                  bottomRight: Radius.circular(0),
-                                  topLeft: Radius.circular(25)),
-                            ),
-                            child: const Center(
-                                child: Text(
-                              'Ist Measurement',
-                              style: TextStyle(color: Colors.white),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  SizedBox(
+                    height: 30,
+                    child: Container(
+                      decoration: const BoxDecoration(
+                          boxShadow: [
+                            BoxShadow(blurRadius: 3.5, color: Colors.grey)
+                          ],
+                          color: Colors.white,
+                          borderRadius: BorderRadius.only(
+                              topRight: Radius.circular(20),
+                              bottomRight: Radius.circular(20),
+                              topLeft: Radius.circular(20),
+                              bottomLeft: Radius.circular(20))),
+                      child: SizedBox(
+                        width: 140,
+                        child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.white,
+                                shape: const RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.only(
+                                        bottomLeft: Radius.circular(20),
+                                        topLeft: Radius.circular(20),
+                                        bottomRight: Radius.circular(20),
+                                        topRight: Radius.circular(20)))),
+                            onPressed: () {
+                              setState(() {
+                                textValues2.add(
+                                    ''); // Add an empty value to the list
+                                controllers.add([
+                                  TextEditingController(),
+                                  TextEditingController(),
+                                  TextEditingController(),
+                                  TextEditingController(),
+                                  TextEditingController(),
+                                ]);
+                              });
+                            },
+                            child: const Text(
+                              'Add',
+                              style: TextStyle(color: Colors.black),
                             )),
-                          ),
-                        ),
-                      ],
-                    ))
-                  ],
-                  rows: List<DataRow>.generate(
-                    textValues2.length,
-                    (index) => DataRow(
-                      cells: [
-                        DataCell(Row(
-                          children: <Widget>[
-                            SizedBox(
-                              width:
-                                  MediaQuery.of(context).size.width / 1.14,
-                              child: TextField(
-                                controller: controllers[index][2],
-
-                                decoration: const InputDecoration(
-                                  isDense: true,
-                                  focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Colors.black, width: 1.0),
-                                  ),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Colors.black, width: 1.0),
-                                  ),
-                                  hintText: '',
-                                ),
-
-                              ),
-                            ),
-                          ],
-                        )),
-                      ],
+                      ),
                     ),
                   ),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    SizedBox(
-                      height: 30,
-                      child: Container(
-                        decoration: const BoxDecoration(
-                            boxShadow: [
-                              BoxShadow(blurRadius: 3.5, color: Colors.grey)
-                            ],
-                            color: Colors.white,
-                            borderRadius: BorderRadius.only(
-                                topRight: Radius.circular(20),
-                                bottomRight: Radius.circular(20),
-                                topLeft: Radius.circular(20),
-                                bottomLeft: Radius.circular(20))),
-                        child: SizedBox(
-                          width: 140,
-                          child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                  backgroundColor: Colors.white,
-                                  shape: const RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.only(
-                                          bottomLeft: Radius.circular(20),
-                                          topLeft: Radius.circular(20),
-                                          bottomRight: Radius.circular(20),
-                                          topRight: Radius.circular(20)))),
-                              onPressed: () {
-                                setState(() {
-                                  textValues2.add(
-                                      ''); // Add an empty value to the list
-                                });
-                              },
-                              child: const Text(
-                                'Add',
-                                style: TextStyle(color: Colors.black),
-                              )),
-                        ),
+                  SizedBox(
+                    height: 30,
+                    child: Container(
+                      decoration: const BoxDecoration(
+                          boxShadow: [
+                            BoxShadow(blurRadius: 3.5, color: Colors.grey)
+                          ],
+                          color: Colors.white,
+                          borderRadius: BorderRadius.only(
+                              topRight: Radius.circular(20),
+                              bottomRight: Radius.circular(20),
+                              topLeft: Radius.circular(20),
+                              bottomLeft: Radius.circular(20))),
+                      child: SizedBox(
+                        width: 140,
+                        child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.white,
+                                shape: const RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.only(
+                                        bottomLeft: Radius.circular(20),
+                                        topLeft: Radius.circular(20),
+                                        bottomRight: Radius.circular(20),
+                                        topRight: Radius.circular(20)))),
+                            onPressed: () {
+                              setState(() {
+                                textValues2.remove(
+                                    ''); // Add an empty value to the list
+                              });
+                            },
+                            child: const Text(
+                              'Delete',
+                              style: TextStyle(color: Colors.black),
+                            )),
                       ),
                     ),
-                    SizedBox(
-                      height: 30,
-                      child: Container(
-                        decoration: const BoxDecoration(
-                            boxShadow: [
-                              BoxShadow(blurRadius: 3.5, color: Colors.grey)
-                            ],
-                            color: Colors.white,
-                            borderRadius: BorderRadius.only(
-                                topRight: Radius.circular(20),
-                                bottomRight: Radius.circular(20),
-                                topLeft: Radius.circular(20),
-                                bottomLeft: Radius.circular(20))),
-                        child: SizedBox(
-                          width: 140,
-                          child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                  backgroundColor: Colors.white,
-                                  shape: const RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.only(
-                                          bottomLeft: Radius.circular(20),
-                                          topLeft: Radius.circular(20),
-                                          bottomRight: Radius.circular(20),
-                                          topRight: Radius.circular(20)))),
-                              onPressed: () {
-                                setState(() {
-                                  textValues2.remove(
-                                      ''); // Add an empty value to the list
-                                });
-                              },
-                              child: const Text(
-                                'Delete',
-                                style: TextStyle(color: Colors.black),
-                              )),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(
-                  height: 50,
-                ),
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 50,
+              ),
 
+              DataTable(
+                columns: [
+                  DataColumn(
+                      label: Row(
+                    children: [
+                      Container(
+                        height: 100,
+                        width: MediaQuery.of(context).size.width / 1.14,
+                        decoration: const BoxDecoration(
+                          color: Color(0xff86898E),
+                          borderRadius: BorderRadius.only(
+                              topRight: Radius.circular(25),
+                              bottomLeft: Radius.circular(0),
+                              bottomRight: Radius.circular(0),
+                              topLeft: Radius.circular(25)),
+                        ),
+                        child: const Center(
+                            child: Text(
+                          'Direction of Baseline',
+                          style: TextStyle(color: Colors.white),
+                        )),
+                      ),
+                    ],
+                  ))
+                ],
+                rows: List<DataRow>.generate(
+                  textValues3.length,
+                  // Generate rows based on the number of text fields
+                  (index) => DataRow(
+                    cells: [
+                      DataCell(Row(
+                        children: <Widget>[
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width /
+                                1.14,
+                            child:  TextField(
+                              controller: controllers[index][3],
+
+
+                              decoration: const InputDecoration(
+                                isDense: true,
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: Colors.black, width: 1.0),
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                      color: Colors.black, width: 1.0),
+                                ),
+                                hintText: '',
+                              ),
+
+                            ),
+                          ),
+                        ],
+                      )),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  SizedBox(
+                    height: 30,
+                    child: Container(
+                      decoration: const BoxDecoration(
+                          boxShadow: [
+                            BoxShadow(blurRadius: 3.5, color: Colors.grey)
+                          ],
+                          color: Colors.white,
+                          borderRadius: BorderRadius.only(
+                              topRight: Radius.circular(20),
+                              bottomRight: Radius.circular(20),
+                              topLeft: Radius.circular(20),
+                              bottomLeft: Radius.circular(20))),
+                      child: SizedBox(
+                        width: 140,
+                        child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.white,
+                                shape: const RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.only(
+                                        bottomLeft: Radius.circular(20),
+                                        topLeft: Radius.circular(20),
+                                        bottomRight: Radius.circular(20),
+                                        topRight: Radius.circular(20)))),
+                            onPressed: () {
+                              setState(() {
+                                textValues3.add(
+                                    ''); // Add an empty value to the list
+                                controllers.add([
+                                  TextEditingController(),
+                                  TextEditingController(),
+                                  TextEditingController(),
+                                  TextEditingController(),
+                                  TextEditingController(),
+                                ]);
+                              });
+                            },
+                            child: const Text(
+                              'Add',
+                              style: TextStyle(color: Colors.black),
+                            )),
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 30,
+                    child: Container(
+                      decoration: const BoxDecoration(
+                          boxShadow: [
+                            BoxShadow(blurRadius: 3.5, color: Colors.grey)
+                          ],
+                          color: Colors.white,
+                          borderRadius: BorderRadius.only(
+                              topRight: Radius.circular(20),
+                              bottomRight: Radius.circular(20),
+                              topLeft: Radius.circular(20),
+                              bottomLeft: Radius.circular(20))),
+                      child: SizedBox(
+                        width: 140,
+                        child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.white,
+                                shape: const RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.only(
+                                        bottomLeft: Radius.circular(20),
+                                        topLeft: Radius.circular(20),
+                                        bottomRight: Radius.circular(20),
+                                        topRight: Radius.circular(20)))),
+                            onPressed: () {
+                              setState(() {
+                                textValues3.remove(
+                                    ''); // Add an empty value to the list
+                              });
+                            },
+                            child: const Text(
+                              'Delete',
+                              style: TextStyle(color: Colors.black),
+                            )),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 50,
+              ),
+
+              Column(children: [
                 DataTable(
                   columns: [
                     DataColumn(
@@ -680,7 +847,8 @@ class _BaseLinePageState extends State<BaseLinePage> {
                       children: [
                         Container(
                           height: 100,
-                          width: MediaQuery.of(context).size.width / 1.14,
+                          width:
+                              MediaQuery.of(context).size.width / 1.14,
                           decoration: const BoxDecoration(
                             color: Color(0xff86898E),
                             borderRadius: BorderRadius.only(
@@ -691,7 +859,7 @@ class _BaseLinePageState extends State<BaseLinePage> {
                           ),
                           child: const Center(
                               child: Text(
-                            'Direction of Baseline',
+                            '2nd Measurement',
                             style: TextStyle(color: Colors.white),
                           )),
                         ),
@@ -699,7 +867,7 @@ class _BaseLinePageState extends State<BaseLinePage> {
                     ))
                   ],
                   rows: List<DataRow>.generate(
-                    textValues3.length,
+                    textValues4.length,
                     // Generate rows based on the number of text fields
                     (index) => DataRow(
                       cells: [
@@ -709,22 +877,23 @@ class _BaseLinePageState extends State<BaseLinePage> {
                               width: MediaQuery.of(context).size.width /
                                   1.14,
                               child:  TextField(
-                                controller: controllers[index][3],
-
+                                controller: controllers[index][4],
 
                                 decoration: const InputDecoration(
                                   isDense: true,
                                   focusedBorder: OutlineInputBorder(
                                     borderSide: BorderSide(
-                                        color: Colors.black, width: 1.0),
+                                        color: Colors.black,
+                                        width: 1.0),
                                   ),
                                   enabledBorder: OutlineInputBorder(
                                     borderSide: BorderSide(
-                                        color: Colors.black, width: 1.0),
+                                        color: Colors.black,
+                                        width: 1.0),
                                   ),
                                   hintText: '',
                                 ),
-
+                                textAlign: TextAlign.center,
                               ),
                             ),
                           ],
@@ -765,8 +934,15 @@ class _BaseLinePageState extends State<BaseLinePage> {
                                           topRight: Radius.circular(20)))),
                               onPressed: () {
                                 setState(() {
-                                  textValues3.add(
+                                  textValues4.add(
                                       ''); // Add an empty value to the list
+                                  controllers.add([
+                                    TextEditingController(),
+                                    TextEditingController(),
+                                    TextEditingController(),
+                                    TextEditingController(),
+                                    TextEditingController(),
+                                  ]);
                                 });
                               },
                               child: const Text(
@@ -802,7 +978,7 @@ class _BaseLinePageState extends State<BaseLinePage> {
                                           topRight: Radius.circular(20)))),
                               onPressed: () {
                                 setState(() {
-                                  textValues3.remove(
+                                  textValues4.remove(
                                       ''); // Add an empty value to the list
                                 });
                               },
@@ -816,395 +992,153 @@ class _BaseLinePageState extends State<BaseLinePage> {
                   ],
                 ),
                 const SizedBox(
-                  height: 50,
+                  height: 20,
+                ),
+                SizedBox(
+                  height: 30,
+                  child: Container(
+                    decoration: const BoxDecoration(
+                        boxShadow: [
+                          BoxShadow(blurRadius: 3.5, color: Colors.grey)
+                        ],
+                        color: Colors.black,
+                        borderRadius: BorderRadius.only(
+                            topRight: Radius.circular(20),
+                            bottomRight: Radius.circular(20),
+                            topLeft: Radius.circular(20),
+                            bottomLeft: Radius.circular(20))),
+                    child: SizedBox(
+                      width: 160,
+                      child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.black,
+                              shape: const RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.only(
+                                      bottomLeft: Radius.circular(20),
+                                      topLeft: Radius.circular(20),
+                                      bottomRight: Radius.circular(20),
+                                      topRight: Radius.circular(20)))),
+                          onPressed: () {
+                            Map<String, dynamic> data = {
+                              "Type" : "BaseLine",
+                              "Title" : "BaseLine",
+
+                            };
+                            List<Map<String, dynamic>> markerItem = [];
+                            List<Map<String, dynamic>> direction = [];
+                            List<Map<String, dynamic>> FirstMeasurement = [];
+                            List<Map<String, dynamic>> DirectionBaseline = [];
+                            List<Map<String, dynamic>> SecondMeasurement = [];
+
+
+                            for (int i = 0; i < textValues.length; i++) {
+                              var rowControllers = controllers[i];
+                              String partOne = rowControllers[0].text;
+
+                              if (partOne.isNotEmpty) {
+                                Map<String, dynamic> rowDataa = {
+                                  'markerItem ${i+1}': partOne,
+                                };
+                                markerItem.add(rowDataa);
+                              } else {
+                                // Show SnackBar with error message
+                                showErrorMessage('Field values cannot be empty');
+                                return; // Stop further processing
+                              }
+                            }
+
+                            for (int i = 0; i < textValues1.length; i++) {
+                              var rowControllers = controllers[i];
+                              String partOne = rowControllers[1].text;
+
+                              if (partOne.isNotEmpty) {
+                                Map<String, dynamic> rowData = {
+                                  'Direction ${i+1}': partOne,
+                                };
+                                direction.add(rowData);
+                              } else {
+                                // Show SnackBar with error message
+                                showErrorMessage('Field values cannot be empty');
+                                return; // Stop further processing
+                              }
+                            }
+
+                            for (int i = 0; i < textValues2.length; i++) {
+                              var rowControllers = controllers[i];
+                              String partOne = rowControllers[2].text;
+
+                              if (partOne.isNotEmpty) {
+                                Map<String, dynamic> rowDataa = {
+                                  'Measurement ${i+1}': partOne,
+                                };
+                                FirstMeasurement.add(rowDataa);
+                              } else {
+                                // Show SnackBar with error message
+                                showErrorMessage('Field values cannot be empty');
+                                return; // Stop further processing
+                              }
+                            }
+
+                            for (int i = 0; i < textValues3.length; i++) {
+                              var rowControllers = controllers[i];
+                              String partOne = rowControllers[3].text;
+
+                              if (partOne.isNotEmpty) {
+                                Map<String, dynamic> rowDataa = {
+                                  'DirectionofBaseline ${i+1}': partOne,
+                                };
+                                DirectionBaseline.add(rowDataa);
+                              } else {
+                                // Show SnackBar with error message
+                                showErrorMessage('Field values cannot be empty');
+                                return; // Stop further processing
+                              }
+                            }
+
+                            for (int i = 0; i < textValues4.length; i++) {
+                              var rowControllers = controllers[i];
+                              String partOne = rowControllers[4].text;
+
+                              if (partOne.isNotEmpty) {
+                                Map<String, dynamic> rowDataa = {
+                                  'SecondMeasurement ${i+1}': partOne,
+                                };
+                                SecondMeasurement.add(rowDataa);
+                              } else {
+                                // Show SnackBar with error message
+                                showErrorMessage('Field values cannot be empty');
+                                return; // Stop further processing
+                              }
+                            }
+
+
+                            data['markerItem'] = markerItem;
+                            data['direction'] = direction;
+                            data['FirstMeasurement'] = FirstMeasurement;
+                            data['DirectionBaseline'] = DirectionBaseline;
+                            data['SecondMeasurement'] = SecondMeasurement;
+                            print(data);
+                            FirebaseFirestore.instance.collection('Cases').doc().set(data).then((value) {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => const AllCases()),
+                              );
+                            });
+
+
+                          },
+                          child: const Text(
+                            'Save',
+                          )),
+                    ),
+                  ),
                 ),
 
-                Column(children: [
-                  DataTable(
-                    columns: [
-                      DataColumn(
-                          label: Row(
-                        children: [
-                          Container(
-                            height: 100,
-                            width:
-                                MediaQuery.of(context).size.width / 1.14,
-                            decoration: const BoxDecoration(
-                              color: Color(0xff86898E),
-                              borderRadius: BorderRadius.only(
-                                  topRight: Radius.circular(25),
-                                  bottomLeft: Radius.circular(0),
-                                  bottomRight: Radius.circular(0),
-                                  topLeft: Radius.circular(25)),
-                            ),
-                            child: const Center(
-                                child: Text(
-                              '2nd Measurement',
-                              style: TextStyle(color: Colors.white),
-                            )),
-                          ),
-                        ],
-                      ))
-                    ],
-                    rows: List<DataRow>.generate(
-                      textValues4.length,
-                      // Generate rows based on the number of text fields
-                      (index) => DataRow(
-                        cells: [
-                          DataCell(Row(
-                            children: <Widget>[
-                              SizedBox(
-                                width: MediaQuery.of(context).size.width /
-                                    1.14,
-                                child:  TextField(
-                                  controller: controllers[index][4],
-
-                                  decoration: const InputDecoration(
-                                    isDense: true,
-                                    focusedBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                          color: Colors.black,
-                                          width: 1.0),
-                                    ),
-                                    enabledBorder: OutlineInputBorder(
-                                      borderSide: BorderSide(
-                                          color: Colors.black,
-                                          width: 1.0),
-                                    ),
-                                    hintText: '',
-                                  ),
-                                  textAlign: TextAlign.center,
-                                ),
-                              ),
-                            ],
-                          )),
-                        ],
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      SizedBox(
-                        height: 30,
-                        child: Container(
-                          decoration: const BoxDecoration(
-                              boxShadow: [
-                                BoxShadow(blurRadius: 3.5, color: Colors.grey)
-                              ],
-                              color: Colors.white,
-                              borderRadius: BorderRadius.only(
-                                  topRight: Radius.circular(20),
-                                  bottomRight: Radius.circular(20),
-                                  topLeft: Radius.circular(20),
-                                  bottomLeft: Radius.circular(20))),
-                          child: SizedBox(
-                            width: 140,
-                            child: ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                    backgroundColor: Colors.white,
-                                    shape: const RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.only(
-                                            bottomLeft: Radius.circular(20),
-                                            topLeft: Radius.circular(20),
-                                            bottomRight: Radius.circular(20),
-                                            topRight: Radius.circular(20)))),
-                                onPressed: () {
-                                  setState(() {
-                                    textValues4.add(
-                                        ''); // Add an empty value to the list
-                                  });
-                                },
-                                child: const Text(
-                                  'Add',
-                                  style: TextStyle(color: Colors.black),
-                                )),
-                          ),
+                        const SizedBox(
+                          height: 50,
                         ),
-                      ),
-                      SizedBox(
-                        height: 30,
-                        child: Container(
-                          decoration: const BoxDecoration(
-                              boxShadow: [
-                                BoxShadow(blurRadius: 3.5, color: Colors.grey)
-                              ],
-                              color: Colors.white,
-                              borderRadius: BorderRadius.only(
-                                  topRight: Radius.circular(20),
-                                  bottomRight: Radius.circular(20),
-                                  topLeft: Radius.circular(20),
-                                  bottomLeft: Radius.circular(20))),
-                          child: SizedBox(
-                            width: 140,
-                            child: ElevatedButton(
-                                style: ElevatedButton.styleFrom(
-                                    backgroundColor: Colors.white,
-                                    shape: const RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.only(
-                                            bottomLeft: Radius.circular(20),
-                                            topLeft: Radius.circular(20),
-                                            bottomRight: Radius.circular(20),
-                                            topRight: Radius.circular(20)))),
-                                onPressed: () {
-                                  setState(() {
-                                    textValues4.remove(
-                                        ''); // Add an empty value to the list
-                                  });
-                                },
-                                child: const Text(
-                                  'Delete',
-                                  style: TextStyle(color: Colors.black),
-                                )),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  SizedBox(
-                    height: 30,
-                    child: Container(
-                      decoration: const BoxDecoration(
-                          boxShadow: [
-                            BoxShadow(blurRadius: 3.5, color: Colors.grey)
-                          ],
-                          color: Colors.black,
-                          borderRadius: BorderRadius.only(
-                              topRight: Radius.circular(20),
-                              bottomRight: Radius.circular(20),
-                              topLeft: Radius.circular(20),
-                              bottomLeft: Radius.circular(20))),
-                      child: SizedBox(
-                        width: 160,
-                        child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.black,
-                                shape: const RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.only(
-                                        bottomLeft: Radius.circular(20),
-                                        topLeft: Radius.circular(20),
-                                        bottomRight: Radius.circular(20),
-                                        topRight: Radius.circular(20)))),
-                            onPressed: () {
-                              Map<String, dynamic> data = {
-                                "Type" : "BaseLine",
-                                "Title" : "BaseLine",
-
-                              };
-                              List<Map<String, dynamic>> markerItem = [];
-                              List<Map<String, dynamic>> direction = [];
-                              List<Map<String, dynamic>> FirstMeasurement = [];
-                              List<Map<String, dynamic>> DirectionBaseline = [];
-                              List<Map<String, dynamic>> SecondMeasurement = [];
-
-
-                              // //for Markers
-                              // for (int i = 0; i < textValues.length; i++) {
-                              //   var rowControllers = controllers[i];
-                              //   String partOne = rowControllers[0].text;
-                              //
-                              //
-                              //   if (partOne.isNotEmpty) {
-                              //     Map<String, dynamic>  rowDataa = {
-                              //       'markerItem ${i+1}': partOne,
-                              //
-                              //     };
-                              //     markerItem.add(rowDataa);
-                              //   } else {
-                              //     // Show SnackBar with error message
-                              //     print('Field values cannot be empty');
-                              //     return; // Stop further processing
-                              //   }
-                              // }
-                              //
-                              // //for Direction
-                              // for (int i = 0; i < textValues1.length; i++) {
-                              //   var rowControllers = controllers[i];
-                              //   String partOne = rowControllers[1].text;
-                              //
-                              //
-                              //   if (partOne.isNotEmpty) {
-                              //     Map<String, dynamic>  rowData = {
-                              //       'Direction ${i+1}': partOne,
-                              //
-                              //     };
-                              //     direction.add(rowData);
-                              //   } else {
-                              //     // Show SnackBar with error message
-                              //     print('Field values cannot be empty');
-                              //     return; // Stop further processing
-                              //   }
-                              // }
-                              //
-                              // //for 1st Measurement
-                              // for (int i = 0; i < textValues2.length; i++) {
-                              //   var rowControllers = controllers[i];
-                              //   String partOne = rowControllers[2].text;
-                              //
-                              //
-                              //   if (partOne.isNotEmpty) {
-                              //     Map<String, dynamic>  rowDataa = {
-                              //       'Measurement ${i+1}': partOne,
-                              //
-                              //     };
-                              //     FirstMeasurement.add(rowDataa);
-                              //   } else {
-                              //     // Show SnackBar with error message
-                              //     print('Field values cannot be empty');
-                              //     return; // Stop further processing
-                              //   }
-                              // }
-                              //
-                              // for (int i = 0; i < textValues3.length; i++) {
-                              //   var rowControllers = controllers[i];
-                              //   String partOne = rowControllers[3].text;
-                              //
-                              //
-                              //   if (partOne.isNotEmpty) {
-                              //     Map<String, dynamic>  rowDataa = {
-                              //       'DirectionofBaseline ${i+1}': partOne,
-                              //
-                              //     };
-                              //     DirectionBaseline.add(rowDataa);
-                              //   } else {
-                              //     // Show SnackBar with error message
-                              //     print('Field values cannot be empty');
-                              //     return; // Stop further processing
-                              //   }
-                              // }
-                              //
-                              // for (int i = 0; i < textValues4.length; i++) {
-                              //   var rowControllers = controllers[i];
-                              //   String partOne = rowControllers[4].text;
-                              //
-                              //
-                              //   if (partOne.isNotEmpty) {
-                              //     Map<String, dynamic>  rowDataa = {
-                              //       'SecondMeasurement ${i+1}': partOne,
-                              //
-                              //     };
-                              //     SecondMeasurement.add(rowDataa);
-                              //   } else {
-                              //     // Show SnackBar with error message
-                              //     print('Field values cannot be empty');
-                              //     return; // Stop further processing
-                              //   }
-                              // }
-                              for (int i = 0; i < textValues.length; i++) {
-                                var rowControllers = controllers[i];
-                                String partOne = rowControllers[0].text;
-
-                                if (partOne.isNotEmpty) {
-                                  Map<String, dynamic> rowDataa = {
-                                    'markerItem ${i+1}': partOne,
-                                  };
-                                  markerItem.add(rowDataa);
-                                } else {
-                                  // Show SnackBar with error message
-                                  showErrorMessage('Field values cannot be empty');
-                                  return; // Stop further processing
-                                }
-                              }
-
-                              for (int i = 0; i < textValues1.length; i++) {
-                                var rowControllers = controllers[i];
-                                String partOne = rowControllers[1].text;
-
-                                if (partOne.isNotEmpty) {
-                                  Map<String, dynamic> rowData = {
-                                    'Direction ${i+1}': partOne,
-                                  };
-                                  direction.add(rowData);
-                                } else {
-                                  // Show SnackBar with error message
-                                  showErrorMessage('Field values cannot be empty');
-                                  return; // Stop further processing
-                                }
-                              }
-
-                              for (int i = 0; i < textValues2.length; i++) {
-                                var rowControllers = controllers[i];
-                                String partOne = rowControllers[2].text;
-
-                                if (partOne.isNotEmpty) {
-                                  Map<String, dynamic> rowDataa = {
-                                    'Measurement ${i+1}': partOne,
-                                  };
-                                  FirstMeasurement.add(rowDataa);
-                                } else {
-                                  // Show SnackBar with error message
-                                  showErrorMessage('Field values cannot be empty');
-                                  return; // Stop further processing
-                                }
-                              }
-
-                              for (int i = 0; i < textValues3.length; i++) {
-                                var rowControllers = controllers[i];
-                                String partOne = rowControllers[3].text;
-
-                                if (partOne.isNotEmpty) {
-                                  Map<String, dynamic> rowDataa = {
-                                    'DirectionofBaseline ${i+1}': partOne,
-                                  };
-                                  DirectionBaseline.add(rowDataa);
-                                } else {
-                                  // Show SnackBar with error message
-                                  showErrorMessage('Field values cannot be empty');
-                                  return; // Stop further processing
-                                }
-                              }
-
-                              for (int i = 0; i < textValues4.length; i++) {
-                                var rowControllers = controllers[i];
-                                String partOne = rowControllers[4].text;
-
-                                if (partOne.isNotEmpty) {
-                                  Map<String, dynamic> rowDataa = {
-                                    'SecondMeasurement ${i+1}': partOne,
-                                  };
-                                  SecondMeasurement.add(rowDataa);
-                                } else {
-                                  // Show SnackBar with error message
-                                  showErrorMessage('Field values cannot be empty');
-                                  return; // Stop further processing
-                                }
-                              }
-
-
-                              data['markerItem'] = markerItem;
-                              data['direction'] = direction;
-                              data['FirstMeasurement'] = FirstMeasurement;
-                              data['DirectionBaseline'] = DirectionBaseline;
-                              data['SecondMeasurement'] = SecondMeasurement;
-                              print(data);
-                              FirebaseFirestore.instance.collection('Cases').doc().set(data).then((value) {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(builder: (context) => const AllCases()),
-                                );
-                              });
-
-
-                            },
-                            child: const Text(
-                              'Save',
-                            )),
-                      ),
-                    ),
-                  ),
-
-                          const SizedBox(
-                            height: 50,
-                          ),
-                        ],
-                      )
-                  ])
+                      ],
+                    )
                 ])
               ])
             ])

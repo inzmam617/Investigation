@@ -1,6 +1,6 @@
 import 'package:crime_investigation/UploadCases/BaseLinePage.dart';
 import 'package:crime_investigation/UploadCases/BodyMeasurementsPage.dart';
-import 'package:crime_investigation/BalisticPage.dart';
+import 'package:crime_investigation/UploadCases/BalisticPage.dart';
 import 'package:crime_investigation/death.dart';
 import 'package:crime_investigation/UploadCases/BasicInformationPage.dart';
 import 'package:crime_investigation/drawning.dart';
@@ -166,7 +166,7 @@ class notebook extends StatelessWidget {
                           );
                         },
                         child: const Text(
-                          'Scene Measurments',
+                          'Scene Measurements',
                           style: TextStyle(color: Color(0xff86898E), fontSize: 16),
                         )),
                   ),
@@ -202,7 +202,7 @@ class notebook extends StatelessWidget {
                           );
                         },
                         child: const Text(
-                          'Body Measurments',
+                          'Body Measurements',
                           style: TextStyle(color: Color(0xff86898E), fontSize: 16),
                         )),
                   ),
@@ -238,7 +238,7 @@ class notebook extends StatelessWidget {
                           );
                         },
                         child: const Text(
-                          'Weapon Measurments',
+                          'Weapon Measurements',
                           style: TextStyle(color: Color(0xff86898E), fontSize: 16),
                         )),
                   ),
@@ -310,7 +310,7 @@ class notebook extends StatelessWidget {
                           );
                         },
                         child: const Text(
-                          'Ballistic Measurments',
+                          'Ballistic Measurements',
                           style: TextStyle(color: Color(0xff86898E), fontSize: 16),
                         )),
                   ),
@@ -324,7 +324,7 @@ class notebook extends StatelessWidget {
                 child: InkWell(onTap:() {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) =>const scenesketch()),
+                    MaterialPageRoute(builder: (context) => scenesketch()),
                   );
                 },
                   child: Container(
@@ -342,7 +342,7 @@ class notebook extends StatelessWidget {
                         onPressed: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) =>const scenesketch()),
+                            MaterialPageRoute(builder: (context) => scenesketch()),
                           );
                         },
                         child: const Text(

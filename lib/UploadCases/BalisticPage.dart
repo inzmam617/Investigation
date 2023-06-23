@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:crime_investigation/notebook.dart';
 
-import 'AllCasesPage.dart';
+import '../AllCasesPage.dart';
 
 class BalisticPage extends StatefulWidget {
   const BalisticPage({Key? key}) : super(key: key);
@@ -452,7 +452,18 @@ class _BalisticPageState extends State<BalisticPage> {
                                 onPressed: () {
                                   setState(() {
                                     textValues1.add(
-                                        ''); // Add an empty value to the list
+                                        '');
+                                    controllers.add([
+                                      TextEditingController(),
+                                      TextEditingController(),
+                                      TextEditingController(),
+                                      TextEditingController(),
+                                      TextEditingController(),
+                                      TextEditingController(),
+                                      TextEditingController(),
+
+
+                                    ]);
                                   });
                                 },
                                 child: const Text(
@@ -601,6 +612,17 @@ class _BalisticPageState extends State<BalisticPage> {
                                   setState(() {
                                     textValues2.add(
                                         ''); // Add an empty value to the list
+                                    controllers.add([
+                                      TextEditingController(),
+                                      TextEditingController(),
+                                      TextEditingController(),
+                                      TextEditingController(),
+                                      TextEditingController(),
+                                      TextEditingController(),
+                                      TextEditingController(),
+
+
+                                    ]);
                                   });
                                 },
                                 child: const Text(
@@ -747,6 +769,17 @@ class _BalisticPageState extends State<BalisticPage> {
                                   setState(() {
                                     textValues3.add(
                                         ''); // Add an empty value to the list
+                                    controllers.add([
+                                      TextEditingController(),
+                                      TextEditingController(),
+                                      TextEditingController(),
+                                      TextEditingController(),
+                                      TextEditingController(),
+                                      TextEditingController(),
+                                      TextEditingController(),
+
+
+                                    ]);
                                   });
                                 },
                                 child: const Text(
@@ -897,6 +930,17 @@ class _BalisticPageState extends State<BalisticPage> {
                                   setState(() {
                                     textValues4.add(
                                         ''); // Add an empty value to the list
+                                    controllers.add([
+                                      TextEditingController(),
+                                      TextEditingController(),
+                                      TextEditingController(),
+                                      TextEditingController(),
+                                      TextEditingController(),
+                                      TextEditingController(),
+                                      TextEditingController(),
+
+
+                                    ]);
                                   });
                                 },
                                 child: const Text(
@@ -978,7 +1022,6 @@ class _BalisticPageState extends State<BalisticPage> {
                     ],
                     rows: List<DataRow>.generate(
                       textValues5.length,
-                      // Generate rows based on the number of text fields
                           (index) => DataRow(
                         cells: [
                           DataCell(Row(
@@ -1025,11 +1068,7 @@ class _BalisticPageState extends State<BalisticPage> {
                                 BoxShadow(blurRadius: 3.5, color: Colors.grey)
                               ],
                               color: Colors.white,
-                              borderRadius: BorderRadius.only(
-                                  topRight: Radius.circular(20),
-                                  bottomRight: Radius.circular(20),
-                                  topLeft: Radius.circular(20),
-                                  bottomLeft: Radius.circular(20))),
+                              borderRadius: BorderRadius.all(Radius.circular(20))),
                           child: SizedBox(
                             width: 140,
                             child: ElevatedButton(
@@ -1045,6 +1084,17 @@ class _BalisticPageState extends State<BalisticPage> {
                                   setState(() {
                                     textValues5.add(
                                         ''); // Add an empty value to the list
+                                    controllers.add([
+                                      TextEditingController(),
+                                      TextEditingController(),
+                                      TextEditingController(),
+                                      TextEditingController(),
+                                      TextEditingController(),
+                                      TextEditingController(),
+                                      TextEditingController(),
+
+
+                                    ]);
                                   });
                                 },
                                 child: const Text(
@@ -1195,6 +1245,17 @@ class _BalisticPageState extends State<BalisticPage> {
                                   setState(() {
                                     textValues6.add("") ;
                                   });
+                                  controllers.add([
+                                    TextEditingController(),
+                                    TextEditingController(),
+                                    TextEditingController(),
+                                    TextEditingController(),
+                                    TextEditingController(),
+                                    TextEditingController(),
+                                    TextEditingController(),
+
+
+                                  ]);
 
 
                                 },
@@ -1294,10 +1355,10 @@ class _BalisticPageState extends State<BalisticPage> {
                                           topRight: Radius.circular(20)))),
                               onPressed: () {
                                 Map<String, dynamic> data = {
-                                  "Type" : "BaseLine",
-                                  "Title" : "BaseLine",
-
+                                  "Type" : "Ballistic",
+                                  "Title" : "Ballistic",
                                 };
+
                                 List<Map<String, dynamic>> Hole = [];
                                 List<Map<String, dynamic>> EntryorExit = [];
                                 List<Map<String, dynamic>> HeightfromGround = [];
@@ -1329,7 +1390,7 @@ class _BalisticPageState extends State<BalisticPage> {
 
                                   if (partOne.isNotEmpty) {
                                     Map<String, dynamic> rowData = {
-                                      'EntryorExit ${i+1}': partOne,
+                                      'EntryExit ${i+1}': partOne,
                                     };
                                     EntryorExit.add(rowData);
                                   } else {
@@ -1345,7 +1406,7 @@ class _BalisticPageState extends State<BalisticPage> {
 
                                   if (partOne.isNotEmpty) {
                                     Map<String, dynamic> rowDataa = {
-                                      'HeightfromGround ${i+1}': partOne,
+                                      'Height fromGround ${i+1}': partOne,
                                     };
                                     HeightfromGround.add(rowDataa);
                                   } else {
@@ -1354,7 +1415,6 @@ class _BalisticPageState extends State<BalisticPage> {
                                     return; // Stop further processing
                                   }
                                 }
-
                                 for (int i = 0; i < textValues3.length; i++) {
                                   var rowControllers = controllers[i];
                                   String partOne = rowControllers[3].text;
@@ -1370,7 +1430,6 @@ class _BalisticPageState extends State<BalisticPage> {
                                     return; // Stop further processing
                                   }
                                 }
-
                                 for (int i = 0; i < textValues4.length; i++) {
                                   var rowControllers = controllers[i];
                                   String partOne = rowControllers[4].text;
@@ -1386,9 +1445,6 @@ class _BalisticPageState extends State<BalisticPage> {
                                     return; // Stop further processing
                                   }
                                 }
-                                //
-
-
                                 for (int i = 0; i < textValues5.length; i++) {
                                   var rowControllers = controllers[i];
                                   String partOne = rowControllers[5].text;
@@ -1419,9 +1475,6 @@ class _BalisticPageState extends State<BalisticPage> {
                                     return; // Stop further processing
                                   }
                                 }
-
-
-
                                 data['Hole'] = Hole;
                                 data['EntryorExit'] = EntryorExit;
                                 data['HeightfromGround'] = HeightfromGround;
@@ -1430,14 +1483,12 @@ class _BalisticPageState extends State<BalisticPage> {
                                 data['HorizontalAngle'] = HorizontalAngle;
                                 data['ProjectileRecovered'] = ProjectileRecovered;
                                 print(data);
-                                // FirebaseFirestore.instance.collection('Cases').doc().set(data).then((value) {
-                                //   Navigator.push(
-                                //     context,
-                                //     MaterialPageRoute(builder: (context) => const AllCases()),
-                                //   );
-                                // });
-
-
+                                FirebaseFirestore.instance.collection('Cases').doc().set(data).then((value) {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(builder: (context) => const AllCases()),
+                                  );
+                                });
                               },
                               child: const Text(
                                 'Save',

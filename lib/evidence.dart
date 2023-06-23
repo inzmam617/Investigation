@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:crime_investigation/UploadCases/BodyMeasurementsPage.dart';
-import 'package:crime_investigation/BalisticPage.dart';
+import 'package:crime_investigation/UploadCases/BalisticPage.dart';
 import 'package:crime_investigation/notebook.dart';
 
 class evidence extends StatefulWidget {
@@ -12,6 +12,9 @@ class evidence extends StatefulWidget {
 }
 
 class _evidenceState extends State<evidence> {
+  List<List<TextEditingController>> controllers = [];
+
+  @override
   void initState() {
     super.initState();
     setState(() {
@@ -23,6 +26,26 @@ class _evidenceState extends State<evidence> {
       textValues1.add('');
       textValues.add(''); // Add an empty value to the list
       textValues1.add('');// Add an empty value to the list//// Add an empty value to the list
+      for (int i = 0; i < textValues1.length; i++) {
+        controllers.add([
+          TextEditingController(),
+          TextEditingController(),
+          TextEditingController(),
+          TextEditingController(),
+          TextEditingController(),
+          TextEditingController(),
+          TextEditingController(),
+
+
+        ]);
+      }
+      controllers = List.generate(
+        textValues.length,
+            (_) => List.generate(
+          2, // Number of columns
+              (_) => TextEditingController(),
+        ),
+      );
     });
     setState(() {});
   }
@@ -38,69 +61,14 @@ class _evidenceState extends State<evidence> {
           items: <BottomNavigationBarItem>[
             BottomNavigationBarItem(
               icon: Transform.translate(
-                offset: Offset(0, 10),
+                offset: const Offset(0, 10),
                 child: SvgPicture.asset('assets/Component 12 – 1.svg'),
               ),
               label: '',
             ),
             BottomNavigationBarItem(
               icon: Transform.translate(
-                offset: Offset(0, -20),
-                child: Container(
-                  decoration: BoxDecoration(
-                      border: Border.all(
-                    color: Colors.black,
-                  )),
-                  child: SizedBox(
-                    height: 25,
-                    width: 25,
-                    child: Transform.scale(
-                      scale: 2,
-                      child: InkWell(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => BodyMeasurementsPage()),
-                          );
-                        },
-                        child: CircleAvatar(
-                            backgroundColor: Colors.white,
-                            child: Transform.translate(
-                              offset: Offset(0, 0),
-                              child: InkWell(
-                                onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => BodyMeasurementsPage()),
-                                  );
-                                },
-                                child: InkWell(
-                                  onTap: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => BodyMeasurementsPage()),
-                                    );
-                                  },
-                                  child: Icon(
-                                    Icons.add,
-                                    color: Colors.black,
-                                    size: 25,
-                                  ),
-                                ),
-                              ),
-                            )),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              label: '',
-            ),
-            BottomNavigationBarItem(
-              icon: Transform.translate(
-                  offset: Offset(0, 10),
+                  offset: const Offset(0, 10),
                   child: Image.asset('assets/Iconly-Bold-Setting.png')),
               label: '',
             ),
@@ -112,11 +80,11 @@ class _evidenceState extends State<evidence> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Transform.translate(
-                offset: Offset(0, -25),
+                offset: const Offset(0, -25),
                 child: Container(
                   height: MediaQuery.of(context).size.height / 3.5,
                   width: MediaQuery.of(context).size.width,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                       image: DecorationImage(
                           image: AssetImage('assets/Checklist-bro.png'),alignment: Alignment.centerRight),
                       color: Colors.black,
@@ -126,13 +94,13 @@ class _evidenceState extends State<evidence> {
                   child: Padding(
                     padding: const EdgeInsets.only(top: 60, right: 120),
                     child: Transform.translate(
-                      offset: Offset(-45, 0),
+                      offset: const Offset(-45, 0),
                       child: Align(
                         alignment: Alignment.centerLeft,
                         child: SingleChildScrollView(
                           child: Column(
                             children: [
-                              SizedBox(
+                              const SizedBox(
                                 height: 30,
                                 child: TextField(
                                     decoration: InputDecoration(
@@ -158,7 +126,7 @@ class _evidenceState extends State<evidence> {
                                                     Radius.circular(30))))),
                               ),
                               Transform.translate(
-                                offset: Offset(-45, -28),
+                                offset: const Offset(-45, -28),
                                 child: SizedBox(
                                   height: 26,
                                   width: 26,
@@ -167,7 +135,7 @@ class _evidenceState extends State<evidence> {
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                            builder: (context) => notebook()),
+                                            builder: (context) => const notebook()),
                                       );
                                     },
                                     child: CircleAvatar(
@@ -178,10 +146,10 @@ class _evidenceState extends State<evidence> {
                                             context,
                                             MaterialPageRoute(
                                                 builder: (context) =>
-                                                    notebook()),
+                                                    const notebook()),
                                           );
                                         },
-                                        child: Icon(
+                                        child: const Icon(
                                             Icons.arrow_back_ios_new_outlined,
                                             size: 16),
                                       ),
@@ -190,8 +158,8 @@ class _evidenceState extends State<evidence> {
                                 ),
                               ),
                               Transform.translate(
-                                  offset: Offset(40, -52),
-                                  child: Text(
+                                  offset: const Offset(40, -52),
+                                  child: const Text(
                                     'Evidence List',
                                     style: TextStyle(
                                         fontSize: 18, color: Color(0xff86898E)),
@@ -204,8 +172,8 @@ class _evidenceState extends State<evidence> {
                   ),
                 ),
               ),
-    Padding(
-    padding: const EdgeInsets.only(left: 30, right: 30),
+    const Padding(
+    padding: EdgeInsets.only(left: 30, right: 30),
     child: TextField(
     decoration: InputDecoration(
     enabledBorder: UnderlineInputBorder(),
@@ -214,7 +182,7 @@ class _evidenceState extends State<evidence> {
     border: UnderlineInputBorder()),
     ),
     ),
-    SizedBox(height: 40,),
+    const SizedBox(height: 40,),
 ]
     ),
 
@@ -224,103 +192,99 @@ class _evidenceState extends State<evidence> {
                 columns: [
                   DataColumn(
                       label: Row(
-                    children: [
-                      Container(
-                        height: 100,
-                        width: MediaQuery.of(context).size.width / 2.5,
-                        decoration: BoxDecoration(
-                          color: Color(0xff86898E),
-                          borderRadius: BorderRadius.only(
-                              topRight: Radius.circular(0),
-                              bottomLeft: Radius.circular(0),
-                              bottomRight: Radius.circular(0),
-                              topLeft: Radius.circular(25)),
-                        ),
-                        child: Center(
-                            child: Text(
-                          'What is it?',
-                          style: TextStyle(color: Colors.white),
-                        )),
-                      ),
-                      Container(
-                        height: 100,
-                        width: MediaQuery.of(context).size.width / 2.1,
-                        decoration: BoxDecoration(
-                          color: Color(0xff86898E),
-                          borderRadius: BorderRadius.only(
-                              topRight: Radius.circular(25),
-                              bottomLeft: Radius.circular(0),
-                              bottomRight: Radius.circular(0),
-                              topLeft: Radius.circular(0)),
-                        ),
-                        child: Center(
-                            child: Text(
-                          'Where was it?',
-                          style: TextStyle(color: Colors.white),
-                        )),
-                      ),
-                    ],
-                  ))
+                        children: [
+                          Container(
+                            height: 60,
+                            width: MediaQuery.of(context).size.width / 2.5,
+                            decoration: const BoxDecoration(
+                              color: Color(0xff86898E),
+                              borderRadius:
+                              BorderRadius.only(topLeft: Radius.circular(25)),
+                            ),
+                            child: const Center(
+                                child: Text(
+                                  'What was it?',
+                                  style: TextStyle(color: Colors.white),
+                                )),
+                          ),
+                          Container(
+                            height: 60,
+                            width: MediaQuery.of(context).size.width / 2.1,
+                            decoration: const BoxDecoration(
+                              color: Color(0xff86898E),
+                              borderRadius: BorderRadius.only(
+                                  topRight: Radius.circular(25),
+                                  bottomLeft: Radius.circular(0),
+                                  bottomRight: Radius.circular(0),
+                                  topLeft: Radius.circular(0)),
+                            ),
+                            child: const Center(
+                                child: Text(
+                                  'Where was it?',
+                                  style: TextStyle(color: Colors.white),
+                                )),
+                          ),
+                        ],
+                      ))
                 ],
                 rows: List<DataRow>.generate(
                   textValues.length,
                   // Generate rows based on the number of text fields
-                  (index) => DataRow(
+                      (index) => DataRow(
                     cells: [
-                      DataCell(Row(
-                        children: <Widget>[
-                          Container(
-                            width: MediaQuery.of(context).size.width / 2.5,
-                            child: TextField(
-                              decoration: InputDecoration(
-                                isDense: true,
-                                focusedBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                      color: Colors.black, width: 1.0),
+                      DataCell(
+                          Row(
+                            children: <Widget>[
+                              SizedBox(
+                                width: MediaQuery.of(context).size.width / 2.5,
+                                child: TextField(
+                                  controller: controllers[index][0], // Use the first column controller
+                                  decoration: const InputDecoration(
+                                    isDense: true,
+                                    focusedBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(color: Colors.black, width: 1.0),
+                                    ),
+                                    enabledBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(color: Colors.black, width: 1.0),
+                                    ),
+                                    hintText: '',
+                                  ),
                                 ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                      color: Colors.black, width: 1.0),
-                                ),
-                                hintText: '',
                               ),
-                              textAlign: TextAlign.center,
-                            ),
-                          ),
-                          Container(
-                            width: MediaQuery.of(context).size.width / 2.1,
-                            child: TextField(
-                              decoration: InputDecoration(
-                                isDense: true,
-                                focusedBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                      color: Colors.black, width: 1.0),
+                              SizedBox(
+                                width: MediaQuery.of(context).size.width / 2.1,
+                                child: TextField(
+                                  controller: controllers[index][1], // Use the second column controller
+                                  decoration: const InputDecoration(
+                                    isDense: true,
+                                    focusedBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(color: Colors.black, width: 1.0),
+                                    ),
+                                    enabledBorder: OutlineInputBorder(
+                                      borderSide: BorderSide(color: Colors.black, width: 1.0),
+                                    ),
+                                    hintText: '',
+                                  ),
                                 ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                      color: Colors.black, width: 1.0),
-                                ),
-                                hintText: '',
                               ),
-                              textAlign: TextAlign.center,
-                            ),
-                          ),
-                        ],
-                      )),
+
+                            ],
+                          )
+
+                      )
+                      ,
                     ],
                   ),
                 ),
               ),
-              SizedBox(
-                height: 20,
-              ),
+              SizedBox(height: 20,),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   SizedBox(
                     height: 30,
                     child: Container(
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                           boxShadow: [
                             BoxShadow(blurRadius: 3.5, color: Colors.grey)
                           ],
@@ -331,11 +295,11 @@ class _evidenceState extends State<evidence> {
                               topLeft: Radius.circular(20),
                               bottomLeft: Radius.circular(20))),
                       child: SizedBox(
-                        width: 140,
+                        width: 130,
                         child: ElevatedButton(
                             style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.white,
-                                shape: RoundedRectangleBorder(
+                                shape: const RoundedRectangleBorder(
                                     borderRadius: BorderRadius.only(
                                         bottomLeft: Radius.circular(20),
                                         topLeft: Radius.circular(20),
@@ -343,11 +307,15 @@ class _evidenceState extends State<evidence> {
                                         topRight: Radius.circular(20)))),
                             onPressed: () {
                               setState(() {
-                                textValues.add(
-                                    ''); // Add an empty value to the list
+                                textValues.add('');
+                                controllers.add(List.generate(
+                                  2, // Number of columns
+                                      (_) => TextEditingController(),
+                                ));
                               });
                             },
-                            child: Text(
+
+                            child: const Text(
                               'Add',
                               style: TextStyle(color: Colors.black),
                             )),
@@ -357,7 +325,7 @@ class _evidenceState extends State<evidence> {
                   SizedBox(
                     height: 30,
                     child: Container(
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                           boxShadow: [
                             BoxShadow(blurRadius: 3.5, color: Colors.grey)
                           ],
@@ -368,11 +336,11 @@ class _evidenceState extends State<evidence> {
                               topLeft: Radius.circular(20),
                               bottomLeft: Radius.circular(20))),
                       child: SizedBox(
-                        width: 140,
+                        width: 130,
                         child: ElevatedButton(
                             style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.white,
-                                shape: RoundedRectangleBorder(
+                                shape: const RoundedRectangleBorder(
                                     borderRadius: BorderRadius.only(
                                         bottomLeft: Radius.circular(20),
                                         topLeft: Radius.circular(20),
@@ -380,11 +348,12 @@ class _evidenceState extends State<evidence> {
                                         topRight: Radius.circular(20)))),
                             onPressed: () {
                               setState(() {
-                                textValues.remove(
-                                    ''); // Add an empty value to the list
+                                textValues.removeLast();
+                                controllers.removeLast();
                               });
                             },
-                            child: Text(
+
+                            child: const Text(
                               'Delete',
                               style: TextStyle(color: Colors.black),
                             )),
@@ -393,87 +362,52 @@ class _evidenceState extends State<evidence> {
                   ),
                 ],
               ),
-              SizedBox(
-                height: 20,
+              const SizedBox(
+                height: 50,
               ),
-              SizedBox(
-                height: 30,
-                child: Container(
-                  decoration: BoxDecoration(
-                      boxShadow: [
-                        BoxShadow(blurRadius: 3.5, color: Colors.grey)
-                      ],
-                      color: Colors.black,
-                      borderRadius: BorderRadius.only(
-                          topRight: Radius.circular(20),
-                          bottomRight: Radius.circular(20),
-                          topLeft: Radius.circular(20),
-                          bottomLeft: Radius.circular(20))),
-                  child: SizedBox(
-                    width: 160,
-                    child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.black,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.only(
-                                    bottomLeft: Radius.circular(20),
-                                    topLeft: Radius.circular(20),
-                                    bottomRight: Radius.circular(20),
-                                    topRight: Radius.circular(20)))),
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => notebook()),
-                          );
-                        },
-                        child: Text(
-                          'Save',
-                        )),
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: 20,
-              ),
+
               Column(
                 children: [
                   DataTable(
                     columns: [
                       DataColumn(
                           label: Row(
-                        children: [
-                          Container(
-                            height: 100,
-                            width: MediaQuery.of(context).size.width / 1.14,
-                            decoration: BoxDecoration(
-                              color: Color(0xff86898E),
-                              borderRadius: BorderRadius.only(
-                                  topRight: Radius.circular(25),
-                                  bottomLeft: Radius.circular(0),
-                                  bottomRight: Radius.circular(0),
-                                  topLeft: Radius.circular(25)),
-                            ),
-                            child: Center(
-                                child: Text(
-                              'Notes',
-                              style: TextStyle(color: Colors.white),
-                            )),
-                          ),
-                        ],
-                      ))
+                            children: [
+                              Container(
+                                height: 100,
+                                width: MediaQuery.of(context).size.width / 1.14,
+                                decoration: const BoxDecoration(
+                                  color: Color(0xff86898E),
+                                  borderRadius: BorderRadius.only(
+                                      topRight: Radius.circular(25),
+                                      bottomLeft: Radius.circular(0),
+                                      bottomRight: Radius.circular(0),
+                                      topLeft: Radius.circular(25)),
+                                ),
+                                child: const Center(
+                                    child: Text(
+                                      'Notes',
+                                      style: TextStyle(color: Colors.white),
+                                    )),
+                              ),
+                            ],
+                          ))
                     ],
                     rows: List<DataRow>.generate(
-                      textValues.length,
+                      textValues1.length,
                       // Generate rows based on the number of text fields
-                      (index) => DataRow(
+                          (index) => DataRow(
                         cells: [
                           DataCell(Row(
                             children: <Widget>[
-                              Container(
-                                width: MediaQuery.of(context).size.width / 1.14,
-                                child: TextField(
-                                  decoration: InputDecoration(
+                              SizedBox(
+                                width: MediaQuery.of(context).size.width /
+                                    1.14,
+                                child:  TextField(
+                                  controller: controllers[index][5],
+
+
+                                  decoration: const InputDecoration(
                                     isDense: true,
                                     focusedBorder: OutlineInputBorder(
                                       borderSide: BorderSide(
@@ -485,7 +419,7 @@ class _evidenceState extends State<evidence> {
                                     ),
                                     hintText: '',
                                   ),
-                                  textAlign: TextAlign.center,
+
                                 ),
                               ),
                             ],
@@ -494,7 +428,7 @@ class _evidenceState extends State<evidence> {
                       ),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                   Row(
@@ -503,7 +437,7 @@ class _evidenceState extends State<evidence> {
                       SizedBox(
                         height: 30,
                         child: Container(
-                          decoration: BoxDecoration(
+                          decoration: const BoxDecoration(
                               boxShadow: [
                                 BoxShadow(blurRadius: 3.5, color: Colors.grey)
                               ],
@@ -518,7 +452,7 @@ class _evidenceState extends State<evidence> {
                             child: ElevatedButton(
                                 style: ElevatedButton.styleFrom(
                                     backgroundColor: Colors.white,
-                                    shape: RoundedRectangleBorder(
+                                    shape: const RoundedRectangleBorder(
                                         borderRadius: BorderRadius.only(
                                             bottomLeft: Radius.circular(20),
                                             topLeft: Radius.circular(20),
@@ -526,11 +460,22 @@ class _evidenceState extends State<evidence> {
                                             topRight: Radius.circular(20)))),
                                 onPressed: () {
                                   setState(() {
-                                    textValues.add(
+                                    textValues1.add(
                                         ''); // Add an empty value to the list
+                                    controllers.add([
+                                      TextEditingController(),
+                                      TextEditingController(),
+                                      TextEditingController(),
+                                      TextEditingController(),
+                                      TextEditingController(),
+                                      TextEditingController(),
+                                      TextEditingController(),
+
+
+                                    ]);
                                   });
                                 },
-                                child: Text(
+                                child: const Text(
                                   'Add',
                                   style: TextStyle(color: Colors.black),
                                 )),
@@ -540,7 +485,7 @@ class _evidenceState extends State<evidence> {
                       SizedBox(
                         height: 30,
                         child: Container(
-                          decoration: BoxDecoration(
+                          decoration: const BoxDecoration(
                               boxShadow: [
                                 BoxShadow(blurRadius: 3.5, color: Colors.grey)
                               ],
@@ -555,7 +500,7 @@ class _evidenceState extends State<evidence> {
                             child: ElevatedButton(
                                 style: ElevatedButton.styleFrom(
                                     backgroundColor: Colors.white,
-                                    shape: RoundedRectangleBorder(
+                                    shape: const RoundedRectangleBorder(
                                         borderRadius: BorderRadius.only(
                                             bottomLeft: Radius.circular(20),
                                             topLeft: Radius.circular(20),
@@ -563,11 +508,11 @@ class _evidenceState extends State<evidence> {
                                             topRight: Radius.circular(20)))),
                                 onPressed: () {
                                   setState(() {
-                                    textValues.remove(
+                                    textValues1.remove(
                                         ''); // Add an empty value to the list
                                   });
                                 },
-                                child: Text(
+                                child: const Text(
                                   'Delete',
                                   style: TextStyle(color: Colors.black),
                                 )),
@@ -576,13 +521,13 @@ class _evidenceState extends State<evidence> {
                       ),
                     ],
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                   SizedBox(
                     height: 30,
                     child: Container(
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                           boxShadow: [
                             BoxShadow(blurRadius: 3.5, color: Colors.grey)
                           ],
@@ -597,7 +542,7 @@ class _evidenceState extends State<evidence> {
                         child: ElevatedButton(
                             style: ElevatedButton.styleFrom(
                                 backgroundColor: Colors.black,
-                                shape: RoundedRectangleBorder(
+                                shape: const RoundedRectangleBorder(
                                     borderRadius: BorderRadius.only(
                                         bottomLeft: Radius.circular(20),
                                         topLeft: Radius.circular(20),
@@ -607,16 +552,16 @@ class _evidenceState extends State<evidence> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => notebook()),
+                                    builder: (context) => const notebook()),
                               );
                             },
-                            child: Text(
+                            child: const Text(
                               'Save',
                             )),
                       ),
                     ),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 50,
                   ),
                 ],

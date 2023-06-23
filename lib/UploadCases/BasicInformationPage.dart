@@ -79,47 +79,6 @@ class _BasicInformationPageState extends State<BasicInformationPage> {
                   child: Image.asset('assets/vvv.png')),
               label: '',
             ),
-            // BottomNavigationBarItem(
-            //   icon: Transform.translate(
-            //     offset: const Offset(0, -20),
-            //     child: Container(
-            //       decoration: BoxDecoration(
-            //           border: Border.all(
-            //         color: Colors.black,
-            //       )),
-            //       child: SizedBox(
-            //         height: 25,
-            //         width: 25,
-            //         child: Transform.scale(
-            //           scale: 2,
-            //           child: InkWell(
-            //             onTap: () {
-            //               Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) {return const BasicInformationPage(); }));
-            //
-            //             },
-            //             child: CircleAvatar(
-            //                 backgroundColor: Colors.white,
-            //                 child: Transform.translate(
-            //                   offset: const Offset(0, 0),
-            //                   child: InkWell(
-            //                     onTap: () {
-            //                       Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) {return const BasicInformationPage(); }));
-            //
-            //                     },
-            //                     child: const Icon(
-            //                       Icons.add,
-            //                       color: Colors.black,
-            //                       size: 25,
-            //                     ),
-            //                   ),
-            //                 )),
-            //           ),
-            //         ),
-            //       ),
-            //     ),
-            //   ),
-            //   label: '',
-            // ),
             BottomNavigationBarItem(
               icon: Transform.translate(
                   offset: const Offset(0, 10),
@@ -216,10 +175,11 @@ class _BasicInformationPageState extends State<BasicInformationPage> {
                 child: SizedBox(
                   height: 30,
                   child: TextField(
+                    textAlign: TextAlign.center,
                     decoration: InputDecoration(
                         contentPadding: EdgeInsets.all(10),
                         hintText:
-                            '                                     Add Title',
+                            'Add Title',
                         hintStyle: TextStyle(
                           fontSize: 12,
                         ),

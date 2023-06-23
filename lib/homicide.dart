@@ -2,7 +2,7 @@ import 'package:crime_investigation/checlist.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:crime_investigation/UploadCases/BodyMeasurementsPage.dart';
-import 'package:crime_investigation/BalisticPage.dart';
+import 'package:crime_investigation/UploadCases/BalisticPage.dart';
 import 'package:crime_investigation/UploadCases/BasicInformationPage.dart';
 import 'package:crime_investigation/homicide.dart';
 import 'package:crime_investigation/AllCasesPage.dart';
