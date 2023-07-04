@@ -4,14 +4,14 @@ import 'package:crime_investigation/UploadCases/BalisticPage.dart';
 import 'package:crime_investigation/death.dart';
 import 'package:crime_investigation/UploadCases/BasicInformationPage.dart';
 import 'package:crime_investigation/drawning.dart';
-import 'package:crime_investigation/evidence.dart';
+import 'package:crime_investigation/UploadCases/evidence.dart';
 import 'package:crime_investigation/hanging.dart';
 import 'package:crime_investigation/homicide.dart';
 import 'package:crime_investigation/UploadCases/StoryPage.dart';
 import 'package:crime_investigation/robbery.dart';
 import 'package:crime_investigation/AllCasesPage.dart';
 import 'package:crime_investigation/UploadCases/SceneMeasurementPage.dart';
-import 'package:crime_investigation/scenesketch.dart';
+import 'package:crime_investigation/UploadCases/scenesketch.dart';
 import 'package:crime_investigation/setting.dart';
 import 'package:crime_investigation/shooting.dart';
 import 'package:crime_investigation/UploadCases/WeasponsPage.dart';
@@ -98,7 +98,11 @@ class notebook extends StatelessWidget {
                       onPressed: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) =>const BasicInformationPage()),
+                          MaterialPageRoute(builder: (context) =>const BasicInformationPage(
+                            Edited: "null",
+
+
+                          )),
                         );
                       },
                       child: const Text(

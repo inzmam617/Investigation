@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:crime_investigation/notebook.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../AllCasesPage.dart';
 
@@ -19,6 +20,7 @@ class _BaseLinePageState extends State<BaseLinePage> {
   @override
   void initState() {
     super.initState();
+    initialize();
     setState(() {
       textValues.add('');
       textValues.add('');
@@ -41,11 +43,18 @@ class _BaseLinePageState extends State<BaseLinePage> {
           TextEditingController(),
         ]);
       }
+      initialize();
     });
   }
 
 // Rest of the code...
+  String id = " ";
+  Future<void> initialize() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    id =  prefs.getString("id").toString();
+    print(id);
 
+  }
 
   List<String> textValues = [];
   List<String> textValues1 = [];
@@ -1118,10 +1127,12 @@ class _BaseLinePageState extends State<BaseLinePage> {
                             data['DirectionBaseline'] = DirectionBaseline;
                             data['SecondMeasurement'] = SecondMeasurement;
                             print(data);
-                            FirebaseFirestore.instance.collection('Cases').doc().set(data).then((value) {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(builder: (context) => const AllCases()),
+                            CollectionReference casesCollection = FirebaseFirestore.instance.collection('Cases');
+
+
+                            DocumentReference newCaseRef = casesCollection.doc(id).collection('Allcaes').doc();
+                            newCaseRef.set(data).then((value) {
+                              Navigator.push(context,MaterialPageRoute(builder: (context) =>  AllCases(id: id,)),
                               );
                             });
 

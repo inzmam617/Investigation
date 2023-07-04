@@ -2,11 +2,34 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:crime_investigation/notebook.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../AllCasesPage.dart';
 
-class StoryPage extends StatelessWidget {
+class StoryPage extends StatefulWidget {
+  @override
+  State<StoryPage> createState() => _StoryPageState();
+}
+
+class _StoryPageState extends State<StoryPage> {
   TextEditingController story = TextEditingController();
+  String id = " ";
+  Future<void> initialize() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    id =  prefs.getString("id").toString();
+    print(id);
+
+  }
+  @override
+  void initState(){
+    super.initState();
+
+    setState(() {
+      initialize();
+    });
+
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -261,10 +284,12 @@ class StoryPage extends StatelessWidget {
                             };
 
 
-                            FirebaseFirestore.instance.collection('Cases').doc().set(data).then((value) {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(builder: (context) => const AllCases()),
+                            CollectionReference casesCollection = FirebaseFirestore.instance.collection('Cases');
+
+
+                            DocumentReference newCaseRef = casesCollection.doc(id).collection('Allcaes').doc();
+                            newCaseRef.set(data).then((value) {
+                              Navigator.push(context,MaterialPageRoute(builder: (context) =>  AllCases(id: id,)),
                               );
                             });
 
@@ -321,6 +346,4 @@ class StoryPage extends StatelessWidget {
         ));
 
   }
-
-
 }

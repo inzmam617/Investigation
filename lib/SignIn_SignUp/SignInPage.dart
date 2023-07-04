@@ -6,6 +6,7 @@ import 'package:crime_investigation/SignIn_SignUp/signup.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../AllCasesPage.dart';
 import '../FirebaseClass/FireabaseAuthClass.dart';
 
 class SignInPage extends StatefulWidget {
@@ -28,20 +29,34 @@ class _SignInPageState extends State<SignInPage> {
         final SharedPreferences prefs = await SharedPreferences.getInstance();
 
         if (value.exists) {
-          // Access the "title" field from the document data
+
            String title = value.data()?['name'];
+           String id = value.data()?['docId'];
            prefs.setString("name", title);
+           prefs.setString("id", id);
           print(title);
+          print("this is the id: " + id);
         } else {
           print('User data does not exist');
         }
       });
 
+      FirebaseFirestore.instance.collection('Cases').doc(userId).collection('Allcaes').get().then((value) => {
+       print("this is the data" + value.docs.length.toString()),
+        if(value.docs.length == 0){
+            Navigator.of(context).push(
+                MaterialPageRoute(builder: (BuildContext context) {
+                  return const CreatePage();
+                }))
+      }
+        else if(value.docs.length != 0){
+          Navigator.of(context).push(
+              MaterialPageRoute(builder: (BuildContext context) {
+                return  AllCases(id: userId,);
+              }))
+        }
+      });
 
-        Navigator.of(context).push(
-            MaterialPageRoute(builder: (BuildContext context) {
-              return const CreatePage();
-            }));
 
 
 

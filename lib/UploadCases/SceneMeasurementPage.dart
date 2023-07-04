@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:crime_investigation/UploadCases/BaseLinePage.dart';
 import 'package:crime_investigation/UploadCases/BodyMeasurementsPage.dart';
 import 'package:crime_investigation/notebook.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../AllCasesPage.dart';
 
@@ -18,16 +19,25 @@ class _SceneMeasurementPageState extends State<SceneMeasurementPage> {
   @override
   void initState() {
     super.initState();
+    initialize();
     setState(() {
       textValues.add('');
       controllers.add([TextEditingController(), TextEditingController(), TextEditingController()]);
       errorMessages.add(['', '', '']);
     });
+    initialize();
+
   }
 
 
 
+  String id = " ";
+  Future<void> initialize() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    id =  prefs.getString("id").toString();
+    print(id);
 
+  }
   List<String> textValues = [];
   List<List<String>> tableData = [];
   List<List<String>> errorMessages = [];
@@ -480,10 +490,12 @@ class _SceneMeasurementPageState extends State<SceneMeasurementPage> {
                             }
                             data['Rooms'] = Rooms;
                             print(data);
-                            FirebaseFirestore.instance.collection('Cases').doc().set(data).then((value) {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(builder: (context) => const AllCases()),
+                            CollectionReference casesCollection = FirebaseFirestore.instance.collection('Cases');
+
+
+                            DocumentReference newCaseRef = casesCollection.doc(id).collection('Allcaes').doc();
+                            newCaseRef.set(data).then((value) {
+                              Navigator.push(context,MaterialPageRoute(builder: (context) =>  AllCases(id: id,)),
                               );
                             });
 

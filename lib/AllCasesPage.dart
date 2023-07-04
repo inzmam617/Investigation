@@ -2,11 +2,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:crime_investigation/courtdate.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'UploadCases/BasicInformationPage.dart';
 import 'notebook.dart';
 
 class AllCases extends StatefulWidget {
-  const AllCases({Key? key}) : super(key: key);
+  final String id;
+  const AllCases({Key? key, required this.id}) : super(key: key);
   @override
   State<AllCases> createState() => _AllCasesState();
 }
@@ -14,6 +16,26 @@ class AllCases extends StatefulWidget {
 class _AllCasesState extends State<AllCases> {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   List<String> textValues = [];
+
+
+  @override
+  void initState(){
+    super.initState();
+    setState(() {
+      initialize();
+
+    });
+    initialize();
+
+
+  }
+  String id = "";
+  Future<void> initialize() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    id =  prefs.getString("id").toString();
+    print(id);
+
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -86,11 +108,8 @@ class _AllCasesState extends State<AllCases> {
                     bottomRight: Radius.circular(30),
                     bottomLeft: Radius.circular(30))),
             child: Column(
-
               children: [
-
                 const SizedBox(height: 50,),
-
                 Align(
                   alignment: Alignment.topLeft,
                   child: SizedBox(
@@ -161,7 +180,9 @@ class _AllCasesState extends State<AllCases> {
           ),
 
           StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-            stream:  FirebaseFirestore.instance.collection('Cases').snapshots(),
+            stream: FirebaseFirestore.instance.collection('Cases').doc(widget.id).collection('Allcaes').snapshots(),
+
+
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const CircularProgressIndicator();
@@ -174,14 +195,16 @@ class _AllCasesState extends State<AllCases> {
               }
               if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
 
+
                 return const Padding(
                   padding: EdgeInsets.only(top: 100),
                     child: Text('No documents found'));
               }
+
               return Expanded(
-                // height: 100,
+
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
+                  padding: const EdgeInsets.symmetric(horizontal: 10,vertical: 10),
                   child: GridView.builder(
                     physics: const ScrollPhysics(),
                     gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -198,12 +221,29 @@ class _AllCasesState extends State<AllCases> {
                         onTap: () {
                           if(data?["Type"] == "Basic"){
                             Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) {
-                              return const BasicInformationPage();
+                              return BasicInformationPage(
+                                Edited: "true",
+                                Csid: data?["CSI_ID"].toString(),
+                                id: data?["docId"].toString(),
+                                Case: data?["Case"].toString() ,
+                                Date: data?["Date"].toString()   ,
+                                Offense: data?["Offense"] .toString(),
+                                Primary_detective: data?["Primary_Detective_Id"] .toString(),
+                                Primary_Office: data?["Primary_Officer"] .toString(),
+                                Scene: data?["Scene"] .toString(),
+                                TimeArrival: data?["Time_Arrival"] .toString(),
+                                TimeCall: data?["Time_Call_Received"] .toString(),
+                                Title: data?["Title"] .toString(),
+                                address: data?["address"] .toString(),
+                                Suspects: data?["Suspects"],
+                                Victims: data?["Victims"],
+                              );
                             }));
+
+
+                            print(data?["Suspects"].runtimeType);
                           }
-                          else{
-                            print("asd");
-                          }
+
 
                         },
                         child: Container(
@@ -230,6 +270,7 @@ class _AllCasesState extends State<AllCases> {
               );
             },
           ),
+
         ],
       ),
     );

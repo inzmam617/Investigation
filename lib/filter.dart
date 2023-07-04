@@ -424,7 +424,7 @@ class _filterState extends State<filter> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => AllCases()),
+                                      builder: (context) => AllCases(id: '',)),
                                 );
                               },
                               child: Text(

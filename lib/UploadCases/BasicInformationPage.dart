@@ -2,11 +2,28 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:crime_investigation/notebook.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../AllCasesPage.dart';
 
 class BasicInformationPage extends StatefulWidget {
-  const BasicInformationPage({Key? key}) : super(key: key);
+  final String? Edited;
+  final String? id;
+  final String? Csid;
+  final String? Case;
+  final String? Date;
+  final String? Offense;
+  final String? Primary_detective;
+  final String? Primary_Office;
+  final String? Scene;
+  final String? TimeArrival;
+  final String? TimeCall;
+  final String? Title;
+  final String? address;
+
+  final List<dynamic>? Suspects;
+  final List<dynamic>? Victims;
+  const BasicInformationPage({Key? key, this.Csid, this.Case, this.Date, this.Offense, this.Primary_detective, this.Primary_Office, this.Scene, this.TimeArrival, this.TimeCall, this.Title, this.address, this.Suspects, this.Victims, this.Edited, this.id,}) : super(key: key);
 
   @override
   State<BasicInformationPage> createState() => _BasicInformationPageState();
@@ -29,39 +46,135 @@ class _BasicInformationPageState extends State<BasicInformationPage> {
   TextEditingController Time_call_recieved = TextEditingController();
   TextEditingController Primary_detective_ID = TextEditingController();
   TextEditingController Priamry_officer_Deputy_ID = TextEditingController();
+  String id = " ";
+  Future<void> initialize() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    id =  prefs.getString("id").toString();
+    print(id);
+
+  }
   @override
   void initState() {
     super.initState();
+    initialize();
+    title.text = widget.Title ?? '';
+    date.text = widget.Date ?? '';
+    Case.text = widget.Case ?? '';
+    Scene.text = widget.Scene?? '';
+    Offense.text = widget.Offense ?? '';
+    Address.text = widget.address ?? '';
+    Csi_ID.text = widget.Csid ?? '';
+    Time_arivel.text = widget.TimeArrival ?? '';
+    Time_clear_the_call.text = widget.TimeCall ?? '';
+    Time_call_recieved.text = widget.Title ?? '';
+    Primary_detective_ID.text = widget.Primary_detective ?? '';
+    Priamry_officer_Deputy_ID.text = widget.Primary_Office ?? '';
     setState(() {
       textValues.add('');
       textValues1.add('');
       textValues.add('');
       textValues1.add('');
-      textValues1.add('');
-      textValues.add('');
-      textValues1.add('');
-      textValues.add('');
-
     });
-    setState(() {});
+    setState(() {
+
+      initialize();
+    });
     // Initialize controllers based on number of rows
     // Initialize controllers based on number of rows and columns
-    controllers = List.generate(
+
+    setState(() {
+      widget.Edited != "true" ? controllers = List.generate(
+        textValues1.length,
+            (_) => List.generate(
+          2, // Number of columns
+              (_) => TextEditingController(),
+        ),
+      ) :
+      setState(() {
+        final int suspectLength = widget.Suspects?.length ?? 0;
+        final int textValuesLength = textValues1.length;
+        if (suspectLength > textValuesLength) {
+          for (int i = 0; i < suspectLength - textValuesLength; i++) {
+            textValues1.add('');
+          }
+        }
+        controllers2 = (widget.Suspects ?? []).map<List<TextEditingController>>((dynamic suspect) {
+          List<TextEditingController> rowControllers = [];
+          for (int i = 0; i < textValues1.length; i++) {
+            String Suspectsvalue = suspect['Suspects'] ?? '';
+            String dobvalue = suspect['DOB'] ?? '';
+            TextEditingController Suspectscontroller = TextEditingController(text: Suspectsvalue);
+            TextEditingController DOBcontroller = TextEditingController(text: dobvalue);
+            rowControllers.add(Suspectscontroller);
+            rowControllers.add(DOBcontroller);
+          }
+          return rowControllers;
+        }).toList();
+
+      });
+    });
+
+
+
+
+
+
+
+    widget.Edited != "true" ? controllers2 = List.generate(
       textValues.length,
           (_) => List.generate(
         2, // Number of columns
             (_) => TextEditingController(),
       ),
-    );
-    controllers2 = List.generate(
-      textValues1.length,
-          (_) => List.generate(
-        2, // Number of columns
-            (_) => TextEditingController(),
-      ),
-    );
-  }
+    ) :
+    setState(() {
+      final int victimsLength = widget.Victims?.length ?? 0;
+      final int textValuesLength = textValues.length;
+      if (victimsLength > textValuesLength) {
+        for (int i = 0; i < victimsLength - textValuesLength; i++) {
+          textValues.add('');
+        }
+      }
+      controllers = (widget.Victims ?? []).map<List<TextEditingController>>((dynamic victim) {
+        List<TextEditingController> rowControllers = [];
+        for (int i = 0; i < textValues.length; i++) {
+          String victimValue = victim['Victim'] ?? '';
+          String dobValue = victim['DOB'] ?? '';
 
+          TextEditingController victimController = TextEditingController(text: victimValue);
+          TextEditingController dobController = TextEditingController(text: dobValue);
+
+          rowControllers.add(victimController);
+          rowControllers.add(dobController);
+        }
+        return rowControllers;
+      }).toList();
+    });
+
+    // setState(() {
+    //   final int VictimsLength = widget.Victims?.length ?? 0;
+    //   final int textValuesLength = textValues.length;
+    //   if (VictimsLength > textValuesLength) {
+    //     for (int i = 0; i < VictimsLength - textValuesLength; i++) {
+    //       print("object");
+    //       textValues.add('');
+    //     }
+    //   }
+    //   controllers = (widget.Victims ?? []).map<List<TextEditingController>>((dynamic Victims) {
+    //     List<TextEditingController> rowControllers = [];
+    //     for (int i = 0; i < textValues.length; i++) {
+    //       String value = Victims['Victim'] ?? '';
+    //       TextEditingController controller = TextEditingController(text: value);
+    //       rowControllers.add(controller);
+    //     }
+    //     return rowControllers;
+    //   }).toList();
+    //
+    // });
+    print(widget.Victims);
+
+
+  }
   DatabaseReference databaseReference = FirebaseDatabase.instance.reference();
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   List<String> textValues = [];
@@ -70,29 +183,29 @@ class _BasicInformationPageState extends State<BasicInformationPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        bottomNavigationBar: BottomNavigationBar(
-          backgroundColor: Colors.black,
-          items: <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon: Transform.translate(
-                  offset: const Offset(0, 10),
-                  child: Image.asset('assets/vvv.png')),
-              label: '',
-            ),
-            BottomNavigationBarItem(
-              icon: Transform.translate(
-                  offset: const Offset(0, 10),
-                  child: InkWell(onTap: () {
-                    Navigator.of(context).pop();
-
-                  },
-
-
-                      child: Image.asset('assets/Iconly-Bold-Setting.png'))),
-              label: '',
-            ),
-          ],
-        ),
+        // bottomNavigationBar: BottomNavigationBar(
+        //   backgroundColor: Colors.black,
+        //   items: <BottomNavigationBarItem>[
+        //     BottomNavigationBarItem(
+        //       icon: Transform.translate(
+        //           offset: const Offset(0, 10),
+        //           child: Image.asset('assets/vvv.png')),
+        //       label: '',
+        //     ),
+        //     BottomNavigationBarItem(
+        //       icon: Transform.translate(
+        //           offset: const Offset(0, 10),
+        //           child: InkWell(onTap: () {
+        //             Navigator.of(context).pop();
+        //
+        //           },
+        //
+        //
+        //               child: Image.asset('assets/Iconly-Bold-Setting.png'))),
+        //       label: '',
+        //     ),
+        //   ],
+        // ),
         body: SingleChildScrollView(
             child: Column(children: [
           Container(
@@ -170,13 +283,14 @@ class _BasicInformationPageState extends State<BasicInformationPage> {
                     bottomLeft: Radius.circular(30),
                     bottomRight: Radius.circular(30))),
             child: Column(children: [
-              const Padding(
-                padding: EdgeInsets.only(left: 40, right: 20),
+               Padding(
+                padding: const EdgeInsets.only(left: 40, right: 20),
                 child: SizedBox(
                   height: 30,
                   child: TextField(
+                    controller: title,
                     textAlign: TextAlign.center,
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                         contentPadding: EdgeInsets.all(10),
                         hintText:
                             'Add Title',
@@ -193,8 +307,9 @@ class _BasicInformationPageState extends State<BasicInformationPage> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.only(left: 40, right: 24),
+                padding:  const EdgeInsets.only(left: 40, right: 24),
                 child: TextField(
+                  controller: date,
                   decoration: InputDecoration(
                       label: Row(children: const [
                         Text('Date:', style: TextStyle(fontSize: 14,fontWeight: FontWeight.bold)),
@@ -209,6 +324,8 @@ class _BasicInformationPageState extends State<BasicInformationPage> {
                 Padding(
                   padding: const EdgeInsets.only(left: 40, right: 24),
                   child: TextField(
+                    controller: Case,
+
                     decoration: InputDecoration(
                         label: Row(children: const [
                           Text('Case:', style: TextStyle(fontSize: 14,fontWeight: FontWeight.bold)),
@@ -223,6 +340,8 @@ class _BasicInformationPageState extends State<BasicInformationPage> {
                   Padding(
                     padding: const EdgeInsets.only(left: 40, right: 24),
                     child: TextField(
+                      controller: Scene,
+
                       decoration: InputDecoration(
                           label: Row(children: const [
                             Text('Scene:',
@@ -238,6 +357,8 @@ class _BasicInformationPageState extends State<BasicInformationPage> {
                     Padding(
                       padding: const EdgeInsets.only(left: 40, right: 24),
                       child: TextField(
+                        controller: Offense,
+
                         decoration: InputDecoration(
                             label: Row(children: const [
                               Text('Offense',
@@ -253,6 +374,8 @@ class _BasicInformationPageState extends State<BasicInformationPage> {
                       Padding(
                         padding: const EdgeInsets.only(left: 40, right: 24),
                         child: TextField(
+                          controller: Address,
+
                           decoration: InputDecoration(
                               label: Row(children: const [
                                 Text('Address:',
@@ -268,6 +391,8 @@ class _BasicInformationPageState extends State<BasicInformationPage> {
                         Padding(
                           padding: const EdgeInsets.only(left: 40, right: 24),
                           child: TextField(
+                            controller: Csi_ID,
+
                             decoration: InputDecoration(
                                 label: Row(children: const [
                                   Text('CSI and ID:',
@@ -283,6 +408,8 @@ class _BasicInformationPageState extends State<BasicInformationPage> {
                           Padding(
                             padding: const EdgeInsets.only(left: 40, right: 24),
                             child: TextField(
+                              controller: Time_arivel,
+
                               decoration: InputDecoration(
                                   label: Row(children: const [
                                     Text('Time of Arrival:',
@@ -299,6 +426,8 @@ class _BasicInformationPageState extends State<BasicInformationPage> {
                               padding:
                                   const EdgeInsets.only(left: 40, right: 24),
                               child: TextField(
+                                controller: Time_clear_the_call,
+
                                 decoration: InputDecoration(
                                     label: Row(children: const [
                                       Text('Time I Cleared the Call:',
@@ -315,6 +444,8 @@ class _BasicInformationPageState extends State<BasicInformationPage> {
                                 padding:
                                     const EdgeInsets.only(left: 40, right: 24),
                                 child: TextField(
+                                  controller: Time_call_recieved,
+
                                   decoration: InputDecoration(
                                       label: Row(children: const [
                                         Text('Time Call was Received:',
@@ -332,6 +463,8 @@ class _BasicInformationPageState extends State<BasicInformationPage> {
                                     padding: const EdgeInsets.only(
                                         left: 40, right: 24),
                                     child: TextField(
+                                      controller: Primary_detective_ID,
+
                                       decoration: InputDecoration(
                                           label: Row(children: const [
                                             Text(
@@ -350,6 +483,8 @@ class _BasicInformationPageState extends State<BasicInformationPage> {
                                         padding: const EdgeInsets.only(
                                             left: 40, right: 24),
                                         child: TextField(
+                                          controller: Priamry_officer_Deputy_ID,
+
                                           decoration: InputDecoration(
                                               label: SingleChildScrollView(
                                                 scrollDirection:
@@ -385,96 +520,97 @@ class _BasicInformationPageState extends State<BasicInformationPage> {
           Column(children: [
             Transform.translate(
               offset: const Offset(0, -40),
-              child: DataTable(
-                columns: [
-                  DataColumn(
-                      label: Row(
-                    children: [
-                      Container(
-                        height: 60,
-                        width: MediaQuery.of(context).size.width / 2.5,
-                        decoration: const BoxDecoration(
-                          color: Color(0xff86898E),
-                          borderRadius:
-                              BorderRadius.only(topLeft: Radius.circular(25)),
-                        ),
-                        child: const Center(
-                            child: Text(
-                          'Victim(s):',
-                          style: TextStyle(color: Colors.white),
-                        )),
-                      ),
-                      Container(
-                        height: 60,
-                        width: MediaQuery.of(context).size.width / 2.1,
-                        decoration: const BoxDecoration(
-                          color: Color(0xff86898E),
-                          borderRadius: BorderRadius.only(
-                              topRight: Radius.circular(25),
-                              bottomLeft: Radius.circular(0),
-                              bottomRight: Radius.circular(0),
-                              topLeft: Radius.circular(0)),
-                        ),
-                        child: const Center(
-                            child: Text(
-                          'DOB',
-                          style: TextStyle(color: Colors.white),
-                        )),
-                      ),
-                    ],
-                  ))
-                ],
-                rows: List<DataRow>.generate(
-                  textValues.length,
-                  // Generate rows based on the number of text fields
-                  (index) => DataRow(
-                    cells: [
-                      DataCell(
-                          Row(
-                        children: <Widget>[
-                  SizedBox(
-                  width: MediaQuery.of(context).size.width / 2.5,
-                  child: TextField(
-                    controller: controllers[index][0], // Use the first column controller
-                    decoration: const InputDecoration(
-                      isDense: true,
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.black, width: 1.0),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.black, width: 1.0),
-                      ),
-                      hintText: '',
-                    ),
-                  ),
-                  ),
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width / 2.1,
-                            child: TextField(
-                              controller: controllers[index][1], // Use the second column controller
-                              decoration: const InputDecoration(
-                                isDense: true,
-                                focusedBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.black, width: 1.0),
-                                ),
-                                enabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.black, width: 1.0),
-                                ),
-                                hintText: '',
-                              ),
-                            ),
-                          ),
-
-                        ],
-                      )
-
-                      )
-                      ,
-                    ],
+              child:
+    DataTable(
+      columns: [
+        DataColumn(
+          label: Row(
+            children: [
+              Container(
+                height: 60,
+                width: MediaQuery.of(context).size.width / 2.5,
+                decoration: const BoxDecoration(
+                  color: Color(0xff86898E),
+                  borderRadius: BorderRadius.only(topLeft: Radius.circular(25)),
+                ),
+                child: const Center(
+                  child: Text(
+                    'Victim(s):',
+                    style: TextStyle(color: Colors.white),
                   ),
                 ),
               ),
+              Container(
+                height: 60,
+                width: MediaQuery.of(context).size.width / 2.1,
+                decoration: const BoxDecoration(
+                  color: Color(0xff86898E),
+                  borderRadius: BorderRadius.only(
+                    topRight: Radius.circular(25),
+                    bottomLeft: Radius.circular(0),
+                    bottomRight: Radius.circular(0),
+                    topLeft: Radius.circular(0),
+                  ),
+                ),
+                child: const Center(
+                  child: Text(
+                    'DOB',
+                    style: TextStyle(color: Colors.white),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        )
+      ],
+      rows: List<DataRow>.generate(
+        textValues.length,
+            (index) => DataRow(
+          cells: [
+            DataCell(
+              Row(
+                children: <Widget>[
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width / 2.5,
+                    child: TextField(
+                      controller: controllers[index][0], // Use the first column controller
+                      decoration: const InputDecoration(
+                        isDense: true,
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.black, width: 1.0),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.black, width: 1.0),
+                        ),
+                        hintText: '',
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width / 2.1,
+                    child: TextField(
+                      controller: controllers[index][1], // Use the second column controller
+                      decoration: const InputDecoration(
+                        isDense: true,
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.black, width: 1.0),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.black, width: 1.0),
+                        ),
+                        hintText: '',
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
+          ],
+        ),
+      ),
+    )
+
+    ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
@@ -744,7 +880,7 @@ class _BasicInformationPageState extends State<BasicInformationPage> {
             const SizedBox(
               height: 30,
             ),
-            SizedBox(
+            widget.Edited != "true" ?  SizedBox(
               height: 30,
               child: Container(
                 decoration: const BoxDecoration(
@@ -752,11 +888,7 @@ class _BasicInformationPageState extends State<BasicInformationPage> {
                       BoxShadow(blurRadius: 3.5, color: Colors.grey)
                     ],
                     color: Colors.white,
-                    borderRadius: BorderRadius.only(
-                        topRight: Radius.circular(20),
-                        bottomRight: Radius.circular(20),
-                        topLeft: Radius.circular(20),
-                        bottomLeft: Radius.circular(20))),
+                    borderRadius: BorderRadius.all(Radius.circular(20))),
                 child: SizedBox(
                   width: 160,
                   child: ElevatedButton(
@@ -773,6 +905,39 @@ class _BasicInformationPageState extends State<BasicInformationPage> {
                       },
                       child: const Text(
                         'Save',
+                        style: TextStyle(color: Colors.white),
+                      )),
+                ),
+              ),
+            ) :
+            SizedBox(
+              height: 30,
+              child: Container(
+                decoration: const BoxDecoration(
+                    boxShadow: [
+                      BoxShadow(blurRadius: 3.5, color: Colors.grey)
+                    ],
+                    color: Colors.white,
+                    borderRadius: BorderRadius.all(Radius.circular(20))),
+                child: SizedBox(
+                  width: 160,
+                  child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.black,
+                          shape: const RoundedRectangleBorder(
+                              borderRadius: BorderRadius.only(
+                                  bottomLeft: Radius.circular(20),
+                                  topLeft: Radius.circular(20),
+                                  bottomRight: Radius.circular(20),
+                                  topRight: Radius.circular(20)))),
+                      onPressed: () {
+
+                        print(id);
+                        print(widget.id);
+                        UpdateTableData();
+                      },
+                      child: const Text(
+                        'Update',
                         style: TextStyle(color: Colors.white),
                       )),
                 ),
@@ -842,12 +1007,85 @@ class _BasicInformationPageState extends State<BasicInformationPage> {
         return; // Stop further processing
       }
     }
+    CollectionReference casesCollection = FirebaseFirestore.instance.collection('Cases');
+    DocumentReference newCaseRef = casesCollection.doc(id).collection('Allcaes').doc();
     data['Victims'] = victimsData;
     data['Suspects'] = suspectData;
-    FirebaseFirestore.instance.collection('Cases').doc().set(data).then((value) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => const AllCases()),
+    data['docId'] = newCaseRef.id;
+
+
+    newCaseRef.set(data).then((value) {
+      // data["docId"] = newCaseRef.id;
+      Navigator.push(context,MaterialPageRoute(builder: (context) =>  AllCases(id: id,)),
+      );
+
+    });
+  }
+  void UpdateTableData() {
+    Map<String, dynamic> data = {
+      "Type" :              "Basic"          ,
+      'Title':                      title.text ,
+      'Date':                         date.text,
+      'Case':                        Case.text ,
+      'Scene':                        Scene.text ,
+      'Offense':                     Offense.text ,
+      'address':                       Address.text ,
+      'CSI_ID':                        Csi_ID.text ,
+      'Time_Arrival':                 Time_arivel.text ,
+      'Time_Call_Received':                     Time_clear_the_call.text ,
+      'Primary_Detective_Id':                     Time_call_recieved.text ,
+      'Primary_Officer/Deputy_Id':    Primary_detective_ID.text ,
+    };
+    // Priamry_officer_Deputy_ID.text
+
+    List<Map<String, dynamic>> victimsData = [];
+    List<Map<String, dynamic>> suspectData = [];
+
+
+    for (int i = 0; i < textValues.length; i++) {
+      var rowControllers = controllers[i];
+      String victim = rowControllers[0].text;
+      String dob = rowControllers[1].text;
+
+      // Check if both victim and dob are not empty
+      if (victim.isNotEmpty && dob.isNotEmpty) {
+        Map<String, dynamic> rowData = {
+          'Victim': victim,
+          'DOB': dob,
+        };
+        victimsData.add(rowData);
+      }
+      else {
+        // Show SnackBar with error message
+        showErrorMessage('Suspect and DOB fields cannot be empty');
+        return; // Stop further processing
+      }
+    }
+    for (int i = 0; i < textValues.length; i++) {
+      var rowControllers = controllers2[i];
+      String suspect = rowControllers[0].text;
+      String dob = rowControllers[1].text;
+
+      if (suspect.isNotEmpty && dob.isNotEmpty) {
+        Map<String, dynamic> rowData = {
+          'Suspects': suspect,
+          'DOB': dob,
+        };
+        suspectData.add(rowData);
+      }
+      else  if(suspect.isEmpty && dob.isEmpty){
+        // Show SnackBar with error message
+        showErrorMessage('Suspect and DOB fields cannot be empty');
+        return; // Stop further processing
+      }
+    }
+    data['Victims'] = victimsData;
+    data['Suspects'] = suspectData;
+    CollectionReference casesCollection = FirebaseFirestore.instance.collection('Cases');
+
+    DocumentReference newCaseRef = casesCollection.doc(id).collection('Allcaes').doc(widget.id);
+    newCaseRef.update(data).then((value) {
+      Navigator.push(context,MaterialPageRoute(builder: (context) =>  AllCases(id: id)),
       );
     });
   }

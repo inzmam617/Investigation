@@ -424,7 +424,7 @@ class _drawningState extends State<drawning> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => AllCases()),
+                                builder: (context) => AllCases(id: '',)),
                           );
                         },
                         child: InkWell(onTap:() {

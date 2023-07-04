@@ -2,8 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:crime_investigation/UploadCases/BodyMeasurementsPage.dart';
-import 'package:crime_investigation/evidence.dart';
+import 'package:crime_investigation/UploadCases/evidence.dart';
 import 'package:crime_investigation/notebook.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../AllCasesPage.dart';
 
@@ -18,6 +19,7 @@ class _BodyMeasurementsPageState extends State<BodyMeasurementsPage> {
   @override
   void initState() {
     super.initState();
+    initialize();
     setState(() {
       textValues.add('');
       controllers.add([TextEditingController(), TextEditingController(), TextEditingController()]);
@@ -26,10 +28,18 @@ class _BodyMeasurementsPageState extends State<BodyMeasurementsPage> {
       controllers1.add([TextEditingController(), TextEditingController(), TextEditingController()]);
       errorMessages1.add(['', '', '']);
     });
+    initialize();
+
   }
   List<List<String>> tableData = [];
 
+  String id = " ";
+  Future<void> initialize() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    id =  prefs.getString("id").toString();
+    print(id);
 
+  }
 
 
   List<String> textValues = [];
@@ -736,10 +746,12 @@ class _BodyMeasurementsPageState extends State<BodyMeasurementsPage> {
                           data['BodyOne'] = BodyOne;
                           data['BodyTwo'] = BodyTwo;
                           print(data);
-                          FirebaseFirestore.instance.collection('Cases').doc().set(data).then((value) {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => const AllCases()),
+                          CollectionReference casesCollection = FirebaseFirestore.instance.collection('Cases');
+
+
+                          DocumentReference newCaseRef = casesCollection.doc(id).collection('Allcaes').doc();
+                          newCaseRef.set(data).then((value) {
+                            Navigator.push(context,MaterialPageRoute(builder: (context) =>  AllCases(id: id,)),
                             );
                           });
 

@@ -165,7 +165,7 @@ class _settingState extends State<setting> {
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                            builder: (context) => AllCases()),
+                                            builder: (context) => AllCases(id: '',)),
                                       );
                                     },
                                       child: CircleAvatar(
@@ -174,7 +174,7 @@ class _settingState extends State<setting> {
                                           Navigator.push(
                                             context,
                                             MaterialPageRoute(
-                                                builder: (context) => AllCases()),
+                                                builder: (context) => AllCases(id: '',)),
                                           );
                                         },
                                           child: Icon(

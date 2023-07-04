@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:crime_investigation/notebook.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../AllCasesPage.dart';
 
@@ -14,10 +15,12 @@ class BalisticPage extends StatefulWidget {
 
 class _BalisticPageState extends State<BalisticPage> {
   List<List<TextEditingController>> controllers = [];
+  TextEditingController title = TextEditingController();
 
   @override
   void initState() {
     super.initState();
+    initialize();
     setState(() {
       textValues.add('');
       textValues.add('');
@@ -46,12 +49,21 @@ class _BalisticPageState extends State<BalisticPage> {
           TextEditingController(),
 
 
+
         ]);
       }
+      initialize();
     });
   }
 
 // Rest of the code...
+  String id = " ";
+  Future<void> initialize() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    id =  prefs.getString("id").toString();
+    print(id);
+
+  }
 
 
   List<String> textValues = [];
@@ -202,9 +214,10 @@ class _BalisticPageState extends State<BalisticPage> {
                       ),
                     ),
                   ),
-                  const Padding(
+                   Padding(
                     padding: EdgeInsets.only(left: 30, right: 30),
                     child: TextField(
+                      controller: title,
                       decoration: InputDecoration(
                           enabledBorder: UnderlineInputBorder(),
                           hintText: '                                  Add Title',
@@ -1367,7 +1380,10 @@ class _BalisticPageState extends State<BalisticPage> {
                                 List<Map<String, dynamic>> HorizontalAngle = [];
                                 List<Map<String, dynamic>> ProjectileRecovered = [];
 
+                                if(title.text == ""){
+                                  showErrorMessage('Title cannot be empty');
 
+                                }
                                 for (int i = 0; i < textValues.length; i++) {
                                   var rowControllers = controllers[i];
                                   String partOne = rowControllers[0].text;
@@ -1483,10 +1499,12 @@ class _BalisticPageState extends State<BalisticPage> {
                                 data['HorizontalAngle'] = HorizontalAngle;
                                 data['ProjectileRecovered'] = ProjectileRecovered;
                                 print(data);
-                                FirebaseFirestore.instance.collection('Cases').doc().set(data).then((value) {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(builder: (context) => const AllCases()),
+                                CollectionReference casesCollection = FirebaseFirestore.instance.collection('Cases');
+
+
+                                DocumentReference newCaseRef = casesCollection.doc(id).collection('Allcaes').doc();
+                                newCaseRef.set(data).then((value) {
+                                  Navigator.push(context,MaterialPageRoute(builder: (context) =>  AllCases(id: id,)),
                                   );
                                 });
                               },
