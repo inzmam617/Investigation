@@ -20,7 +20,7 @@ class login extends StatelessWidget {
         child: Container(
           height: MediaQuery.of(context).size.height/1.1 ,
           width: MediaQuery.of(context).size.width /1.2,
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
               boxShadow: [BoxShadow(color: Colors.grey, blurRadius: 4)],
               color: Colors.white,
               borderRadius: BorderRadius.only(

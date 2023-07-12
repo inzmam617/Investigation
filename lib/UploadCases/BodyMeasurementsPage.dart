@@ -9,7 +9,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../AllCasesPage.dart';
 
 class BodyMeasurementsPage extends StatefulWidget {
-  const BodyMeasurementsPage({Key? key}) : super(key: key);
+  final String? Edited;
+  final String? id;
+  final String? Title;
+  final List<dynamic>? BodyOne;
+  final List<dynamic>? BodyTwo;
+  const BodyMeasurementsPage({Key? key, this.Edited, this.id, this.Title, this.BodyOne, this.BodyTwo}) : super(key: key);
 
   @override
   State<BodyMeasurementsPage> createState() => _BodyMeasurementsPageState();
@@ -19,15 +24,71 @@ class _BodyMeasurementsPageState extends State<BodyMeasurementsPage> {
   @override
   void initState() {
     super.initState();
+    title.text = widget.Title ?? '';
+    textValues.add('');
+    controllers.add([TextEditingController(), TextEditingController(), TextEditingController()]);
+    errorMessages.add(['', '', '']);
+    textValues1.add('');
+    controllers1.add([TextEditingController(), TextEditingController(), TextEditingController()]);
+    errorMessages1.add(['', '', '']);
     initialize();
-    setState(() {
+    widget.Edited != "true" ? setState(() {
       textValues.add('');
       controllers.add([TextEditingController(), TextEditingController(), TextEditingController()]);
       errorMessages.add(['', '', '']);
       textValues1.add('');
       controllers1.add([TextEditingController(), TextEditingController(), TextEditingController()]);
       errorMessages1.add(['', '', '']);
+    }) :
+    setState(() {
+      final int suspectLength = widget.BodyOne?.length ?? 0;
+      final int textValuesLength = textValues.length;
+      if (suspectLength > textValuesLength) {
+        for (int i = 0; i < suspectLength - textValuesLength; i++) {
+          textValues.add('');
+        }
+      }
+      controllers = (widget.BodyOne ?? []).map<List<TextEditingController>>((dynamic suspect) {
+        List<TextEditingController> rowControllers = [];
+        for (int i = 0; i < textValues1.length; i++) {
+          String partOne  = suspect['partOne 1'] ?? '';
+          String partTwo = suspect['partTwo 2'] ?? '';
+          String partThree = suspect['partThree 3'] ?? '';
+          TextEditingController partOneC = TextEditingController(text: partOne);
+          TextEditingController partTwoC = TextEditingController(text: partTwo);
+          TextEditingController partThreeC = TextEditingController(text: partThree);
+          rowControllers.add(partOneC);
+          rowControllers.add(partTwoC);
+          rowControllers.add(partThreeC);
+        }
+        return rowControllers;
+      }).toList();
+
+      final int bodyTwo = widget.BodyTwo?.length ?? 0;
+      final int textValues1Length = textValues1.length;
+      if (bodyTwo > textValues1Length) {
+        for (int i = 0; i < bodyTwo - textValues1Length; i++) {
+          textValues1.add('');
+        }
+      }
+      controllers1 = (widget.BodyTwo ?? []).map<List<TextEditingController>>((dynamic suspect) {
+        List<TextEditingController> rowControllers = [];
+        for (int i = 0; i < textValues1.length; i++) {
+          String partOne  = suspect['partOne 1'] ?? '';
+          String partTwo = suspect['partTwo 2'] ?? '';
+          String partThree = suspect['partThree 3'] ?? '';
+          TextEditingController partOneC = TextEditingController(text: partOne);
+          TextEditingController partTwoC = TextEditingController(text: partTwo);
+          TextEditingController partThreeC = TextEditingController(text: partThree);
+          rowControllers.add(partOneC);
+          rowControllers.add(partTwoC);
+          rowControllers.add(partThreeC);
+        }
+        return rowControllers;
+      }).toList();
+
     });
+
     initialize();
 
   }
@@ -41,7 +102,7 @@ class _BodyMeasurementsPageState extends State<BodyMeasurementsPage> {
 
   }
 
-
+  TextEditingController title =TextEditingController();
   List<String> textValues = [];
   List<List<String>> errorMessages = [];
   List<List<TextEditingController>> controllers = [];
@@ -200,9 +261,10 @@ class _BodyMeasurementsPageState extends State<BodyMeasurementsPage> {
                   ),
                 ),
               ),
-              const Padding(
+               Padding(
                 padding: EdgeInsets.only(left: 30, right: 30),
                 child: TextField(
+                  controller: title,
                   decoration: InputDecoration(
                       enabledBorder: UnderlineInputBorder(),
                       hintText: '                                  Add Title',
@@ -670,7 +732,7 @@ class _BodyMeasurementsPageState extends State<BodyMeasurementsPage> {
               const SizedBox(
                 height: 20,
               ),
-              SizedBox(
+              widget.Edited != "true" ? SizedBox(
                 height: 30,
                 child: Container(
                   decoration: const BoxDecoration(
@@ -742,14 +804,16 @@ class _BodyMeasurementsPageState extends State<BodyMeasurementsPage> {
                               return; // Stop further processing
                             }
                           }
-
-                          data['BodyOne'] = BodyOne;
-                          data['BodyTwo'] = BodyTwo;
-                          print(data);
                           CollectionReference casesCollection = FirebaseFirestore.instance.collection('Cases');
 
 
                           DocumentReference newCaseRef = casesCollection.doc(id).collection('Allcaes').doc();
+                          data['BodyOne'] = BodyOne;
+                          data['BodyTwo'] = BodyTwo;
+                          print(data);
+
+                          data['docId'] = newCaseRef.id;
+
                           newCaseRef.set(data).then((value) {
                             Navigator.push(context,MaterialPageRoute(builder: (context) =>  AllCases(id: id,)),
                             );
@@ -759,6 +823,48 @@ class _BodyMeasurementsPageState extends State<BodyMeasurementsPage> {
                         },
                         child: const Text(
                           'Save',
+                        )),
+                  ),
+                ),
+              ) :
+              SizedBox(
+                height: 30,
+                child: Container(
+                  decoration: const BoxDecoration(
+                      boxShadow: [
+                        BoxShadow(blurRadius: 3.5, color: Colors.grey)
+                      ],
+                      color: Colors.black,
+                      borderRadius: BorderRadius.only(
+                          topRight: Radius.circular(20),
+                          bottomRight: Radius.circular(20),
+                          topLeft: Radius.circular(20),
+                          bottomLeft: Radius.circular(20))),
+                  child: SizedBox(
+                    width: 160,
+                    child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.black,
+                            shape: const RoundedRectangleBorder(
+                                borderRadius: BorderRadius.only(
+                                    bottomLeft: Radius.circular(20),
+                                    topLeft: Radius.circular(20),
+                                    bottomRight: Radius.circular(20),
+                                    topRight: Radius.circular(20)))),
+                        onPressed: () {
+
+                          CollectionReference casesCollection = FirebaseFirestore.instance.collection('Cases');
+
+                          DocumentReference newCaseRef = casesCollection.doc(id).collection('Allcaes').doc(widget.id);
+                          newCaseRef.delete().then((value) {
+                            Navigator.push(context,MaterialPageRoute(builder: (context) =>  AllCases(id: id)),
+                            );
+                          });
+
+
+                        },
+                        child: const Text(
+                          'Delete',
                         )),
                   ),
                 ),

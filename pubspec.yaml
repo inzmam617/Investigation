@@ -45,6 +45,7 @@ dependencies:
   signature: ^3.0.0
   firebase_storage: ^11.2.3
   uuid: ^3.0.7
+  modal_progress_hud_nsn: ^0.4.0
 
 
 

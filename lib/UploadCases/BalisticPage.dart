@@ -7,7 +7,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../AllCasesPage.dart';
 
 class BalisticPage extends StatefulWidget {
-  const BalisticPage({Key? key}) : super(key: key);
+
+  const BalisticPage({Key? key, }) : super(key: key);
 
   @override
   State<BalisticPage> createState() => _BalisticPageState();
@@ -1491,6 +1492,11 @@ class _BalisticPageState extends State<BalisticPage> {
                                     return; // Stop further processing
                                   }
                                 }
+                                print(data);
+                                CollectionReference casesCollection = FirebaseFirestore.instance.collection('Cases');
+
+
+                                DocumentReference newCaseRef = casesCollection.doc(id).collection('Allcaes').doc();
                                 data['Hole'] = Hole;
                                 data['EntryorExit'] = EntryorExit;
                                 data['HeightfromGround'] = HeightfromGround;
@@ -1498,11 +1504,8 @@ class _BalisticPageState extends State<BalisticPage> {
                                 data['VerticalAngle'] = VerticalAngle;
                                 data['HorizontalAngle'] = HorizontalAngle;
                                 data['ProjectileRecovered'] = ProjectileRecovered;
-                                print(data);
-                                CollectionReference casesCollection = FirebaseFirestore.instance.collection('Cases');
+                                data['docId'] = newCaseRef.id;
 
-
-                                DocumentReference newCaseRef = casesCollection.doc(id).collection('Allcaes').doc();
                                 newCaseRef.set(data).then((value) {
                                   Navigator.push(context,MaterialPageRoute(builder: (context) =>  AllCases(id: id,)),
                                   );

@@ -151,26 +151,7 @@ class _BasicInformationPageState extends State<BasicInformationPage> {
       }).toList();
     });
 
-    // setState(() {
-    //   final int VictimsLength = widget.Victims?.length ?? 0;
-    //   final int textValuesLength = textValues.length;
-    //   if (VictimsLength > textValuesLength) {
-    //     for (int i = 0; i < VictimsLength - textValuesLength; i++) {
-    //       print("object");
-    //       textValues.add('');
-    //     }
-    //   }
-    //   controllers = (widget.Victims ?? []).map<List<TextEditingController>>((dynamic Victims) {
-    //     List<TextEditingController> rowControllers = [];
-    //     for (int i = 0; i < textValues.length; i++) {
-    //       String value = Victims['Victim'] ?? '';
-    //       TextEditingController controller = TextEditingController(text: value);
-    //       rowControllers.add(controller);
-    //     }
-    //     return rowControllers;
-    //   }).toList();
-    //
-    // });
+
     print(widget.Victims);
 
 
@@ -183,29 +164,7 @@ class _BasicInformationPageState extends State<BasicInformationPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        // bottomNavigationBar: BottomNavigationBar(
-        //   backgroundColor: Colors.black,
-        //   items: <BottomNavigationBarItem>[
-        //     BottomNavigationBarItem(
-        //       icon: Transform.translate(
-        //           offset: const Offset(0, 10),
-        //           child: Image.asset('assets/vvv.png')),
-        //       label: '',
-        //     ),
-        //     BottomNavigationBarItem(
-        //       icon: Transform.translate(
-        //           offset: const Offset(0, 10),
-        //           child: InkWell(onTap: () {
-        //             Navigator.of(context).pop();
-        //
-        //           },
-        //
-        //
-        //               child: Image.asset('assets/Iconly-Bold-Setting.png'))),
-        //       label: '',
-        //     ),
-        //   ],
-        // ),
+
         body: SingleChildScrollView(
             child: Column(children: [
           Container(
@@ -235,23 +194,11 @@ class _BasicInformationPageState extends State<BasicInformationPage> {
                         width: 30,
                         child: InkWell(
                           onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const notebook()),
-                            );
+                            Navigator.of(context).pop();
                           },
                           child: CircleAvatar(
                             backgroundColor: Colors.black,
-                            child: InkWell(
-                                onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => const notebook()),
-                                  );
-                                },
-                                child: const Icon(Icons.arrow_back_ios, size: 14)),
+                            child: const Icon(Icons.arrow_back_ios, size: 14),
                           ),
                         )),
                   ),
@@ -937,7 +884,7 @@ class _BasicInformationPageState extends State<BasicInformationPage> {
                         UpdateTableData();
                       },
                       child: const Text(
-                        'Update',
+                        'Delete',
                         style: TextStyle(color: Colors.white),
                       )),
                 ),
@@ -1084,7 +1031,7 @@ class _BasicInformationPageState extends State<BasicInformationPage> {
     CollectionReference casesCollection = FirebaseFirestore.instance.collection('Cases');
 
     DocumentReference newCaseRef = casesCollection.doc(id).collection('Allcaes').doc(widget.id);
-    newCaseRef.update(data).then((value) {
+    newCaseRef.delete().then((value) {
       Navigator.push(context,MaterialPageRoute(builder: (context) =>  AllCases(id: id)),
       );
     });

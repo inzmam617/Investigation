@@ -9,7 +9,12 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../AllCasesPage.dart';
 
 class SceneMeasurementPage extends StatefulWidget {
-  const SceneMeasurementPage({Key? key}) : super(key: key);
+  final String? Edited;
+  final String? Title;
+  final String? id;
+  final List<dynamic>? Rooms;
+
+  const SceneMeasurementPage({Key? key, this.Edited, this.id, this.Title, this.Rooms}) : super(key: key);
 
   @override
   State<SceneMeasurementPage> createState() => _SceneMeasurementPageState();
@@ -19,16 +24,45 @@ class _SceneMeasurementPageState extends State<SceneMeasurementPage> {
   @override
   void initState() {
     super.initState();
+    title.text = widget.Title ?? '';
+
     initialize();
-    setState(() {
+
+
+    widget.Edited != "true" ? setState(() {
       textValues.add('');
       controllers.add([TextEditingController(), TextEditingController(), TextEditingController()]);
       errorMessages.add(['', '', '']);
+    }) :
+    setState(() {
+      final int suspectLength = widget.Rooms?.length ?? 0;
+      final int textValuesLength = textValues.length;
+      if (suspectLength > textValuesLength) {
+        for (int i = 0; i < suspectLength - textValuesLength; i++) {
+          textValues.add('');
+        }
+      }
+      controllers = (widget.Rooms ?? []).map<List<TextEditingController>>((dynamic suspect) {
+        List<TextEditingController> rowControllers = [];
+        for (int i = 0; i < textValues.length; i++) {
+          String Rooms = suspect['Rooms 1'] ?? '';
+          String direction1 = suspect['direction 1'] ?? '';
+          String direction2 = suspect['direction 2'] ?? '';
+          TextEditingController RoomsC = TextEditingController(text: Rooms);
+          TextEditingController direction1C = TextEditingController(text: direction1);
+          TextEditingController direction2C = TextEditingController(text: direction2);
+          rowControllers.add(RoomsC);
+          rowControllers.add(direction1C);
+          rowControllers.add(direction2C);
+        }
+        return rowControllers;
+      }).toList();
+
     });
     initialize();
-
   }
 
+  TextEditingController title = TextEditingController();
 
 
   String id = " ";
@@ -36,7 +70,6 @@ class _SceneMeasurementPageState extends State<SceneMeasurementPage> {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     id =  prefs.getString("id").toString();
     print(id);
-
   }
   List<String> textValues = [];
   List<List<String>> tableData = [];
@@ -158,28 +191,15 @@ class _SceneMeasurementPageState extends State<SceneMeasurementPage> {
                                 child: SizedBox(
                                   height: 26,
                                   width: 26,
-                                  child: InkWell(
-                                    onTap: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => const notebook()),
-                                      );
-                                    },
-                                    child: CircleAvatar(
-                                      backgroundColor: Colors.black,
-                                      child: InkWell(
-                                        onTap: () {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) => const notebook()),
-                                          );
-                                        },
-                                        child: const Icon(
-                                            Icons.arrow_back_ios_new_outlined,
-                                            size: 16),
-                                      ),
+                                  child: CircleAvatar(
+                                    backgroundColor: Colors.black,
+                                    child: InkWell(
+                                      onTap: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                      child: const Icon(
+                                          Icons.arrow_back_ios_new_outlined,
+                                          size: 16),
                                     ),
                                   ),
                                 ),
@@ -198,10 +218,11 @@ class _SceneMeasurementPageState extends State<SceneMeasurementPage> {
                     ),
                   ),
                 ),
-                const Padding(
+                 Padding(
                   padding: EdgeInsets.only(left: 30, right: 30),
                   child: TextField(
-                    decoration: InputDecoration(
+                    controller: title,
+                    decoration: const InputDecoration(
                         enabledBorder: UnderlineInputBorder(),
                         hintText: '                                  Add Title',
                         hintStyle: TextStyle(fontSize: 14),
@@ -228,9 +249,7 @@ class _SceneMeasurementPageState extends State<SceneMeasurementPage> {
                           decoration: BoxDecoration(
                               color: const Color(0xff86898E),
                               borderRadius: const BorderRadius.only(
-                                  topRight: Radius.circular(0),
-                                  bottomLeft: Radius.circular(0),
-                                  bottomRight: Radius.circular(0),
+
                                   topLeft: Radius.circular(25)),
                               border: Border.all()),
                           child: const Center(
@@ -263,8 +282,7 @@ class _SceneMeasurementPageState extends State<SceneMeasurementPage> {
                               color: Color(0xff86898E),
                               borderRadius: BorderRadius.only(
                                   topRight: Radius.circular(25),
-                                  bottomLeft: Radius.circular(0),
-                                  bottomRight: Radius.circular(0),
+
                                   topLeft: Radius.circular(0))),
                           child: Center(
                               child: Transform.translate(
@@ -435,7 +453,7 @@ class _SceneMeasurementPageState extends State<SceneMeasurementPage> {
                 const SizedBox(
                   height: 20,
                 ),
-                SizedBox(
+                widget.Edited != "true" ?  SizedBox(
                   height: 30,
                   child: Container(
                     decoration: const BoxDecoration(
@@ -466,9 +484,13 @@ class _SceneMeasurementPageState extends State<SceneMeasurementPage> {
 
                             Map<String, dynamic> data = {
                               "Type" : "Measurement",
-                              "Title" : "Scene",
+                              "Title" : title.text,
 
                             };
+                            if(title.text == ""){
+                              return  showErrorMessage('Title cannot be empty');
+
+                            }
                             for (int i = 0; i < textValues.length; i++) {
                               var rowControllers = controllers[i];
                               String rooms = rowControllers[0].text;
@@ -488,12 +510,14 @@ class _SceneMeasurementPageState extends State<SceneMeasurementPage> {
                                 return; // Stop further processing
                               }
                             }
-                            data['Rooms'] = Rooms;
-                            print(data);
                             CollectionReference casesCollection = FirebaseFirestore.instance.collection('Cases');
 
 
                             DocumentReference newCaseRef = casesCollection.doc(id).collection('Allcaes').doc();
+                            data['Rooms'] = Rooms;
+                            data['docId'] = newCaseRef.id;
+                            print(data);
+
                             newCaseRef.set(data).then((value) {
                               Navigator.push(context,MaterialPageRoute(builder: (context) =>  AllCases(id: id,)),
                               );
@@ -503,6 +527,47 @@ class _SceneMeasurementPageState extends State<SceneMeasurementPage> {
                           },
                           child: const Text(
                             'Save',
+                          )),
+                    ),
+                  ),
+                ):
+                SizedBox(
+                  height: 30,
+                  child: Container(
+                    decoration: const BoxDecoration(
+                        boxShadow: [
+                          BoxShadow(blurRadius: 3.5, color: Colors.grey)
+                        ],
+                        color: Colors.black,
+                        borderRadius: BorderRadius.only(
+                            topRight: Radius.circular(20),
+                            bottomRight: Radius.circular(20),
+                            topLeft: Radius.circular(20),
+                            bottomLeft: Radius.circular(20))),
+                    child: SizedBox(
+                      width: 160,
+                      child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.black,
+                              shape: const RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.only(
+                                      bottomLeft: Radius.circular(20),
+                                      topLeft: Radius.circular(20),
+                                      bottomRight: Radius.circular(20),
+                                      topRight: Radius.circular(20)))),
+                          onPressed: () {
+                            CollectionReference casesCollection = FirebaseFirestore.instance.collection('Cases');
+
+                            DocumentReference newCaseRef = casesCollection.doc(id).collection('Allcaes').doc(widget.id);
+                            newCaseRef.delete().then((value) {
+                              Navigator.push(context,MaterialPageRoute(builder: (context) =>  AllCases(id: id)),
+                              );
+                            });
+
+
+                          },
+                          child: const Text(
+                            'Delete',
                           )),
                     ),
                   ),

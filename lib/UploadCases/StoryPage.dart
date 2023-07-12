@@ -7,22 +7,31 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../AllCasesPage.dart';
 
 class StoryPage extends StatefulWidget {
+  final String? Story;
+  final String? Title;
+  final String? Edited;
+  final String? id;
+
   @override
   State<StoryPage> createState() => _StoryPageState();
+  StoryPage({Key? key, this.Story, this.Title, this.Edited, this.id, }) : super(key: key);
+
 }
 
 class _StoryPageState extends State<StoryPage> {
   TextEditingController story = TextEditingController();
+  TextEditingController title = TextEditingController();
   String id = " ";
   Future<void> initialize() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     id =  prefs.getString("id").toString();
     print(id);
-
   }
   @override
   void initState(){
     super.initState();
+    story.text = widget.Story ?? '';
+    title.text = widget.Title ?? '';
 
     setState(() {
       initialize();
@@ -195,8 +204,9 @@ class _StoryPageState extends State<StoryPage> {
                             bottomRight: Radius.circular(30),
                             bottomLeft: Radius.circular(30))),
                     height: 30,
-                    child: const TextField(
-                        decoration: InputDecoration(
+                    child:  TextField(
+                      controller: title,
+                        decoration: const InputDecoration(
                             enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.white),
                                 borderRadius: BorderRadius.only(
                                     bottomLeft: Radius.circular(30),
@@ -251,7 +261,7 @@ class _StoryPageState extends State<StoryPage> {
                 const SizedBox(
                   height: 20,
                 ),
-                SizedBox(
+                widget.Edited != "true" ?   SizedBox(
                   height: 30,
                   child: Container(
                     decoration: const BoxDecoration(
@@ -288,6 +298,8 @@ class _StoryPageState extends State<StoryPage> {
 
 
                             DocumentReference newCaseRef = casesCollection.doc(id).collection('Allcaes').doc();
+                            data['docId'] = newCaseRef.id;
+
                             newCaseRef.set(data).then((value) {
                               Navigator.push(context,MaterialPageRoute(builder: (context) =>  AllCases(id: id,)),
                               );
@@ -299,10 +311,7 @@ class _StoryPageState extends State<StoryPage> {
                           )),
                     ),
                   ),
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
+                ) :
                 SizedBox(
                   height: 30,
                   child: Container(
@@ -310,7 +319,7 @@ class _StoryPageState extends State<StoryPage> {
                         boxShadow: [
                           BoxShadow(blurRadius: 3.5, color: Colors.grey)
                         ],
-                        color: Colors.white,
+                        color: Colors.black,
                         borderRadius: BorderRadius.only(
                             topRight: Radius.circular(20),
                             bottomRight: Radius.circular(20),
@@ -320,7 +329,7 @@ class _StoryPageState extends State<StoryPage> {
                       width: 160,
                       child: ElevatedButton(
                           style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.white,
+                              backgroundColor: Colors.black,
                               shape: const RoundedRectangleBorder(
                                   borderRadius: BorderRadius.only(
                                       bottomLeft: Radius.circular(20),
@@ -329,14 +338,22 @@ class _StoryPageState extends State<StoryPage> {
                                       topRight: Radius.circular(20)))),
                           onPressed: () {
 
+                            CollectionReference casesCollection = FirebaseFirestore.instance.collection('Cases');
+
+                            DocumentReference newCaseRef = casesCollection.doc(id).collection('Allcaes').doc(widget.id);
+                            newCaseRef.delete().then((value) {
+                              Navigator.push(context,MaterialPageRoute(builder: (context) =>  AllCases(id: id)),
+                              );
+                            });
+
                           },
                           child: const Text(
-                            'Add',
-                            style: TextStyle(color: Colors.black),
+                            'Delete',
                           )),
                     ),
                   ),
                 ),
+
                 const SizedBox(
                   height: 30,
                 )

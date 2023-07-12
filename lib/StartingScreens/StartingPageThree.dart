@@ -1,15 +1,40 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:crime_investigation/SignIn_SignUp/SignInPage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:crime_investigation/login.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
+import '../AllCasesPage.dart';
+import '../CreatePage.dart';
 import 'StartingPageTwo.dart';
 
 
 
 
-class StartingPageThree extends StatelessWidget {
+class StartingPageThree extends StatefulWidget {
   const StartingPageThree({Key? key}) : super(key: key);
+
+  @override
+  State<StartingPageThree> createState() => _StartingPageThreeState();
+}
+
+
+class _StartingPageThreeState extends State<StartingPageThree> {
+  String id = "";
+  Future<void> initialize() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    id =  prefs.getString("id").toString();
+    print(id);
+  }
+  @override
+  void initState(){
+    super.initState();
+    setState(() {
+      initialize();
+    });
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -76,12 +101,32 @@ class StartingPageThree extends StatelessWidget {
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(30))),
                     onPressed: () {
-                      Navigator.pushReplacement(
+                      if(id != ""){
+                        FirebaseFirestore.instance.collection('Cases').doc(id).collection('Allcaes').get().then((value) => {
+                          print("this is the data${value.docs.length}"),
+                          if(value.docs.length == 0){
+                            Navigator.of(context).push(
+                                MaterialPageRoute(builder: (BuildContext context) {
+                                  return const CreatePage();
+                                })),
+
+                          }
+                          else if(value.docs.length != 0){
+                            Navigator.of(context).push(
+                                MaterialPageRoute(builder: (BuildContext context) {
+                                  return  AllCases(id: id,);
+                                })),
+
+                          }
+                        });
+                      }else {
+                        Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
                           builder: (context) => const SignInPage(),
                         ),
                       );
+                      }
 
                       // Navigator.push(
                       //   context,
