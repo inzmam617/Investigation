@@ -5,6 +5,7 @@ import 'package:crime_investigation/notebook.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../AllCasesPage.dart';
+import '../BottomBarPage/BottomBarPage.dart';
 
 class StoryPage extends StatefulWidget {
   final String? Story;
@@ -43,79 +44,70 @@ class _StoryPageState extends State<StoryPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        bottomNavigationBar: BottomNavigationBar(
-          backgroundColor: Colors.black,
-          items: <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon: Transform.translate(
-                offset: const Offset(0, 10),
-                child: SvgPicture.asset('assets/Component 12 – 1.svg'),
-              ),
-              label: '',
-            ),
-            BottomNavigationBarItem(
-              icon: Transform.translate(
-                offset: const Offset(0, -20),
-                child: Container(
-                  decoration: BoxDecoration(
-                      border: Border.all(
-                    color: Colors.black,
-                  )),
-                  child: SizedBox(
-                    height: 25,
-                    width: 25,
-                    child: Transform.scale(
-                      scale: 2,
-                      child: InkWell(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) =>  StoryPage()),
-                          );
-                        },
-                        child: CircleAvatar(
-                            backgroundColor: Colors.white,
-                            child: Transform.translate(
-                              offset: const Offset(0, 0),
-                              child: InkWell(
-                                onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>  StoryPage()),
-                                  );
-                                },
-                                child: InkWell(
-                                  onTap: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>  StoryPage()),
-                                    );
-                                  },
-                                  child: const Icon(
-                                    Icons.add,
-                                    color: Colors.black,
-                                    size: 25,
-                                  ),
-                                ),
-                              ),
-                            )),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              label: '',
-            ),
-            BottomNavigationBarItem(
-              icon: Transform.translate(
-                  offset: const Offset(0, 10),
-                  child: Image.asset('assets/Iconly-Bold-Setting.png')),
-              label: '',
-            ),
-          ],
-        ),
+        // bottomNavigationBar: BottomNavigationBar(
+        //   backgroundColor: Colors.black,
+        //   items: <BottomNavigationBarItem>[
+        //     BottomNavigationBarItem(
+        //       icon: Transform.translate(
+        //         offset: const Offset(0, 10),
+        //         child: SvgPicture.asset('assets/Component 12 – 1.svg'),
+        //       ),
+        //       label: '',
+        //     ),
+        //     BottomNavigationBarItem(
+        //       icon: Transform.translate(
+        //         offset: const Offset(0, -20),
+        //         child: Container(
+        //           decoration: BoxDecoration(
+        //               border: Border.all(
+        //             color: Colors.black,
+        //           )),
+        //           child: SizedBox(
+        //             height: 25,
+        //             width: 25,
+        //             child: Transform.scale(
+        //               scale: 2,
+        //               child: InkWell(
+        //                 onTap: () {
+        //                   Navigator.push(
+        //                     context,
+        //                     MaterialPageRoute(builder: (context) =>  StoryPage()),
+        //                   );
+        //                 },
+        //                 child: CircleAvatar(
+        //                     backgroundColor: Colors.white,
+        //                     child: Transform.translate(
+        //                       offset: const Offset(0, 0),
+        //                       child: InkWell(
+        //                         onTap: () {
+        //                           Navigator.push(
+        //                             context,
+        //                             MaterialPageRoute(
+        //                                 builder: (context) =>  StoryPage()),
+        //                           );
+        //                         },
+        //                         child: const Icon(
+        //                           Icons.add,
+        //                           color: Colors.black,
+        //                           size: 25,
+        //                         ),
+        //                       ),
+        //                     )),
+        //               ),
+        //             ),
+        //           ),
+        //         ),
+        //       ),
+        //       label: '',
+        //     ),
+        //     BottomNavigationBarItem(
+        //       icon: Transform.translate(
+        //           offset: const Offset(0, 10),
+        //           child: Image.asset('assets/Iconly-Bold-Setting.png')),
+        //       label: '',
+        //     ),
+        //   ],
+        // ),
         body: SingleChildScrollView(
           child: Column(children: [
             Container(
@@ -147,11 +139,8 @@ class _StoryPageState extends State<StoryPage> {
                             width: 30,
                             child: InkWell(
                               onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => const notebook()),
-                                );
+                                Navigator.of(context).pop();
+
                               },
                               child: CircleAvatar(
                                 backgroundColor: Colors.black,
@@ -286,25 +275,8 @@ class _StoryPageState extends State<StoryPage> {
                                       bottomRight: Radius.circular(20),
                                       topRight: Radius.circular(20)))),
                           onPressed: () {
-                            Map<String, dynamic> data = {
-                              "Type" : "Story",
-                              'Title': 'Story Title2',
-                              'Story': story.text,
 
-                            };
-
-
-                            CollectionReference casesCollection = FirebaseFirestore.instance.collection('Cases');
-
-
-                            DocumentReference newCaseRef = casesCollection.doc(id).collection('Allcaes').doc();
-                            data['docId'] = newCaseRef.id;
-
-                            newCaseRef.set(data).then((value) {
-                              Navigator.push(context,MaterialPageRoute(builder: (context) =>  AllCases(id: id,)),
-                              );
-                            });
-
+                            save();
                           },
                           child: const Text(
                             'Save',
@@ -312,45 +284,77 @@ class _StoryPageState extends State<StoryPage> {
                     ),
                   ),
                 ) :
-                SizedBox(
-                  height: 30,
-                  child: Container(
-                    decoration: const BoxDecoration(
-                        boxShadow: [
-                          BoxShadow(blurRadius: 3.5, color: Colors.grey)
-                        ],
-                        color: Colors.black,
-                        borderRadius: BorderRadius.only(
-                            topRight: Radius.circular(20),
-                            bottomRight: Radius.circular(20),
-                            topLeft: Radius.circular(20),
-                            bottomLeft: Radius.circular(20))),
-                    child: SizedBox(
-                      width: 160,
-                      child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.black,
-                              shape: const RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.only(
-                                      bottomLeft: Radius.circular(20),
-                                      topLeft: Radius.circular(20),
-                                      bottomRight: Radius.circular(20),
-                                      topRight: Radius.circular(20)))),
-                          onPressed: () {
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                        height: 30,
+                        child: Container(
+                          decoration: const BoxDecoration(
+                              boxShadow: [
+                                BoxShadow(blurRadius: 3.5, color: Colors.grey)
+                              ],
+                              color: Colors.white,
+                              borderRadius: BorderRadius.all(Radius.circular(20))),
+                          child: SizedBox(
+                            width: 150,
+                            child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                    backgroundColor: Colors.black,
+                                    shape: const RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.only(
+                                            bottomLeft: Radius.circular(20),
+                                            topLeft: Radius.circular(20),
+                                            bottomRight: Radius.circular(20),
+                                            topRight: Radius.circular(20)))),
+                                onPressed: ()  {
+                                  delete();
+                                  save();
+                                },
+                                child: const Text(
+                                  'Update',
+                                  style: TextStyle(color: Colors.white),
+                                )),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 20,),
+                      SizedBox(
 
-                            CollectionReference casesCollection = FirebaseFirestore.instance.collection('Cases');
 
-                            DocumentReference newCaseRef = casesCollection.doc(id).collection('Allcaes').doc(widget.id);
-                            newCaseRef.delete().then((value) {
-                              Navigator.push(context,MaterialPageRoute(builder: (context) =>  AllCases(id: id)),
-                              );
-                            });
-
-                          },
-                          child: const Text(
-                            'Delete',
-                          )),
-                    ),
+                        height: 30,
+                        child: Container(
+                          decoration: const BoxDecoration(
+                              boxShadow: [
+                                BoxShadow(blurRadius: 3.5, color: Colors.grey)
+                              ],
+                              color: Colors.white,
+                              borderRadius: BorderRadius.all(Radius.circular(20))),
+                          child: SizedBox(
+                            width: 150,
+                            child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                    backgroundColor: Colors.black,
+                                    shape: const RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.only(
+                                            bottomLeft: Radius.circular(20),
+                                            topLeft: Radius.circular(20),
+                                            bottomRight: Radius.circular(20),
+                                            topRight: Radius.circular(20)))),
+                                onPressed: ()  {
+                                  delete();
+                                },
+                                child: const Text(
+                                  'Delete',
+                                  style: TextStyle(color: Colors.white),
+                                )),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
 
@@ -362,5 +366,44 @@ class _StoryPageState extends State<StoryPage> {
           ]),
         ));
 
+  }
+  void delete(){
+    CollectionReference casesCollection =
+    FirebaseFirestore.instance.collection('Cases');
+
+    DocumentReference newCaseRef =
+    casesCollection.doc(id).collection('Allcaes').doc(widget.id);
+    newCaseRef.delete().then((value) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => BottomBarPage()),
+      );
+    });
+  }
+  void save(){
+    Map<String, dynamic> data = {
+      "Type" : "Story",
+      'Title': title.text,
+      'Story': story.text,
+
+    };
+if(title.text == ""){
+return showErrorMessage("Fields cannot be empty");
+}
+
+    CollectionReference casesCollection = FirebaseFirestore.instance.collection('Cases');
+
+
+    DocumentReference newCaseRef = casesCollection.doc(id).collection('Allcaes').doc();
+    data['docId'] = newCaseRef.id;
+
+    newCaseRef.set(data).then((value) {
+      Navigator.push(context,MaterialPageRoute(builder: (context) =>  BottomBarPage()),
+      );
+    });
+  }
+  void showErrorMessage(String message) {
+    final snackBar = SnackBar(content: Text(message));
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 }

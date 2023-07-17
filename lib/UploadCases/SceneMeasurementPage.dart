@@ -7,6 +7,7 @@ import 'package:crime_investigation/notebook.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../AllCasesPage.dart';
+import '../BottomBarPage/BottomBarPage.dart';
 
 class SceneMeasurementPage extends StatefulWidget {
   final String? Edited;
@@ -478,50 +479,8 @@ class _SceneMeasurementPageState extends State<SceneMeasurementPage> {
                                       bottomRight: Radius.circular(20),
                                       topRight: Radius.circular(20)))),
                           onPressed: () {
+                            save();
 
-
-                            List<Map<String, dynamic>> Rooms = [];
-
-                            Map<String, dynamic> data = {
-                              "Type" : "Measurement",
-                              "Title" : title.text,
-
-                            };
-                            if(title.text == ""){
-                              return  showErrorMessage('Title cannot be empty');
-
-                            }
-                            for (int i = 0; i < textValues.length; i++) {
-                              var rowControllers = controllers[i];
-                              String rooms = rowControllers[0].text;
-                              String d1 = rowControllers[1].text;
-                              String d2 = rowControllers[2].text;
-
-                              if (rooms.isNotEmpty && d1.isNotEmpty && d2.isNotEmpty) {
-                                Map<String, dynamic>  rowDataa = {
-                                  'Rooms ${i +1}': rooms,
-                                  'direction 1': d1,
-                                  'direction 2': d2,
-                                };
-                                Rooms.add(rowDataa);
-                              } else {
-                                // Show SnackBar with error message
-                                showErrorMessage('Field values cannot be empty');
-                                return; // Stop further processing
-                              }
-                            }
-                            CollectionReference casesCollection = FirebaseFirestore.instance.collection('Cases');
-
-
-                            DocumentReference newCaseRef = casesCollection.doc(id).collection('Allcaes').doc();
-                            data['Rooms'] = Rooms;
-                            data['docId'] = newCaseRef.id;
-                            print(data);
-
-                            newCaseRef.set(data).then((value) {
-                              Navigator.push(context,MaterialPageRoute(builder: (context) =>  AllCases(id: id,)),
-                              );
-                            });
 
 
                           },
@@ -531,45 +490,77 @@ class _SceneMeasurementPageState extends State<SceneMeasurementPage> {
                     ),
                   ),
                 ):
-                SizedBox(
-                  height: 30,
-                  child: Container(
-                    decoration: const BoxDecoration(
-                        boxShadow: [
-                          BoxShadow(blurRadius: 3.5, color: Colors.grey)
-                        ],
-                        color: Colors.black,
-                        borderRadius: BorderRadius.only(
-                            topRight: Radius.circular(20),
-                            bottomRight: Radius.circular(20),
-                            topLeft: Radius.circular(20),
-                            bottomLeft: Radius.circular(20))),
-                    child: SizedBox(
-                      width: 160,
-                      child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.black,
-                              shape: const RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.only(
-                                      bottomLeft: Radius.circular(20),
-                                      topLeft: Radius.circular(20),
-                                      bottomRight: Radius.circular(20),
-                                      topRight: Radius.circular(20)))),
-                          onPressed: () {
-                            CollectionReference casesCollection = FirebaseFirestore.instance.collection('Cases');
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                        height: 30,
+                        child: Container(
+                          decoration: const BoxDecoration(
+                              boxShadow: [
+                                BoxShadow(blurRadius: 3.5, color: Colors.grey)
+                              ],
+                              color: Colors.white,
+                              borderRadius: BorderRadius.all(Radius.circular(20))),
+                          child: SizedBox(
+                            width: 150,
+                            child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                    backgroundColor: Colors.black,
+                                    shape: const RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.only(
+                                            bottomLeft: Radius.circular(20),
+                                            topLeft: Radius.circular(20),
+                                            bottomRight: Radius.circular(20),
+                                            topRight: Radius.circular(20)))),
+                                onPressed: ()  {
+                                  delete();
+                                  save();
+                                },
+                                child: const Text(
+                                  'Update',
+                                  style: TextStyle(color: Colors.white),
+                                )),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 20,),
+                      SizedBox(
 
-                            DocumentReference newCaseRef = casesCollection.doc(id).collection('Allcaes').doc(widget.id);
-                            newCaseRef.delete().then((value) {
-                              Navigator.push(context,MaterialPageRoute(builder: (context) =>  AllCases(id: id)),
-                              );
-                            });
 
-
-                          },
-                          child: const Text(
-                            'Delete',
-                          )),
-                    ),
+                        height: 30,
+                        child: Container(
+                          decoration: const BoxDecoration(
+                              boxShadow: [
+                                BoxShadow(blurRadius: 3.5, color: Colors.grey)
+                              ],
+                              color: Colors.white,
+                              borderRadius: BorderRadius.all(Radius.circular(20))),
+                          child: SizedBox(
+                            width: 150,
+                            child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                    backgroundColor: Colors.black,
+                                    shape: const RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.only(
+                                            bottomLeft: Radius.circular(20),
+                                            topLeft: Radius.circular(20),
+                                            bottomRight: Radius.circular(20),
+                                            topRight: Radius.circular(20)))),
+                                onPressed: ()  {
+                                  delete();
+                                },
+                                child: const Text(
+                                  'Delete',
+                                  style: TextStyle(color: Colors.white),
+                                )),
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
                 const SizedBox(
@@ -585,5 +576,63 @@ class _SceneMeasurementPageState extends State<SceneMeasurementPage> {
   void showErrorMessage(String message) {
     final snackBar = SnackBar(content: Text(message));
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+  void delete(){
+    CollectionReference casesCollection =
+    FirebaseFirestore.instance.collection('Cases');
+
+    DocumentReference newCaseRef =
+    casesCollection.doc(id).collection('Allcaes').doc(widget.id);
+    newCaseRef.delete().then((value) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => BottomBarPage()),
+      );
+    });
+  }
+  void save(){
+
+    List<Map<String, dynamic>> Rooms = [];
+
+    Map<String, dynamic> data = {
+      "Type" : "Measurement",
+      "Title" : title.text,
+
+    };
+    if(title.text == ""){
+      return  showErrorMessage('Title cannot be empty');
+
+    }
+    for (int i = 0; i < textValues.length; i++) {
+      var rowControllers = controllers[i];
+      String rooms = rowControllers[0].text;
+      String d1 = rowControllers[1].text;
+      String d2 = rowControllers[2].text;
+
+      if (rooms.isNotEmpty && d1.isNotEmpty && d2.isNotEmpty) {
+        Map<String, dynamic>  rowDataa = {
+          'Rooms ${i +1}': rooms,
+          'direction 1': d1,
+          'direction 2': d2,
+        };
+        Rooms.add(rowDataa);
+      } else {
+        // Show SnackBar with error message
+        showErrorMessage('Field values cannot be empty');
+        return; // Stop further processing
+      }
+    }
+    CollectionReference casesCollection = FirebaseFirestore.instance.collection('Cases');
+
+
+    DocumentReference newCaseRef = casesCollection.doc(id).collection('Allcaes').doc();
+    data['Rooms'] = Rooms;
+    data['docId'] = newCaseRef.id;
+    print(data);
+
+    newCaseRef.set(data).then((value) {
+      Navigator.push(context,MaterialPageRoute(builder: (context) =>  BottomBarPage()),
+      );
+    });
   }
 }

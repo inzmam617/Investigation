@@ -5,10 +5,21 @@ import 'package:crime_investigation/notebook.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../AllCasesPage.dart';
+import '../BottomBarPage/BottomBarPage.dart';
 
 class BalisticPage extends StatefulWidget {
+  final String? Title;
+  final String? Edited;
+  final String? id;
+  final List<dynamic>? Hole;
+  final List<dynamic>? EntryExit;
+  final List<dynamic>? HieghtGround;
+  final List<dynamic>? ofSide;
+  final List<dynamic>? VerticleAngle;
+  final List<dynamic>? HorizontalAngle;
+  final List<dynamic>? ProjectileRecovered;
 
-  const BalisticPage({Key? key, }) : super(key: key);
+  const BalisticPage({Key? key, this.Title, this.Edited, this.id, this.Hole, this.EntryExit, this.HieghtGround, this.ofSide, this.VerticleAngle, this.HorizontalAngle, this.ProjectileRecovered, }) : super(key: key);
 
   @override
   State<BalisticPage> createState() => _BalisticPageState();
@@ -22,20 +33,195 @@ class _BalisticPageState extends State<BalisticPage> {
   void initState() {
     super.initState();
     initialize();
+    title.text = widget.Title ?? '';
+
+    List? Hole = widget.Hole;
+    List? EntryExit = widget.EntryExit;
+    List? HieghtGround = widget.HieghtGround;
+    List? ofSide = widget.ofSide;
+    List? VerticleAngle = widget.VerticleAngle;
+    List? HorizontalAngle = widget.HorizontalAngle;
+    List? ProjectileRecovered = widget.ProjectileRecovered;
+
+    widget.Edited == "true" ?
+    setState(() {
+      if (Hole != null) {
+        for (int i = 0; i < Hole.length; i++) {
+          textValues.add('');
+          for (int i = 0; i < textValues.length; i++) {
+            controllers.add([
+              TextEditingController(),
+              TextEditingController(),
+              TextEditingController(),
+              TextEditingController(),
+              TextEditingController(),
+              TextEditingController(),
+              TextEditingController(),
+
+
+
+            ]);
+          }
+
+          if (i < controllers.length && controllers[i].isNotEmpty) {
+
+            String markerValue = Hole[i].values.first.toString();
+            controllers[i][0].text = markerValue;
+          }
+        }
+
+      }
+
+
+
+      //Second
+      if (EntryExit != null) {
+        for (int i = 0; i < EntryExit.length; i++) {
+          textValues1.add('');
+          for (int i = 0; i < textValues.length; i++) {
+            controllers.add([
+              TextEditingController(),
+              TextEditingController(),
+              TextEditingController(),
+              TextEditingController(),
+              TextEditingController(),
+            ]);
+          }
+
+          if (i < controllers.length && controllers[i].isNotEmpty) {
+
+            String directionalue = EntryExit[i].values.first.toString();
+            controllers[i][1].text = directionalue;
+          }
+        }
+
+      }
+
+
+      //Third
+      if (HieghtGround != null) {
+        for (int i = 0; i < HieghtGround.length; i++) {
+          textValues2.add('');
+          for (int i = 0; i < textValues.length; i++) {
+            controllers.add([
+              TextEditingController(),
+              TextEditingController(),
+              TextEditingController(),
+              TextEditingController(),
+              TextEditingController(),
+            ]);
+          }
+
+          if (i < controllers.length && controllers[i].isNotEmpty) {
+
+            String directionalue = HieghtGround[i].values.first.toString();
+            controllers[i][2].text = directionalue;
+          }
+        }
+
+      }
+
+      //Fourht
+      if (ofSide != null) {
+        for (int i = 0; i < ofSide.length; i++) {
+          textValues3.add('');
+          for (int i = 0; i < textValues.length; i++) {
+            controllers.add([
+              TextEditingController(),
+              TextEditingController(),
+              TextEditingController(),
+              TextEditingController(),
+              TextEditingController(),
+            ]);
+          }
+
+          if (i < controllers.length && controllers[i].isNotEmpty) {
+
+            String directionalue = ofSide[i].values.first.toString();
+            controllers[i][3].text = directionalue;
+          }
+        }
+
+      }
+
+
+      //fivth
+      if (VerticleAngle != null) {
+        for (int i = 0; i < VerticleAngle.length; i++) {
+          textValues4.add('');
+          for (int i = 0; i < textValues.length; i++) {
+            controllers.add([
+              TextEditingController(),
+              TextEditingController(),
+              TextEditingController(),
+              TextEditingController(),
+              TextEditingController(),
+            ]);
+          }
+
+          if (i < controllers.length && controllers[i].isNotEmpty) {
+
+            String directionalue = VerticleAngle[i].values.first.toString();
+            controllers[i][4].text = directionalue;
+          }
+        }
+        //Sixth
+        if (ProjectileRecovered != null) {
+          for (int i = 0; i < ProjectileRecovered.length; i++) {
+            textValues5.add('');
+            for (int i = 0; i < textValues.length; i++) {
+              controllers.add([
+                TextEditingController(),
+                TextEditingController(),
+                TextEditingController(),
+                TextEditingController(),
+                TextEditingController(),
+              ]);
+            }
+
+            if (i < controllers.length && controllers[i].isNotEmpty) {
+
+              String directionalue = ProjectileRecovered[i].values.first.toString();
+              controllers[i][6].text = directionalue;
+            }
+          }
+
+
+        }
+        //Seven
+        if (HorizontalAngle != null) {
+          for (int i = 0; i < HorizontalAngle.length; i++) {
+            textValues6.add('');
+            for (int i = 0; i < textValues.length; i++) {
+              controllers.add([
+                TextEditingController(),
+                TextEditingController(),
+                TextEditingController(),
+                TextEditingController(),
+                TextEditingController(),
+              ]);
+            }
+
+            if (i < controllers.length && controllers[i].isNotEmpty) {
+
+              String directionalue = HorizontalAngle[i].values.first.toString();
+              controllers[i][5].text = directionalue;
+            }
+          }
+
+
+        }
+
+
+
+    }}) :
     setState(() {
       textValues.add('');
-      textValues.add('');
-      textValues1.add('');
       textValues1.add('');
       textValues2.add('');
-      textValues2.add('');
-      textValues3.add('');
       textValues3.add('');
       textValues4.add('');
-      textValues4.add('');
       textValues5.add('');
-      textValues5.add('');
-      textValues6.add('');
       textValues6.add('');
 
       // Add sublists to the controllers list for each row
@@ -55,6 +241,7 @@ class _BalisticPageState extends State<BalisticPage> {
       }
       initialize();
     });
+
   }
 
 // Rest of the code...
@@ -1343,7 +1530,7 @@ class _BalisticPageState extends State<BalisticPage> {
                   Column(children: [
 
 
-                    SizedBox(
+                    widget.Edited != "true" ?  SizedBox(
                       height: 30,
                       child: Container(
                         decoration: const BoxDecoration(
@@ -1368,153 +1555,88 @@ class _BalisticPageState extends State<BalisticPage> {
                                           bottomRight: Radius.circular(20),
                                           topRight: Radius.circular(20)))),
                               onPressed: () {
-                                Map<String, dynamic> data = {
-                                  "Type" : "Ballistic",
-                                  "Title" : "Ballistic",
-                                };
-
-                                List<Map<String, dynamic>> Hole = [];
-                                List<Map<String, dynamic>> EntryorExit = [];
-                                List<Map<String, dynamic>> HeightfromGround = [];
-                                List<Map<String, dynamic>> ofSide = [];
-                                List<Map<String, dynamic>> VerticalAngle = [];
-                                List<Map<String, dynamic>> HorizontalAngle = [];
-                                List<Map<String, dynamic>> ProjectileRecovered = [];
-
-                                if(title.text == ""){
-                                  showErrorMessage('Title cannot be empty');
-
-                                }
-                                for (int i = 0; i < textValues.length; i++) {
-                                  var rowControllers = controllers[i];
-                                  String partOne = rowControllers[0].text;
-
-                                  if (partOne.isNotEmpty) {
-                                    Map<String, dynamic> rowDataa = {
-                                      'Hole ${i+1}': partOne,
-                                    };
-                                    Hole.add(rowDataa);
-                                  } else {
-                                    // Show SnackBar with error message
-                                    showErrorMessage('Field values cannot be empty');
-                                    return; // Stop further processing
-                                  }
-                                }
-
-                                for (int i = 0; i < textValues1.length; i++) {
-                                  var rowControllers = controllers[i];
-                                  String partOne = rowControllers[1].text;
-
-                                  if (partOne.isNotEmpty) {
-                                    Map<String, dynamic> rowData = {
-                                      'EntryExit ${i+1}': partOne,
-                                    };
-                                    EntryorExit.add(rowData);
-                                  } else {
-                                    // Show SnackBar with error message
-                                    showErrorMessage('Field values cannot be empty');
-                                    return; // Stop further processing
-                                  }
-                                }
-
-                                for (int i = 0; i < textValues2.length; i++) {
-                                  var rowControllers = controllers[i];
-                                  String partOne = rowControllers[2].text;
-
-                                  if (partOne.isNotEmpty) {
-                                    Map<String, dynamic> rowDataa = {
-                                      'Height fromGround ${i+1}': partOne,
-                                    };
-                                    HeightfromGround.add(rowDataa);
-                                  } else {
-                                    // Show SnackBar with error message
-                                    showErrorMessage('Field values cannot be empty');
-                                    return; // Stop further processing
-                                  }
-                                }
-                                for (int i = 0; i < textValues3.length; i++) {
-                                  var rowControllers = controllers[i];
-                                  String partOne = rowControllers[3].text;
-
-                                  if (partOne.isNotEmpty) {
-                                    Map<String, dynamic> rowDataa = {
-                                      'ofSide ${i+1}': partOne,
-                                    };
-                                    ofSide.add(rowDataa);
-                                  } else {
-                                    // Show SnackBar with error message
-                                    showErrorMessage('Field values cannot be empty');
-                                    return; // Stop further processing
-                                  }
-                                }
-                                for (int i = 0; i < textValues4.length; i++) {
-                                  var rowControllers = controllers[i];
-                                  String partOne = rowControllers[4].text;
-
-                                  if (partOne.isNotEmpty) {
-                                    Map<String, dynamic> rowDataa = {
-                                      'VerticalAngle ${i+1}': partOne,
-                                    };
-                                    VerticalAngle.add(rowDataa);
-                                  } else {
-                                    // Show SnackBar with error message
-                                    showErrorMessage('Field values cannot be empty');
-                                    return; // Stop further processing
-                                  }
-                                }
-                                for (int i = 0; i < textValues5.length; i++) {
-                                  var rowControllers = controllers[i];
-                                  String partOne = rowControllers[5].text;
-
-                                  if (partOne.isNotEmpty) {
-                                    Map<String, dynamic> rowDataa = {
-                                      'HorizontalAngle ${i+1}': partOne,
-                                    };
-                                    HorizontalAngle.add(rowDataa);
-                                  } else {
-                                    // Show SnackBar with error message
-                                    showErrorMessage('Field values cannot be empty');
-                                    return; // Stop further processing
-                                  }
-                                }
-                                for (int i = 0; i < textValues6.length; i++) {
-                                  var rowControllers = controllers[i];
-                                  String partOne = rowControllers[6].text;
-
-                                  if (partOne.isNotEmpty) {
-                                    Map<String, dynamic> rowDataa = {
-                                      'ProjectileRecovered ${i+1}': partOne,
-                                    };
-                                    ProjectileRecovered.add(rowDataa);
-                                  } else {
-                                    // Show SnackBar with error message
-                                    showErrorMessage('Field values cannot be empty');
-                                    return; // Stop further processing
-                                  }
-                                }
-                                print(data);
-                                CollectionReference casesCollection = FirebaseFirestore.instance.collection('Cases');
+                                save();
 
 
-                                DocumentReference newCaseRef = casesCollection.doc(id).collection('Allcaes').doc();
-                                data['Hole'] = Hole;
-                                data['EntryorExit'] = EntryorExit;
-                                data['HeightfromGround'] = HeightfromGround;
-                                data['ofSide'] = ofSide;
-                                data['VerticalAngle'] = VerticalAngle;
-                                data['HorizontalAngle'] = HorizontalAngle;
-                                data['ProjectileRecovered'] = ProjectileRecovered;
-                                data['docId'] = newCaseRef.id;
 
-                                newCaseRef.set(data).then((value) {
-                                  Navigator.push(context,MaterialPageRoute(builder: (context) =>  AllCases(id: id,)),
-                                  );
-                                });
                               },
                               child: const Text(
                                 'Save',
                               )),
                         ),
+                      ),
+                    ):
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          SizedBox(
+                            height: 30,
+                            child: Container(
+                              decoration: const BoxDecoration(
+                                  boxShadow: [
+                                    BoxShadow(blurRadius: 3.5, color: Colors.grey)
+                                  ],
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.all(Radius.circular(20))),
+                              child: SizedBox(
+                                width: 150,
+                                child: ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                        backgroundColor: Colors.black,
+                                        shape: const RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.only(
+                                                bottomLeft: Radius.circular(20),
+                                                topLeft: Radius.circular(20),
+                                                bottomRight: Radius.circular(20),
+                                                topRight: Radius.circular(20)))),
+                                    onPressed: ()  {
+                                      delete();
+                                      save();
+                                    },
+                                    child: const Text(
+                                      'Update',
+                                      style: TextStyle(color: Colors.white),
+                                    )),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 20,),
+                          SizedBox(
+
+
+                            height: 30,
+                            child: Container(
+                              decoration: const BoxDecoration(
+                                  boxShadow: [
+                                    BoxShadow(blurRadius: 3.5, color: Colors.grey)
+                                  ],
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.all(Radius.circular(20))),
+                              child: SizedBox(
+                                width: 150,
+                                child: ElevatedButton(
+                                    style: ElevatedButton.styleFrom(
+                                        backgroundColor: Colors.black,
+                                        shape: const RoundedRectangleBorder(
+                                            borderRadius: BorderRadius.only(
+                                                bottomLeft: Radius.circular(20),
+                                                topLeft: Radius.circular(20),
+                                                bottomRight: Radius.circular(20),
+                                                topRight: Radius.circular(20)))),
+                                    onPressed: ()  {
+                                      delete();
+                                    },
+                                    child: const Text(
+                                      'Delete',
+                                      style: TextStyle(color: Colors.white),
+                                    )),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
 
@@ -1532,5 +1654,163 @@ class _BalisticPageState extends State<BalisticPage> {
   void showErrorMessage(String message) {
     final snackBar = SnackBar(content: Text(message));
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+  void save(){
+    Map<String, dynamic> data = {
+      "Type" : "Ballistic",
+      "Title" : "Ballistic",
+    };
+
+    List<Map<String, dynamic>> Hole = [];
+    List<Map<String, dynamic>> EntryorExit = [];
+    List<Map<String, dynamic>> HeightfromGround = [];
+    List<Map<String, dynamic>> ofSide = [];
+    List<Map<String, dynamic>> VerticalAngle = [];
+    List<Map<String, dynamic>> HorizontalAngle = [];
+    List<Map<String, dynamic>> ProjectileRecovered = [];
+
+    if(title.text == ""){
+      showErrorMessage('Title cannot be empty');
+
+    }
+    for (int i = 0; i < textValues.length; i++) {
+      var rowControllers = controllers[i];
+      String partOne = rowControllers[0].text;
+
+      if (partOne.isNotEmpty) {
+        Map<String, dynamic> rowDataa = {
+          'Hole ${i+1}': partOne,
+        };
+        Hole.add(rowDataa);
+      } else {
+        // Show SnackBar with error message
+        showErrorMessage('Field values cannot be empty');
+        return; // Stop further processing
+      }
+    }
+
+    for (int i = 0; i < textValues1.length; i++) {
+      var rowControllers = controllers[i];
+      String partOne = rowControllers[1].text;
+
+      if (partOne.isNotEmpty) {
+        Map<String, dynamic> rowData = {
+          'EntryExit ${i+1}': partOne,
+        };
+        EntryorExit.add(rowData);
+      } else {
+        // Show SnackBar with error message
+        showErrorMessage('Field values cannot be empty');
+        return; // Stop further processing
+      }
+    }
+
+    for (int i = 0; i < textValues2.length; i++) {
+      var rowControllers = controllers[i];
+      String partOne = rowControllers[2].text;
+
+      if (partOne.isNotEmpty) {
+        Map<String, dynamic> rowDataa = {
+          'Height fromGround ${i+1}': partOne,
+        };
+        HeightfromGround.add(rowDataa);
+      } else {
+        // Show SnackBar with error message
+        showErrorMessage('Field values cannot be empty');
+        return; // Stop further processing
+      }
+    }
+    for (int i = 0; i < textValues3.length; i++) {
+      var rowControllers = controllers[i];
+      String partOne = rowControllers[3].text;
+
+      if (partOne.isNotEmpty) {
+        Map<String, dynamic> rowDataa = {
+          'ofSide ${i+1}': partOne,
+        };
+        ofSide.add(rowDataa);
+      } else {
+        // Show SnackBar with error message
+        showErrorMessage('Field values cannot be empty');
+        return; // Stop further processing
+      }
+    }
+    for (int i = 0; i < textValues4.length; i++) {
+      var rowControllers = controllers[i];
+      String partOne = rowControllers[4].text;
+
+      if (partOne.isNotEmpty) {
+        Map<String, dynamic> rowDataa = {
+          'VerticalAngle ${i+1}': partOne,
+        };
+        VerticalAngle.add(rowDataa);
+      } else {
+        // Show SnackBar with error message
+        showErrorMessage('Field values cannot be empty');
+        return; // Stop further processing
+      }
+    }
+    for (int i = 0; i < textValues5.length; i++) {
+      var rowControllers = controllers[i];
+      String partOne = rowControllers[5].text;
+
+      if (partOne.isNotEmpty) {
+        Map<String, dynamic> rowDataa = {
+          'HorizontalAngle ${i+1}': partOne,
+        };
+        HorizontalAngle.add(rowDataa);
+      } else {
+        // Show SnackBar with error message
+        showErrorMessage('Field values cannot be empty');
+        return; // Stop further processing
+      }
+    }
+    for (int i = 0; i < textValues6.length; i++) {
+      var rowControllers = controllers[i];
+      String partOne = rowControllers[6].text;
+
+      if (partOne.isNotEmpty) {
+        Map<String, dynamic> rowDataa = {
+          'ProjectileRecovered ${i+1}': partOne,
+        };
+        ProjectileRecovered.add(rowDataa);
+      } else {
+        // Show SnackBar with error message
+        showErrorMessage('Field values cannot be empty');
+        return; // Stop further processing
+      }
+    }
+    print(data);
+    CollectionReference casesCollection = FirebaseFirestore.instance.collection('Cases');
+
+
+    DocumentReference newCaseRef = casesCollection.doc(id).collection('Allcaes').doc();
+    data['Hole'] = Hole;
+    data['EntryorExit'] = EntryorExit;
+    data['HeightfromGround'] = HeightfromGround;
+    data['ofSide'] = ofSide;
+    data['VerticalAngle'] = VerticalAngle;
+    data['HorizontalAngle'] = HorizontalAngle;
+    data['ProjectileRecovered'] = ProjectileRecovered;
+    data['docId'] = newCaseRef.id;
+
+    newCaseRef.set(data).then((value) {
+      Navigator.push(context,        MaterialPageRoute(builder: (context) => BottomBarPage()),
+
+      );
+    });
+  }
+  void delete(){
+    CollectionReference casesCollection =
+    FirebaseFirestore.instance.collection('Cases');
+
+    DocumentReference newCaseRef =
+    casesCollection.doc(id).collection('Allcaes').doc(widget.id);
+    newCaseRef.delete().then((value) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => BottomBarPage()),
+      );
+    });
   }
 }

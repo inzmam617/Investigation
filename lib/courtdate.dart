@@ -9,94 +9,94 @@ class courtdate extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.black,
-        items: <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-              icon: Padding(
-                padding: const EdgeInsets.only(left: 20.0),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Expanded(
-                      child: Transform.translate(
-                        offset: Offset(10, 10),
-                        child: Container(
-                          height: 30,
-                          width: 110,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.only(
-                                bottomLeft: Radius.circular(30),
-                                bottomRight: Radius.circular(30),
-                                topRight: Radius.circular(30),
-                                topLeft: Radius.circular(30)),
-                            color: Colors.white,
-                          ),
-                          child: Transform.translate(
-                              offset: Offset(30, 4),
-                              child: Transform.translate(
-                                offset: Offset(-10, -4),
-                                child: SingleChildScrollView(scrollDirection:Axis.horizontal ,
-                                  child: Row(
-                                    children: [
-                                      SvgPicture.asset(
-                                          'assets/Component 12 – 1.svg',
-                                          color: Colors.black),
-                                      SizedBox(
-                                        width: 5,
-                                      ),
-                                      Text('Court')
-                                    ],
-                                  ),
-                                ),
-                              )),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              label: ''),
-          BottomNavigationBarItem(
-            icon: Transform.translate(
-              offset: Offset(0, -20),
-              child: Container(
-                decoration: BoxDecoration(
-                    border: Border.all(
-                      color: Colors.black,
-                    )),
-                child: SizedBox(
-                  height: 25,
-                  width: 25,
-                  child: Transform.scale(
-                    scale: 2,
-
-                    child: CircleAvatar(
-                        backgroundColor: Colors.white,
-                        child: Transform.translate(
-
-                          offset: Offset(0, 0),
-                          child: Icon(
-                            Icons.add,
-                            color: Colors.black,
-                            size: 25,
-                          ),
-                        )),
-                  ),
-                ),
-              ),
-            ),
-            label: '',
-          ),
-          BottomNavigationBarItem(
-            icon: Transform.translate(
-                offset: Offset(0, 10),
-                child: Image.asset('assets/Iconly-Bold-Setting.png')),
-            label: '',
-          ),
-        ],
-      ),
+      // bottomNavigationBar: BottomNavigationBar(
+      //   backgroundColor: Colors.black,
+      //   items: <BottomNavigationBarItem>[
+      //     BottomNavigationBarItem(
+      //         icon: Padding(
+      //           padding: const EdgeInsets.only(left: 20.0),
+      //           child: Row(
+      //             crossAxisAlignment: CrossAxisAlignment.center,
+      //             mainAxisAlignment: MainAxisAlignment.center,
+      //             children: [
+      //               Expanded(
+      //                 child: Transform.translate(
+      //                   offset: Offset(10, 10),
+      //                   child: Container(
+      //                     height: 30,
+      //                     width: 110,
+      //                     decoration: BoxDecoration(
+      //                       borderRadius: BorderRadius.only(
+      //                           bottomLeft: Radius.circular(30),
+      //                           bottomRight: Radius.circular(30),
+      //                           topRight: Radius.circular(30),
+      //                           topLeft: Radius.circular(30)),
+      //                       color: Colors.white,
+      //                     ),
+      //                     child: Transform.translate(
+      //                         offset: Offset(30, 4),
+      //                         child: Transform.translate(
+      //                           offset: Offset(-10, -4),
+      //                           child: SingleChildScrollView(scrollDirection:Axis.horizontal ,
+      //                             child: Row(
+      //                               children: [
+      //                                 SvgPicture.asset(
+      //                                     'assets/Component 12 – 1.svg',
+      //                                     color: Colors.black),
+      //                                 SizedBox(
+      //                                   width: 5,
+      //                                 ),
+      //                                 Text('Court')
+      //                               ],
+      //                             ),
+      //                           ),
+      //                         )),
+      //                   ),
+      //                 ),
+      //               ),
+      //             ],
+      //           ),
+      //         ),
+      //         label: ''),
+      //     BottomNavigationBarItem(
+      //       icon: Transform.translate(
+      //         offset: Offset(0, -20),
+      //         child: Container(
+      //           decoration: BoxDecoration(
+      //               border: Border.all(
+      //                 color: Colors.black,
+      //               )),
+      //           child: SizedBox(
+      //             height: 25,
+      //             width: 25,
+      //             child: Transform.scale(
+      //               scale: 2,
+      //
+      //               child: CircleAvatar(
+      //                   backgroundColor: Colors.white,
+      //                   child: Transform.translate(
+      //
+      //                     offset: Offset(0, 0),
+      //                     child: Icon(
+      //                       Icons.add,
+      //                       color: Colors.black,
+      //                       size: 25,
+      //                     ),
+      //                   )),
+      //             ),
+      //           ),
+      //         ),
+      //       ),
+      //       label: '',
+      //     ),
+      //     BottomNavigationBarItem(
+      //       icon: Transform.translate(
+      //           offset: Offset(0, 10),
+      //           child: Image.asset('assets/Iconly-Bold-Setting.png')),
+      //       label: '',
+      //     ),
+      //   ],
+      // ),
       body: SingleChildScrollView(
         child: Column(
           children: [

@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:crime_investigation/notebook.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../AllCasesPage.dart';
+import '../BottomBarPage/BottomBarPage.dart';
 
 class WeaponsPage extends StatefulWidget {
   final String? Title;
@@ -1026,87 +1027,9 @@ class _WeaponsPageState extends State<WeaponsPage> {
                                     bottomRight: Radius.circular(20),
                                     topRight: Radius.circular(20)))),
                         onPressed: () {
-
-                          List<Map<String, dynamic>> WeaponOne = [];
-                          List<Map<String, dynamic>> WeaponTwo = [];
-                          List<Map<String, dynamic>> WeaponThree = [];
-
-                          Map<String, dynamic> data = {
-                            "Type" : "Weapons",
-                            "Title" : "Body",
-
-                          };
-                          for (int i = 0; i < textValues.length; i++) {
-                            var rowControllers = controllers[i];
-                            String partOne = rowControllers[0].text;
-                            String partTwo = rowControllers[1].text;
-                            String partThree = rowControllers[2].text;
-
-                            if (partOne.isNotEmpty && partTwo.isNotEmpty && partThree.isNotEmpty) {
-                              Map<String, dynamic>  rowDataa = {
-                                'partOne 1': partOne,
-                                'partTwo 2': partTwo,
-                                'partThree 3': partThree,
-                              };
-                              WeaponOne.add(rowDataa);
-                            } else {
-                              // Show SnackBar with error message
-                              print('Field values cannot be empty');
-                              return; // Stop further processing
-                            }
-                          }
-                          for (int i = 0; i < textValues1.length; i++) {
-                            var rowControllers = controllers1[i];
-                            String partOne = rowControllers[0].text;
-                            String partTwo = rowControllers[1].text;
-                            String partThree = rowControllers[2].text;
-
-                            if (partOne.isNotEmpty && partTwo.isNotEmpty && partThree.isNotEmpty) {
-                              Map<String, dynamic>  rowDataa = {
-                                'partOne 1': partOne,
-                                'partTwo 2': partTwo,
-                                'partThree 3': partThree,
-                              };
-                              WeaponTwo.add(rowDataa);
-                            } else {
-                              // Show SnackBar with error message
-                              showErrorMessage('Field values cannot be empty');
-                              return; // Stop further processing
-                            }
-                          }
-                        for (int i = 0; i < textValues2.length; i++) {
-                            var rowControllers = controllers2[i];
-                            String partOne = rowControllers[0].text;
-                            String partTwo = rowControllers[1].text;
-                            String partThree = rowControllers[2].text;
-
-                            if (partOne.isNotEmpty && partTwo.isNotEmpty && partThree.isNotEmpty) {
-                              Map<String, dynamic>  rowDataa = {
-                                'partOne 1': partOne,
-                                'partTwo 2': partTwo,
-                                'partThree 3': partThree,
-                              };
-                              WeaponThree.add(rowDataa);
-                            } else {
-                              // Show SnackBar with error message
-                              showErrorMessage('Field values cannot be empty');
-                              return; // Stop further processing
-                            }
-                          }
-                          print(data);
-                          CollectionReference casesCollection = FirebaseFirestore.instance.collection('Cases');
+                          save();
 
 
-                          DocumentReference newCaseRef = casesCollection.doc(id).collection('Allcaes').doc();
-
-                          data['WeaponOne'] = WeaponOne;
-                          data['WeaponTwo'] = WeaponTwo;
-                          data['WeaponThree'] = WeaponThree;
-                          data['docId'] = newCaseRef.id;
-                          newCaseRef.set(data).then((value) {
-                            Navigator.push(context,MaterialPageRoute(builder: (context) =>  AllCases(id: id,)),
-                            );
-                          });
 
                         },
                         child: const Text(
@@ -1114,49 +1037,81 @@ class _WeaponsPageState extends State<WeaponsPage> {
                         )),
                   ),
                 ),
-              ):SizedBox(
-                height: 30,
-                child: Container(
-                  decoration: const BoxDecoration(
-                      boxShadow: [
-                        BoxShadow(blurRadius: 3.5, color: Colors.grey)
-                      ],
-                      color: Colors.black,
-                      borderRadius: BorderRadius.only(
-                          topRight: Radius.circular(20),
-                          bottomRight: Radius.circular(20),
-                          topLeft: Radius.circular(20),
-                          bottomLeft: Radius.circular(20))),
-                  child: SizedBox(
-                    width: 160,
-                    child: ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                            backgroundColor: Colors.black,
-                            shape: const RoundedRectangleBorder(
-                                borderRadius: BorderRadius.only(
-                                    bottomLeft: Radius.circular(20),
-                                    topLeft: Radius.circular(20),
-                                    bottomRight: Radius.circular(20),
-                                    topRight: Radius.circular(20)))),
-                        onPressed: () {
+              ):
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                      height: 30,
+                      child: Container(
+                        decoration: const BoxDecoration(
+                            boxShadow: [
+                              BoxShadow(blurRadius: 3.5, color: Colors.grey)
+                            ],
+                            color: Colors.white,
+                            borderRadius: BorderRadius.all(Radius.circular(20))),
+                        child: SizedBox(
+                          width: 150,
+                          child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors.black,
+                                  shape: const RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.only(
+                                          bottomLeft: Radius.circular(20),
+                                          topLeft: Radius.circular(20),
+                                          bottomRight: Radius.circular(20),
+                                          topRight: Radius.circular(20)))),
+                              onPressed: ()  {
+                                delete();
+                                save();
+                              },
+                              child: const Text(
+                                'Update',
+                                style: TextStyle(color: Colors.white),
+                              )),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 20,),
+                    SizedBox(
 
 
-                          CollectionReference casesCollection = FirebaseFirestore.instance.collection('Cases');
-
-                          DocumentReference newCaseRef = casesCollection.doc(id).collection('Allcaes').doc(widget.id);
-                          newCaseRef.delete().then((value) {
-                            Navigator.push(context,MaterialPageRoute(builder: (context) =>  AllCases(id: id)),
-                            );
-                          });
-
-
-                        },
-                        child: const Text(
-                          'Delete',
-                        )),
-                  ),
+                      height: 30,
+                      child: Container(
+                        decoration: const BoxDecoration(
+                            boxShadow: [
+                              BoxShadow(blurRadius: 3.5, color: Colors.grey)
+                            ],
+                            color: Colors.white,
+                            borderRadius: BorderRadius.all(Radius.circular(20))),
+                        child: SizedBox(
+                          width: 150,
+                          child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors.black,
+                                  shape: const RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.only(
+                                          bottomLeft: Radius.circular(20),
+                                          topLeft: Radius.circular(20),
+                                          bottomRight: Radius.circular(20),
+                                          topRight: Radius.circular(20)))),
+                              onPressed: ()  {
+                                delete();
+                              },
+                              child: const Text(
+                                'Delete',
+                                style: TextStyle(color: Colors.white),
+                              )),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
+
 
               const SizedBox(
                 height: 50,
@@ -1172,5 +1127,102 @@ class _WeaponsPageState extends State<WeaponsPage> {
   void showErrorMessage(String message) {
     final snackBar = SnackBar(content: Text(message));
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+  void delete(){
+    CollectionReference casesCollection =
+    FirebaseFirestore.instance.collection('Cases');
+
+    DocumentReference newCaseRef =
+    casesCollection.doc(id).collection('Allcaes').doc(widget.id);
+    newCaseRef.delete().then((value) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => BottomBarPage()),
+      );
+    });
+  }
+  void save(){
+    List<Map<String, dynamic>> WeaponOne = [];
+    List<Map<String, dynamic>> WeaponTwo = [];
+    List<Map<String, dynamic>> WeaponThree = [];
+
+    Map<String, dynamic> data = {
+      "Type" : "Weapons",
+      "Title" : "Body",
+
+    };
+    for (int i = 0; i < textValues.length; i++) {
+      var rowControllers = controllers[i];
+      String partOne = rowControllers[0].text;
+      String partTwo = rowControllers[1].text;
+      String partThree = rowControllers[2].text;
+
+      if (partOne.isNotEmpty && partTwo.isNotEmpty && partThree.isNotEmpty) {
+        Map<String, dynamic>  rowDataa = {
+          'partOne 1': partOne,
+          'partTwo 2': partTwo,
+          'partThree 3': partThree,
+        };
+        WeaponOne.add(rowDataa);
+      } else {
+        // Show SnackBar with error message
+        print('Field values cannot be empty');
+        return; // Stop further processing
+      }
+    }
+    for (int i = 0; i < textValues1.length; i++) {
+      var rowControllers = controllers1[i];
+      String partOne = rowControllers[0].text;
+      String partTwo = rowControllers[1].text;
+      String partThree = rowControllers[2].text;
+
+      if (partOne.isNotEmpty && partTwo.isNotEmpty && partThree.isNotEmpty) {
+        Map<String, dynamic>  rowDataa = {
+          'partOne 1': partOne,
+          'partTwo 2': partTwo,
+          'partThree 3': partThree,
+        };
+        WeaponTwo.add(rowDataa);
+      } else {
+        // Show SnackBar with error message
+        showErrorMessage('Field values cannot be empty');
+        return; // Stop further processing
+      }
+    }
+    for (int i = 0; i < textValues2.length; i++) {
+      var rowControllers = controllers2[i];
+      String partOne = rowControllers[0].text;
+      String partTwo = rowControllers[1].text;
+      String partThree = rowControllers[2].text;
+
+      if (partOne.isNotEmpty && partTwo.isNotEmpty && partThree.isNotEmpty) {
+        Map<String, dynamic>  rowDataa = {
+          'partOne 1': partOne,
+          'partTwo 2': partTwo,
+          'partThree 3': partThree,
+        };
+        WeaponThree.add(rowDataa);
+      } else {
+        // Show SnackBar with error message
+        showErrorMessage('Field values cannot be empty');
+        return; // Stop further processing
+      }
+    }
+    print(data);
+    CollectionReference casesCollection = FirebaseFirestore.instance.collection('Cases');
+
+
+    DocumentReference newCaseRef = casesCollection.doc(id).collection('Allcaes').doc();
+
+    data['WeaponOne'] = WeaponOne;
+    data['WeaponTwo'] = WeaponTwo;
+    data['WeaponThree'] = WeaponThree;
+    data['docId'] = newCaseRef.id;
+    newCaseRef.set(data).then((value) {
+      Navigator.push(context,        MaterialPageRoute(builder: (context) => const BottomBarPage()),
+
+      );
+    });
+
   }
 }

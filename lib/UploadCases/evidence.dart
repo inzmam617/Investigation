@@ -5,9 +5,16 @@ import 'package:crime_investigation/notebook.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../AllCasesPage.dart';
+import '../BottomBarPage/BottomBarPage.dart';
 
 class evidence extends StatefulWidget {
-  const evidence({Key? key}) : super(key: key);
+  final String? Edited;
+  final String? Title;
+  final String? id;
+  final List<dynamic>? WhatnWhere;
+  final List<dynamic>? Notes;
+
+  const evidence({Key? key, this.Edited, this.id, this.WhatnWhere, this.Notes, this.Title}) : super(key: key);
 
   @override
   State<evidence> createState() => _evidenceState();
@@ -23,38 +30,77 @@ class _evidenceState extends State<evidence> {
   void initState() {
     super.initState();
     initialize();
+    title.text = widget.Title ?? '';
+    List? Notes = widget.Notes;
+
+
+    setState(() {    initialize();
+    });
+
+
+    widget.Edited == "true" ?
+    setState(() {
+      final int suspectLength = widget.WhatnWhere?.length ?? 0;
+      final int textValuesLength = textValues.length;
+      if (suspectLength > textValuesLength) {
+        for (int i = 0; i < suspectLength - textValuesLength; i++) {
+          textValues.add('');
+        }
+      }
+      controllers = (widget.WhatnWhere ?? []).map<List<TextEditingController>>((dynamic suspect) {
+        List<TextEditingController> rowControllers = [];
+        for (int i = 0; i < textValues.length; i++) {
+          String What = suspect['What'] ?? '';
+          String Where = suspect['Where'] ?? '';
+          TextEditingController Whatcontroller = TextEditingController(text: What);
+          TextEditingController Wherecontroller = TextEditingController(text: Where);
+          rowControllers.add(Whatcontroller);
+          rowControllers.add(Wherecontroller);
+        }
+        return rowControllers;
+      }).toList();
+      if (Notes != null) {
+        for (int i = 0; i < Notes.length; i++) {
+          textValues1.add('');
+          for (int i = 0; i < textValues1.length; i++) {
+            controllers2.add([
+              TextEditingController(),
+              TextEditingController(),
+              TextEditingController(),
+            ]);
+          }
+
+          if (i < controllers.length && controllers[i].isNotEmpty) {
+
+            String markerValue = Notes[i].values.first.toString();
+            controllers2[i][0].text = markerValue;
+          }
+        }
+
+      }
+
+    }) :
     setState(() {
       textValues.add(''); // Add an empty value to the list
       textValues1.add('');
-      textValues.add(''); // Add an empty value to the list
-      textValues1.add('');
-      textValues.add(''); // Add an empty value to the list
-      textValues1.add('');
-      textValues.add(''); // Add an empty value to the list
-      textValues1.add('');// Add an empty value to the list//// Add an empty value to the list
+      // Initialize controllers based on number of rows
+      // Initialize controllers based on number of rows and columns
+      controllers = List.generate(
+        textValues.length,
+            (_) => List.generate(
+          2, // Number of columns
+              (_) => TextEditingController(),
+        ),
+      );
+      for (int i = 0; i < textValues1.length; i++) {
+        controllers2.add([
+          TextEditingController(),
+          TextEditingController(),
+          TextEditingController(),
+        ]);
+      }
 
     });
-    setState(() {    initialize();
-    });
-    setState(() {});
-    // Initialize controllers based on number of rows
-    // Initialize controllers based on number of rows and columns
-    controllers = List.generate(
-      textValues.length,
-          (_) => List.generate(
-        2, // Number of columns
-            (_) => TextEditingController(),
-      ),
-    );
-    for (int i = 0; i < textValues1.length; i++) {
-      controllers2.add([
-        TextEditingController(),
-        TextEditingController(),
-        TextEditingController(),
-
-
-      ]);
-    }
 
   }
   String id = " ";
@@ -117,6 +163,7 @@ class _evidenceState extends State<evidence> {
                               const SizedBox(
                                 height: 30,
                                 child: TextField(
+                                  enabled: false,
                                     decoration: InputDecoration(
                                         enabledBorder: OutlineInputBorder(
                                             borderRadius: BorderRadius.only(
@@ -146,27 +193,13 @@ class _evidenceState extends State<evidence> {
                                   width: 26,
                                   child: InkWell(
                                     onTap: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => const notebook()),
-                                      );
+                                      Navigator.of(context).pop();
                                     },
                                     child: CircleAvatar(
                                       backgroundColor: Colors.black,
-                                      child: InkWell(
-                                        onTap: () {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    const notebook()),
-                                          );
-                                        },
-                                        child: const Icon(
-                                            Icons.arrow_back_ios_new_outlined,
-                                            size: 16),
-                                      ),
+                                      child: const Icon(
+                                          Icons.arrow_back_ios_new_outlined,
+                                          size: 16),
                                     ),
                                   ),
                                 ),
@@ -534,14 +567,14 @@ class _evidenceState extends State<evidence> {
             const SizedBox(
               height: 30,
             ),
-            SizedBox(
+            widget.Edited != "true" ?  SizedBox(
               height: 30,
               child: Container(
                 decoration: const BoxDecoration(
                     boxShadow: [
                       BoxShadow(blurRadius: 3.5, color: Colors.grey)
                     ],
-                    color: Colors.white,
+                    color: Colors.black,
                     borderRadius: BorderRadius.only(
                         topRight: Radius.circular(20),
                         bottomRight: Radius.circular(20),
@@ -559,73 +592,88 @@ class _evidenceState extends State<evidence> {
                                   bottomRight: Radius.circular(20),
                                   topRight: Radius.circular(20)))),
                       onPressed: () {
-                        Map<String, dynamic> data = {
-                          "Type" : "Evidence",
-                          "Title" : title.text,
-                        };
-
-                        if(title.text == ""){
-                          showErrorMessage('Title cannot be empty');
-
-                        }
-                        List<Map<String, dynamic>> WhatnWhere = [];
-                        List<Map<String, dynamic>> Notes = [];
+                        save();
 
 
-                        for (int i = 0; i < textValues.length; i++) {
-                          var rowControllers = controllers[i];
-                          String victim = rowControllers[0].text;
-                          String dob = rowControllers[1].text;
-
-                          // Check if both victim and dob are not empty
-                          if (victim.isNotEmpty && dob.isNotEmpty) {
-                            Map<String, dynamic> rowData = {
-                              'What': victim,
-                              'Where': dob,
-                            };
-                            WhatnWhere.add(rowData);
-
-                          }
-                          else {
-                            // Show SnackBar with error message
-                            showErrorMessage('Suspect and DOB fields cannot be empty');
-                            return; // Stop further processing
-                          }
-                        }
-
-                        for (int i = 0; i < textValues1.length; i++) {
-                          var rowControllers = controllers2[i];
-                          String partOne = rowControllers[0].text;
-
-                          if (partOne.isNotEmpty) {
-                            Map<String, dynamic> rowDataa = {
-                              'Notes ${i+1}': partOne,
-                            };
-                            Notes.add(rowDataa);
-
-                          } else {
-                            // Show SnackBar with error message
-                            showErrorMessage('Field values cannot be empty');
-                            return; // Stop further processing
-                          }
-                        }
-                          data['WhatnWhere'] = WhatnWhere;
-                          data['Notes'] = Notes;
-                          CollectionReference casesCollection = FirebaseFirestore.instance.collection('Cases');
-
-
-                          DocumentReference newCaseRef = casesCollection.doc(id).collection('Allcaes').doc();
-                          newCaseRef.set(data).then((value) {
-                            Navigator.push(context,MaterialPageRoute(builder: (context) =>  AllCases(id: id,)),
-                            );
-                          });
 
                       },
                       child: const Text(
                         'Save',
-                        style: TextStyle(color: Colors.white),
                       )),
                 ),
+              ),
+            ):
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    height: 30,
+                    child: Container(
+                      decoration: const BoxDecoration(
+                          boxShadow: [
+                            BoxShadow(blurRadius: 3.5, color: Colors.grey)
+                          ],
+                          color: Colors.white,
+                          borderRadius: BorderRadius.all(Radius.circular(20))),
+                      child: SizedBox(
+                        width: 150,
+                        child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.black,
+                                shape: const RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.only(
+                                        bottomLeft: Radius.circular(20),
+                                        topLeft: Radius.circular(20),
+                                        bottomRight: Radius.circular(20),
+                                        topRight: Radius.circular(20)))),
+                            onPressed: ()  {
+                              delete();
+                              save();
+                            },
+                            child: const Text(
+                              'Update',
+                              style: TextStyle(color: Colors.white),
+                            )),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 20,),
+                  SizedBox(
+
+
+                    height: 30,
+                    child: Container(
+                      decoration: const BoxDecoration(
+                          boxShadow: [
+                            BoxShadow(blurRadius: 3.5, color: Colors.grey)
+                          ],
+                          color: Colors.white,
+                          borderRadius: BorderRadius.all(Radius.circular(20))),
+                      child: SizedBox(
+                        width: 150,
+                        child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.black,
+                                shape: const RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.only(
+                                        bottomLeft: Radius.circular(20),
+                                        topLeft: Radius.circular(20),
+                                        bottomRight: Radius.circular(20),
+                                        topRight: Radius.circular(20)))),
+                            onPressed: ()  {
+                              delete();
+                            },
+                            child: const Text(
+                              'Delete',
+                              style: TextStyle(color: Colors.white),
+                            )),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
             const SizedBox(
@@ -637,5 +685,83 @@ class _evidenceState extends State<evidence> {
   void showErrorMessage(String message) {
     final snackBar = SnackBar(content: Text(message));
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+  void delete(){
+    CollectionReference casesCollection =
+    FirebaseFirestore.instance.collection('Cases');
+
+    DocumentReference newCaseRef =
+    casesCollection.doc(id).collection('Allcaes').doc(widget.id);
+    newCaseRef.delete().then((value) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => BottomBarPage()),
+      );
+    });
+  }
+  void save(){
+    Map<String, dynamic> data = {
+      "Type" : "Evidence",
+      "Title" : title.text,
+    };
+
+    if(title.text == ""){
+      showErrorMessage('Title cannot be empty');
+
+    }
+    List<Map<String, dynamic>> WhatnWhere = [];
+    List<Map<String, dynamic>> Notes = [];
+
+
+    for (int i = 0; i < textValues.length; i++) {
+      var rowControllers = controllers[i];
+      String victim = rowControllers[0].text;
+      String dob = rowControllers[1].text;
+
+      // Check if both victim and dob are not empty
+      if (victim.isNotEmpty && dob.isNotEmpty) {
+        Map<String, dynamic> rowData = {
+          'What': victim,
+          'Where': dob,
+        };
+        WhatnWhere.add(rowData);
+
+      }
+      else {
+        // Show SnackBar with error message
+        showErrorMessage('Suspect and DOB fields cannot be empty');
+        return; // Stop further processing
+      }
+    }
+
+    for (int i = 0; i < textValues1.length; i++) {
+      var rowControllers = controllers2[i];
+      String partOne = rowControllers[0].text;
+
+      if (partOne.isNotEmpty) {
+        Map<String, dynamic> rowDataa = {
+          'Notes ${i+1}': partOne,
+        };
+        Notes.add(rowDataa);
+
+      } else {
+        // Show SnackBar with error message
+        showErrorMessage('Field values cannot be empty');
+        return; // Stop further processing
+      }
+    }
+
+    CollectionReference casesCollection = FirebaseFirestore.instance.collection('Cases');
+
+
+    DocumentReference newCaseRef = casesCollection.doc(id).collection('Allcaes').doc();
+    data['WhatnWhere'] = WhatnWhere;
+    data['Notes'] = Notes;
+    data['docId'] = newCaseRef.id;
+
+    newCaseRef.set(data).then((value) {
+      Navigator.push(context,MaterialPageRoute(builder: (context) =>  BottomBarPage()),
+      );
+    });
   }
 }

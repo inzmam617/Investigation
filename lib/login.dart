@@ -2,13 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:crime_investigation/SignIn_SignUp/SignInPage.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-void main() {
-  runApp(MaterialApp(
-    debugShowCheckedModeBanner: false,
-    home: login(),
-  ));
-}
-
 class login extends StatelessWidget {
   const login({Key? key}) : super(key: key);
 
@@ -33,7 +26,7 @@ class login extends StatelessWidget {
                 Container(
                   height: MediaQuery.of(context).size.height / 2,
                   width: MediaQuery.of(context).size.width,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     image: DecorationImage(
                         image: AssetImage('assets/Component 13 – 1.png'),
                         fit: BoxFit.cover),
@@ -43,7 +36,7 @@ class login extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
+                      children: const [
                         Center(
                             child: Align(
                                 alignment: Alignment.centerLeft,
@@ -91,20 +84,20 @@ class login extends StatelessWidget {
                     ),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 10,
                 ),
-                Text(
+                const Text(
                   'Login',
                   style: TextStyle(fontWeight: FontWeight.bold,
                       fontSize: 18,
                       color: Colors.grey),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 10,
                 ),
                 SvgPicture.asset('assets/Component 16 – 1.svg'),
-                SizedBox(
+                const SizedBox(
                   height: 10,
                 ),
                 ElevatedButton(
@@ -114,9 +107,9 @@ class login extends StatelessWidget {
                             borderRadius: BorderRadius.circular(30))),
                     onPressed: () {
                       Navigator.of(context).push(MaterialPageRoute(
-                          builder: (BuildContext context) {return SignInPage();}));
+                          builder: (BuildContext context) {return const SignInPage();}));
                     },
-                    child: Text('Crime Scene Investigator'))
+                    child: const Text('Crime Scene Investigator'))
               ],
             ),
           ),

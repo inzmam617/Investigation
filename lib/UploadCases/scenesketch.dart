@@ -13,18 +13,27 @@ import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import '../AllCasesPage.dart';
 
 class scenesketch extends StatefulWidget {
-   scenesketch ({Key? key}) : super(key: key);
+  final String? Url;
+  final String? ImageId;
+
+  final String? Title;
+  final String? Edited;
+  final String? id;
+
+  scenesketch ({Key? key, this.Title, this.Edited, this.id, this.Url, this.ImageId}) : super(key: key);
 
   @override
   State<scenesketch> createState() => _scenesketchState();
 }
 
 class _scenesketchState extends State<scenesketch> {
+
   List<Offset> points = [];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        bottomNavigationBar: BottomNavigationBar(
+        /*bottomNavigationBar: BottomNavigationBar(
           backgroundColor: Colors.black,
           items: <BottomNavigationBarItem>[
             BottomNavigationBarItem(
@@ -96,7 +105,7 @@ class _scenesketchState extends State<scenesketch> {
               label: '',
             ),
           ],
-        ),
+        ),*/
         body: Column(children: [
           Container(
             height: MediaQuery.of(context).size.height / 4,
@@ -201,7 +210,23 @@ class _scenesketchState extends State<scenesketch> {
 
 
               SizedBox(height: 20,),
-              Padding(
+              widget.Edited == "true"  ?  Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Container(
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      boxShadow: [
+                        BoxShadow(
+                            color: Colors.grey,
+                            blurRadius: 2
+                        )
+                      ]
+                  ),
+                  height: 300,
+                  width: double.infinity,
+                  child: Image.network(widget.Url!),
+                ),
+              ) : Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Container(
                   decoration: BoxDecoration(
@@ -224,7 +249,45 @@ class _scenesketchState extends State<scenesketch> {
               ),
               SizedBox(height: 20,),
 
-              SizedBox(
+              widget.Edited == "true"  ?   SizedBox(
+                height: 30,
+                child: Container(
+                  decoration: const BoxDecoration(
+                      boxShadow: [
+                        BoxShadow(blurRadius: 3.5, color: Colors.grey)
+                      ],
+                      color: Colors.black,
+                      borderRadius: BorderRadius.only(
+                          topRight: Radius.circular(20),
+                          bottomRight: Radius.circular(20),
+                          topLeft: Radius.circular(20),
+                          bottomLeft: Radius.circular(20))),
+                  child: SizedBox(
+                    width: 160,
+                    child: ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.black,
+                            shape: const RoundedRectangleBorder(
+                                borderRadius: BorderRadius.only(
+                                    bottomLeft: Radius.circular(20),
+                                    topLeft: Radius.circular(20),
+                                    bottomRight: Radius.circular(20),
+                                    topRight: Radius.circular(20)))),
+                        onPressed:(){
+                          CollectionReference casesCollection = FirebaseFirestore.instance.collection('Cases');
+                          firebase_storage.FirebaseStorage.instance.ref().child('signatures').child(widget.ImageId!).delete();
+                          DocumentReference newCaseRef = casesCollection.doc(id).collection('Allcaes').doc(widget.id);
+                          newCaseRef.delete().then((value) {
+                            Navigator.push(context,MaterialPageRoute(builder: (context) =>  AllCases(id: id)),
+                            );
+                          });
+                        },
+                        child: const Text(
+                          'Delete',
+                        )),
+                  ),
+                ),
+              ):SizedBox(
                 height: 30,
                 child: Container(
                   decoration: const BoxDecoration(
@@ -258,7 +321,7 @@ class _scenesketchState extends State<scenesketch> {
               const SizedBox(
                 height: 20,
               ),
-              SizedBox(
+              widget.Edited == "true" ? SizedBox() : SizedBox(
                 height: 30,
                 child: Container(
                   decoration: const BoxDecoration(
@@ -299,9 +362,13 @@ class _scenesketchState extends State<scenesketch> {
     print(id);
 
   }
+
+  TextEditingController title = TextEditingController();
   @override
   void initState() {
     super.initState();
+    title.text = widget.Title ?? '';
+
     initialize();
     _controller = SignatureController(
       penColor: Colors.black,
@@ -334,11 +401,14 @@ class _scenesketchState extends State<scenesketch> {
           "ImageId" : uniqueFilename
 
         };
-        await uploadTask.whenComplete(() => print('Signature uploaded to Firebase'));
         CollectionReference casesCollection = FirebaseFirestore.instance.collection('Cases');
 
 
         DocumentReference newCaseRef = casesCollection.doc(id).collection('Allcaes').doc();
+        await uploadTask.whenComplete(() => print('Signature uploaded to Firebase'));
+
+        data['docId'] = newCaseRef.id;
+
         newCaseRef.set(data).then((value) {
           Navigator.push(context,MaterialPageRoute(builder: (context) =>  AllCases(id: id,)),
           );

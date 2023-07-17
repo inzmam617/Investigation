@@ -8,6 +8,7 @@ import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../AllCasesPage.dart';
+import '../BottomBarPage/BottomBarPage.dart';
 import '../FirebaseClass/FireabaseAuthClass.dart';
 
 class SignInPage extends StatefulWidget {
@@ -62,7 +63,7 @@ class _SignInPageState extends State<SignInPage> {
         else if(value.docs.length != 0){
           Navigator.of(context).push(
               MaterialPageRoute(builder: (BuildContext context) {
-                return  AllCases(id: userId,);
+                return  BottomBarPage();
               })),
           setState(() {
 

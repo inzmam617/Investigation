@@ -101,32 +101,14 @@ class _StartingPageThreeState extends State<StartingPageThree> {
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(30))),
                     onPressed: () {
-                      if(id != ""){
-                        FirebaseFirestore.instance.collection('Cases').doc(id).collection('Allcaes').get().then((value) => {
-                          print("this is the data${value.docs.length}"),
-                          if(value.docs.length == 0){
-                            Navigator.of(context).push(
-                                MaterialPageRoute(builder: (BuildContext context) {
-                                  return const CreatePage();
-                                })),
 
-                          }
-                          else if(value.docs.length != 0){
-                            Navigator.of(context).push(
-                                MaterialPageRoute(builder: (BuildContext context) {
-                                  return  AllCases(id: id,);
-                                })),
-
-                          }
-                        });
-                      }else {
                         Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
                           builder: (context) => const SignInPage(),
                         ),
                       );
-                      }
+
 
                       // Navigator.push(
                       //   context,
