@@ -87,6 +87,7 @@ class _filterState extends State<filter> {
         ],
       ),
       body: ListView(
+        scrollDirection: Axis.vertical,
         children: [
           Column(
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -424,7 +425,7 @@ class _filterState extends State<filter> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => AllCases(id: '',)),
+                                      builder: (context) => AllCases()),
                                 );
                               },
                               child: Text(
@@ -445,7 +446,6 @@ class _filterState extends State<filter> {
             ],
           ),
         ],
-        scrollDirection: Axis.vertical,
       ),
     );
   }

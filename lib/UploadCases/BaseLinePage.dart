@@ -8,6 +8,7 @@ import '../AllCasesPage.dart';
 import '../BottomBarPage/BottomBarPage.dart';
 
 class BaseLinePage extends StatefulWidget {
+  final String? FolderName;
   final String? Title;
   final String? startingpoint;
   final String? dsitanceAtoB;
@@ -28,7 +29,7 @@ class BaseLinePage extends StatefulWidget {
       this.Direction,
       this.onestM,
       this.twostM,
-      this.DirectionofBase, this.startingpoint, this.dsitanceAtoB})
+      this.DirectionofBase, this.startingpoint, this.dsitanceAtoB, this.FolderName})
       : super(key: key);
 
   @override
@@ -207,7 +208,7 @@ class _BaseLinePageState extends State<BaseLinePage> {
 
   }
 
-  String id = " ";
+  String id = "";
 
   Future<void> initialize() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -297,7 +298,7 @@ class _BaseLinePageState extends State<BaseLinePage> {
                           child: SingleChildScrollView(
                             child: Column(
                               children: [
-                                 SizedBox(
+                                 const SizedBox(
                                   height: 30,
                                   child: TextField(
 
@@ -328,12 +329,12 @@ class _BaseLinePageState extends State<BaseLinePage> {
                                 ),
                                 Transform.translate(
                                   offset: const Offset(-75, -28),
-                                  child: SizedBox(
+                                  child: const SizedBox(
                                     height: 26,
                                     width: 26,
                                     child: CircleAvatar(
                                       backgroundColor: Colors.black,
-                                      child: const Icon(
+                                      child: Icon(
                                           Icons.arrow_back_ios_new_outlined,
                                           size: 16),
                                     ),
@@ -357,11 +358,11 @@ class _BaseLinePageState extends State<BaseLinePage> {
                 ),
               ),
                Padding(
-                padding: EdgeInsets.only(left: 30, right: 30),
+                padding: const EdgeInsets.only(left: 30, right: 30),
                 child: TextField(
                   controller: title,
 
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                       enabledBorder: UnderlineInputBorder(),
                       hintText: '                                  Add Title',
                       hintStyle: TextStyle(fontSize: 14),
@@ -1281,19 +1282,17 @@ class _BaseLinePageState extends State<BaseLinePage> {
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
   void delete(){
-    CollectionReference casesCollection =
-    FirebaseFirestore.instance.collection('Cases');
-
-    DocumentReference newCaseRef =
-    casesCollection.doc(id).collection('Allcaes').doc(widget.id);
-    newCaseRef.delete().then((value) {
+    CollectionReference casesCollection = FirebaseFirestore.instance.collection('Cases');
+    CollectionReference newCaseRef = casesCollection.doc(id).collection("AllFolders");
+    DocumentReference allCasesCollection = newCaseRef.doc(widget.FolderName).collection("AllCases").doc(widget.id);
+    allCasesCollection.delete().then((value) {
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => BottomBarPage()),
+        MaterialPageRoute(builder: (context) =>  const BottomBarPage()),
       );
     });
   }
-  void save(){
+  Future<void> save() async {
     Map<String, dynamic> data = {
       "Type": "BaseLine",
       "Title": title.text,
@@ -1392,15 +1391,8 @@ class _BaseLinePageState extends State<BaseLinePage> {
       }
     }
 
-    print(data);
-    CollectionReference casesCollection =
-    FirebaseFirestore.instance
-        .collection('Cases');
-
-    DocumentReference newCaseRef = casesCollection
-        .doc(id)
-        .collection('Allcaes')
-        .doc();
+    CollectionReference casesCollection = FirebaseFirestore.instance.collection('Cases');
+    CollectionReference newCaseRef = casesCollection.doc(id).collection("AllFolders");
     data['markerItem'] = markerItem;
     data['direction'] = direction;
     data['FirstMeasurement'] = FirstMeasurement;
@@ -1408,11 +1400,38 @@ class _BaseLinePageState extends State<BaseLinePage> {
     data['SecondMeasurement'] = SecondMeasurement;
     data['docId'] = newCaseRef.id;
 
-    newCaseRef.set(data).then((value) {
+
+// Check if the folder name already exists in the "AllFolders" collection
+    bool folderExists = false;
+    await newCaseRef
+        .where('Name', isEqualTo: widget.FolderName)
+        .get()
+        .then((querySnapshot) {
+      folderExists = querySnapshot.docs.isNotEmpty;
+    })
+        .catchError((error) {
+      print("Error checking folder name: $error");
+    });
+
+// If the folder name doesn't exist, add it
+    if (!folderExists) {
+      newCaseRef.add({"Name": widget.FolderName})
+          .then((value) {
+        // Folder name added successfully
+        print("Folder name added successfully");
+      })
+          .catchError((error) {
+        // Handle the error if folder name couldn't be added
+        print("Error adding folder name: $error");
+      });
+    }
+
+    DocumentReference allCasesCollection = newCaseRef.doc(widget.FolderName).collection("AllCases").doc();
+    data['docId'] = allCasesCollection.id;
+    allCasesCollection.set(data).then((value) {
       Navigator.push(
         context,
-        MaterialPageRoute(
-            builder: (context) => BottomBarPage()),
+        MaterialPageRoute(builder: (context) =>  const BottomBarPage()),
       );
     });
   }

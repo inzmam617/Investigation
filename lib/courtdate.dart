@@ -492,7 +492,7 @@ class courtdate extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => AllCases(id: '',)),
+                              builder: (context) => AllCases()),
                         );
                       },
 

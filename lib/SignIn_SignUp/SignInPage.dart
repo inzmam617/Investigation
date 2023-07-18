@@ -48,29 +48,29 @@ class _SignInPageState extends State<SignInPage> {
         }
       });
 
-      FirebaseFirestore.instance.collection('Cases').doc(userId).collection('Allcaes').get().then((value) => {
-       print("this is the data${value.docs.length}"),
-        if(value.docs.length == 0){
-            Navigator.of(context).push(
-                MaterialPageRoute(builder: (BuildContext context) {
-                  return const CreatePage();
-                })),
-    setState(() {
-
-    _loading = false;
-    })
-      }
-        else if(value.docs.length != 0){
+      // FirebaseFirestore.instance.collection('Cases').doc(userId).collection('Allcaes').get().then((value) => {
+    //    print("this is the data${value.docs.length}"),
+    //     if(value.docs.length == 0){
+    //         Navigator.of(context).push(
+    //             MaterialPageRoute(builder: (BuildContext context) {
+    //               return const CreatePage();
+    //             })),
+    // setState(() {
+    //
+    // _loading = false;
+    // })
+    //   }
+    //     else if(value.docs.length != 0){
           Navigator.of(context).push(
               MaterialPageRoute(builder: (BuildContext context) {
                 return  BottomBarPage();
-              })),
+              }));
           setState(() {
 
             _loading = false;
-          })
-        }
-      });
+          });
+        // }
+      // });
 
       showSnackBar('User Login successful!');
     } catch (e) {

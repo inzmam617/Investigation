@@ -1,8 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:crime_investigation/setting.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:crime_investigation/courtdate.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'UploadCases/BalisticPage.dart';
 import 'UploadCases/BaseLinePage.dart';
@@ -17,8 +15,8 @@ import 'notebook.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 
 class AllCases extends StatefulWidget {
-  final String id;
-  const AllCases({Key? key, required this.id}) : super(key: key);
+  final String? FolderName;
+  const AllCases({Key? key,  this.FolderName}) : super(key: key);
   @override
   State<AllCases> createState() => _AllCasesState();
 }
@@ -37,141 +35,38 @@ class _AllCasesState extends State<AllCases> {
     initialize();
   }
 
-  Future<void> _showMyDialog() async {
-    return showDialog<void>(
-      context: context,
-      barrierDismissible: false, // user must tap button!
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Create a folder'),
-          content:  SingleChildScrollView(
-            child: ListBody(
-              children: <Widget>[
-                Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: Colors.white,
-                    boxShadow: const [
-                      BoxShadow(color: Colors.grey, blurRadius: 3.6)
-                    ],
-                  ),
-                  height: 40,
-                  child: TextField(
-                    decoration: InputDecoration(
-                        hintText: 'Enter Name of the folder',
-                        hintStyle: const TextStyle(fontSize: 15),
-                        contentPadding: const EdgeInsets.all(10),
 
-                        enabledBorder: OutlineInputBorder(
-                            borderSide: const BorderSide(
-                              color: Colors.white,
-                            ),
-                            borderRadius: BorderRadius.circular(10)),
-                        fillColor: Colors.white,
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10))),
-                  ),
-                ),
-
-              ],
-            ),
-          ),
-          actions: <Widget>[
-            TextButton(
-              child: const Text('Cancel'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-            TextButton(
-              child: const Text('Create'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
   String id = "";
   Future<void> initialize() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
       id = prefs.getString("id") ?? ""; // Use an empty string as the default value if "id" is null
     });
-    print(id);
   }
 
 
   @override
   Widget build(BuildContext context) {
-    print(widget.id);
+
     return Scaffold(
-      // floatingActionButton: FloatingActionButton(
-      //   backgroundColor: Colors.white,
-      //   onPressed: (){
-      //   print("object");
-      //   Navigator.push(
-      //     context,
-      //     MaterialPageRoute(builder: (context) => const notebook()),
-      //   );
-      // },child: Container(
-      //   decoration: BoxDecoration(
-      //       border: Border.all(
-      //         color: Colors.black,
-      //       )),
-      //   child: SizedBox(
-      //     height: 25,
-      //     width: 25,
-      //     child: Transform.scale(
-      //       scale: 2,
-      //       child: CircleAvatar(
-      //           backgroundColor: Colors.white,
-      //           child: Transform.translate(
-      //             offset: const Offset(0, 0),
-      //             child: const Icon(
-      //               Icons.add,
-      //               color: Colors.black,
-      //               size: 25,
-      //             ),
-      //           )),
-      //     ),
-      //   ),
-      // ),),
-      // floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      // bottomNavigationBar: BottomNavigationBar(
-      //   backgroundColor: Colors.black,
-      //   items: <BottomNavigationBarItem>[
-      //     BottomNavigationBarItem(
-      //       icon: InkWell(onTap: () {
-      //         Navigator.push(
-      //           context,
-      //           MaterialPageRoute(builder: (context) =>const courtdate()),
-      //         );
-      //       },
-      //           child: SvgPicture.asset('assets/Component 12 – 1.svg')),
-      //       label: '',
-      //     ),
-      //
-      //     BottomNavigationBarItem(
-      //       icon: InkWell(
-      //         onTap: (){
-      //           Navigator.push(
-      //             context,
-      //             MaterialPageRoute(builder: (context) => setting()),
-      //           );
-      //         },
-      //           child: Icon(Icons.settings,color: Colors.grey,)),
-      //       label: '',
-      //
-      //     ),
-      //   ],
-      // ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          // Add the functionality you want here when the button is pressed
+          // For example, you can add a Navigator to navigate to another page
+          Navigator.push(context, MaterialPageRoute(builder: (context) =>  notebook(FolderName: widget.FolderName)));
+        },
+        backgroundColor: Colors.grey,
+        elevation: 3.4,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(30.0),
+        ),
+        child: const Icon(Icons.add,color: Colors.black,),
+      ),
+
       body: Column(
         children: [
           Container(
-            height: MediaQuery.of(context).size.height / 3,
+            height: MediaQuery.of(context).size.height / 3.5,
             decoration: const BoxDecoration(
                 boxShadow: [BoxShadow(color: Colors.grey, blurRadius: 3.5)],
                 color: Colors.black,
@@ -181,7 +76,7 @@ class _AllCasesState extends State<AllCases> {
             child: Column(
               children: [
                 const SizedBox(height: 50,),
-                Align(
+              Align(
                   alignment: Alignment.topLeft,
                   child: SizedBox(
                     width: 150,
@@ -217,48 +112,37 @@ class _AllCasesState extends State<AllCases> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Column(
-                        children: const [
-                          Align(
-                            alignment: Alignment.centerLeft,
-                            child: Text('Mobile',
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 20,
-                                    fontFamily: 'times new roman')),
-                          ),
-                          Align(alignment: Alignment.centerLeft,
-                            child: Text('Pocket Guide',
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 20,
-                                    fontFamily: 'times new roman')),
-                          ),
-                        ],
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width / 3,
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text('Folder Name: ${widget.FolderName}',
+                              style: const TextStyle(
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 18,
+                                  fontFamily: 'times new roman')),
+                        ),
                       ),
                       SizedBox(
-                          width: 200,
+                          width: MediaQuery.of(context).size.width / 2,
                           child: Image.asset('assets/OBJECT.png',fit: BoxFit.scaleDown,)),
+
                     ],
                   ),
                 ),
               ],
             ),
           ),
-          SizedBox(height: 10,),
-
+          const SizedBox(height: 10,),
           if (id == "") Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
-            children: [const CircularProgressIndicator(), // Show circular indicator while waiting for ID
+            children: const [CircularProgressIndicator(), // Show circular indicator while waiting for ID
     ]
 
           ) else StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-            stream: FirebaseFirestore.instance.collection('Cases').doc(id).collection('Allcaes').snapshots(),
-
-
+            stream: FirebaseFirestore.instance.collection('Cases').doc(id).collection('AllFolders').doc(widget.FolderName).collection("AllCases").snapshots(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const CircularProgressIndicator();
@@ -270,15 +154,11 @@ class _AllCasesState extends State<AllCases> {
                 );
               }
               if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
-
-
                 return const Padding(
                   padding: EdgeInsets.only(top: 100),
                     child: Text('No documents found'));
               }
-
               return Expanded(
-
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 10),
                   child: GridView.builder(
@@ -298,6 +178,8 @@ class _AllCasesState extends State<AllCases> {
                           if(data?["Type"] == "Basic"){
                             Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) {
                               return BasicInformationPage(
+                                FolderName: widget. FolderName,
+
                                 Edited: "true",
                                 Csid: data?["CSI_ID"].toString(),
                                 id: data?["docId"].toString(),
@@ -315,19 +197,16 @@ class _AllCasesState extends State<AllCases> {
                                 Victims: data?["Victims"],
                               );
                             }));
-
-
                             print(data?["Suspects"].runtimeType);
                           }
                           if(data?["Type"] == "Story"){
                             Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) {
                               return StoryPage(
+                                FolderName: widget. FolderName,
                                 Edited: "true",
                                 id: data?["docId"].toString(),
-
                                 Story: data?["Story"].toString(),
                                 Title: data?["Title"].toString(),
-
                               );
                             }));
 
@@ -337,6 +216,8 @@ class _AllCasesState extends State<AllCases> {
                           if(data?["Type"] == "Measurement"){
                             Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) {
                               return SceneMeasurementPage(
+                                FolderName: widget. FolderName,
+
                                 Rooms: data?["Rooms"],
                                 Title: data?["Title"].toString(),
                                 Edited: "true",
@@ -348,6 +229,8 @@ class _AllCasesState extends State<AllCases> {
                           if(data?["Type"] == "Body"){
                             Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) {
                               return BodyMeasurementsPage(
+                                FolderName: widget. FolderName,
+
                                 BodyOne: data?["BodyOne"],
                                 BodyTwo: data?["BodyTwo"],
                                 Edited: "true",
@@ -360,6 +243,8 @@ class _AllCasesState extends State<AllCases> {
                           if(data?["Type"] == "Weapons"){
                             Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) {
                               return WeaponsPage(
+                                FolderName: widget. FolderName,
+
                                 Title: data?["Title"].toString(),
                                 WeaponOne: data?["WeaponOne"],
                                 WeaponTwo: data?["WeaponTwo"],
@@ -373,6 +258,8 @@ class _AllCasesState extends State<AllCases> {
                           if(data?["Type"] == "BaseLine"){
                             Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) {
                               return BaseLinePage(
+                                FolderName: widget. FolderName,
+
                                 startingpoint: data?["startingPoint"].toString(),
                                 dsitanceAtoB: data?["DistanceAtoB"].toString(),
                                 Title: data?["Title"].toString(),
@@ -391,6 +278,8 @@ class _AllCasesState extends State<AllCases> {
                           if(data?["Type"] == "Ballistic"){
                             Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) {
                               return BalisticPage(
+                                FolderName: widget. FolderName,
+
                                 Title: data?["Title"].toString(),
                                 Hole: data?["Hole"],
                                 EntryExit: data?["EntryorExit"],
@@ -417,6 +306,8 @@ class _AllCasesState extends State<AllCases> {
 
                             Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) {
                               return scenesketch(
+                                FolderName: widget. FolderName,
+
                                 ImageId : data["ImageId"],
                                 Edited: "true",
                                 Url : downloadURL,
@@ -435,6 +326,8 @@ class _AllCasesState extends State<AllCases> {
 
                             Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) {
                               return evidence(
+                                FolderName: widget. FolderName,
+
                                 Edited: "true",
                                 WhatnWhere: data!["WhatnWhere"],
                                 Notes: data["Notes"],

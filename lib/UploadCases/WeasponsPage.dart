@@ -8,6 +8,7 @@ import '../BottomBarPage/BottomBarPage.dart';
 
 class WeaponsPage extends StatefulWidget {
   final String? Title;
+  final String? FolderName;
 
   final String? Edited;
   final String? id;
@@ -15,7 +16,7 @@ class WeaponsPage extends StatefulWidget {
   final List<dynamic>? WeaponOne;
   final List<dynamic>? WeaponTwo;
   final List<dynamic>? WeaponThree;
-  const WeaponsPage({Key? key, this.Title, this.Edited, this.id, this.WeaponOne, this.WeaponTwo, this.WeaponThree}) : super(key: key);
+  const WeaponsPage({Key? key, this.Title, this.Edited, this.id, this.WeaponOne, this.WeaponTwo, this.WeaponThree, this.FolderName}) : super(key: key);
 
   @override
   State<WeaponsPage> createState() => _WeaponsPageState();
@@ -1129,19 +1130,18 @@ class _WeaponsPageState extends State<WeaponsPage> {
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
   void delete(){
-    CollectionReference casesCollection =
-    FirebaseFirestore.instance.collection('Cases');
-
-    DocumentReference newCaseRef =
-    casesCollection.doc(id).collection('Allcaes').doc(widget.id);
-    newCaseRef.delete().then((value) {
+    CollectionReference casesCollection = FirebaseFirestore.instance.collection('Cases');
+    CollectionReference newCaseRef = casesCollection.doc(id).collection("AllFolders");
+    DocumentReference allCasesCollection = newCaseRef.doc(widget.FolderName).collection("AllCases").doc(widget.id);
+    allCasesCollection.delete().then((value) {
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => BottomBarPage()),
+        MaterialPageRoute(builder: (context) =>  const BottomBarPage()),
       );
     });
   }
-  void save(){
+
+  Future<void> save() async {
     List<Map<String, dynamic>> WeaponOne = [];
     List<Map<String, dynamic>> WeaponTwo = [];
     List<Map<String, dynamic>> WeaponThree = [];
@@ -1208,19 +1208,41 @@ class _WeaponsPageState extends State<WeaponsPage> {
         return; // Stop further processing
       }
     }
-    print(data);
     CollectionReference casesCollection = FirebaseFirestore.instance.collection('Cases');
+    CollectionReference newCaseRef = casesCollection.doc(id).collection("AllFolders");
+    bool folderExists = false;
+    await newCaseRef
+        .where('Name', isEqualTo: widget.FolderName)
+        .get()
+        .then((querySnapshot) {
+      folderExists = querySnapshot.docs.isNotEmpty;
+    })
+        .catchError((error) {
+      print("Error checking folder name: $error");
+    });
 
-
-    DocumentReference newCaseRef = casesCollection.doc(id).collection('Allcaes').doc();
+// If the folder name doesn't exist, add it
+    if (!folderExists) {
+      newCaseRef.add({"Name": widget.FolderName})
+          .then((value) {
+        // Folder name added successfully
+        print("Folder name added successfully");
+      })
+          .catchError((error) {
+        // Handle the error if folder name couldn't be added
+        print("Error adding folder name: $error");
+      });
+    }
 
     data['WeaponOne'] = WeaponOne;
     data['WeaponTwo'] = WeaponTwo;
     data['WeaponThree'] = WeaponThree;
-    data['docId'] = newCaseRef.id;
-    newCaseRef.set(data).then((value) {
-      Navigator.push(context,        MaterialPageRoute(builder: (context) => const BottomBarPage()),
-
+    DocumentReference allCasesCollection = newCaseRef.doc(widget.FolderName).collection("AllCases").doc();
+    data['docId'] = allCasesCollection.id;
+    allCasesCollection.set(data).then((value) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) =>  const BottomBarPage()),
       );
     });
 

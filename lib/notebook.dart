@@ -18,9 +18,16 @@ import 'package:crime_investigation/UploadCases/WeasponsPage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class notebook extends StatelessWidget {
-  const notebook({Key? key}) : super(key: key);
+class notebook extends StatefulWidget {
+  final String? FolderName;
 
+  const notebook({Key? key, this.FolderName}) : super(key: key);
+
+  @override
+  State<notebook> createState() => _notebookState();
+}
+
+class _notebookState extends State<notebook> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -98,8 +105,9 @@ class notebook extends StatelessWidget {
                       onPressed: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) =>const BasicInformationPage(
+                          MaterialPageRoute(builder: (context) => BasicInformationPage(
                             Edited: "null",
+                              FolderName: widget.FolderName
 
 
                           )),
@@ -131,7 +139,10 @@ class notebook extends StatelessWidget {
                       onPressed: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) =>StoryPage()),
+                          MaterialPageRoute(builder: (context) =>StoryPage(
+                              FolderName: widget.FolderName,
+
+                          )),
                         );
                       },
                       child: const Text(
@@ -148,7 +159,10 @@ class notebook extends StatelessWidget {
                 child: InkWell(onTap:() {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) =>const SceneMeasurementPage()),
+                    MaterialPageRoute(builder: (context) => SceneMeasurementPage(
+                      FolderName: widget.FolderName,
+
+                    )),
                   );
                 },
                   child: Container(
@@ -166,7 +180,10 @@ class notebook extends StatelessWidget {
                         onPressed: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) =>const SceneMeasurementPage()),
+                            MaterialPageRoute(builder: (context) => SceneMeasurementPage(
+                              FolderName: widget.FolderName,
+
+                            )),
                           );
                         },
                         child: const Text(
@@ -184,7 +201,10 @@ class notebook extends StatelessWidget {
                 child: InkWell(onTap:() {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) =>const BodyMeasurementsPage()),
+                    MaterialPageRoute(builder: (context) => BodyMeasurementsPage(
+                      FolderName: widget.FolderName,
+
+                    )),
                   );
                 },
                   child: Container(
@@ -202,7 +222,10 @@ class notebook extends StatelessWidget {
                         onPressed: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) =>const BodyMeasurementsPage()),
+                            MaterialPageRoute(builder: (context) => BodyMeasurementsPage(
+                              FolderName: widget.FolderName,
+
+                            )),
                           );
                         },
                         child: const Text(
@@ -220,7 +243,11 @@ class notebook extends StatelessWidget {
                 child: InkWell(onTap: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) =>const WeaponsPage()),
+                    MaterialPageRoute(builder: (context) => WeaponsPage(
+                      FolderName: widget.FolderName,
+
+
+                    )),
                   );
                 },
                   child: Container(
@@ -238,7 +265,10 @@ class notebook extends StatelessWidget {
                         onPressed: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) =>const WeaponsPage()),
+                            MaterialPageRoute(builder: (context) => WeaponsPage(
+                              FolderName: widget.FolderName,
+
+                            )),
                           );
                         },
                         child: const Text(
@@ -256,7 +286,10 @@ class notebook extends StatelessWidget {
                 child: InkWell(onTap:() {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) =>const BaseLinePage()),
+                    MaterialPageRoute(builder: (context) => BaseLinePage(
+                      FolderName: widget.FolderName,
+
+                    )),
                   );
                 },
                   child: Container(
@@ -274,7 +307,10 @@ class notebook extends StatelessWidget {
                         onPressed: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) =>const BaseLinePage()),
+                            MaterialPageRoute(builder: (context) => BaseLinePage(
+                              FolderName: widget.FolderName,
+
+                            )),
                           );
                         },
                         child: const Text(
@@ -292,7 +328,10 @@ class notebook extends StatelessWidget {
                 child: InkWell(onTap: () {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) =>const BalisticPage()),
+                    MaterialPageRoute(builder: (context) => BalisticPage(
+                      FolderName: widget.FolderName,
+
+                    )),
                   );
                 },
                   child: Container(
@@ -310,7 +349,10 @@ class notebook extends StatelessWidget {
                         onPressed: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) =>const BalisticPage()),
+                            MaterialPageRoute(builder: (context) => BalisticPage(
+                              FolderName: widget.FolderName,
+
+                            )),
                           );
                         },
                         child: const Text(
@@ -328,7 +370,10 @@ class notebook extends StatelessWidget {
                 child: InkWell(onTap:() {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => scenesketch()),
+                    MaterialPageRoute(builder: (context) => scenesketch(
+                      FolderName: widget.FolderName,
+
+                    )),
                   );
                 },
                   child: Container(
@@ -346,7 +391,10 @@ class notebook extends StatelessWidget {
                         onPressed: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => scenesketch()),
+                            MaterialPageRoute(builder: (context) => scenesketch(
+                              FolderName: widget.FolderName,
+
+                            )),
                           );
                         },
                         child: const Text(
@@ -364,7 +412,10 @@ class notebook extends StatelessWidget {
                 child: InkWell(onTap:() {
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) =>const evidence()),
+                    MaterialPageRoute(builder: (context) => evidence(
+                      FolderName: widget.FolderName,
+
+                    )),
                   );
                 },
                   child: Container(
@@ -378,17 +429,10 @@ class notebook extends StatelessWidget {
                             topLeft: Radius.circular(30),
                             topRight: Radius.circular(30),
                             bottomRight: Radius.circular(30))),
-                    child: TextButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) =>const evidence()),
-                          );
-                        },
-                        child: const Text(
-                          'Evidence List',
-                          style: TextStyle(color: Color(0xff86898E), fontSize: 16),
-                        )),
+                    child: const Text(
+                      'Evidence List',
+                      style: TextStyle(color: Color(0xff86898E), fontSize: 16),
+                    ),
                   ),
                 ),
               ),

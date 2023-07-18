@@ -22,11 +22,11 @@ class _hangingState extends State<hanging> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Transform.translate(
-                offset: Offset(0, -25),
+                offset: const Offset(0, -25),
                 child: Container(
                   height: MediaQuery.of(context).size.height / 3.5,
                   width: MediaQuery.of(context).size.width,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                       color: Colors.black,
                       borderRadius: BorderRadius.only(
                         bottomLeft: Radius.circular(30),
@@ -34,13 +34,13 @@ class _hangingState extends State<hanging> {
                   child: Padding(
                     padding: const EdgeInsets.only(top: 60, right: 90),
                     child: Transform.translate(
-                      offset: Offset(-45, 0),
+                      offset: const Offset(-45, 0),
                       child: Align(
                         alignment: Alignment.centerLeft,
                         child: SingleChildScrollView(
                           child: Column(
                             children: [
-                              SizedBox(
+                              const SizedBox(
                                 height: 30,
                                 child: TextField(
                                     decoration: InputDecoration(
@@ -66,8 +66,8 @@ class _hangingState extends State<hanging> {
                                                 Radius.circular(30))))),
                               ),
                               Transform.translate(
-                                offset: Offset(-50, -28),
-                                child: SizedBox(
+                                offset: const Offset(-50, -28),
+                                child: const SizedBox(
                                   height: 26,
                                   width: 26,
                                   child: CircleAvatar(
@@ -79,8 +79,8 @@ class _hangingState extends State<hanging> {
                                 ),
                               ),
                               Transform.translate(
-                                  offset: Offset(40, -50),
-                                  child: Text(
+                                  offset: const Offset(40, -50),
+                                  child: const Text(
                                     'Hanging Checklist',
                                     style: TextStyle(color: Color(0xff86898E)),
                                   ))
@@ -93,7 +93,7 @@ class _hangingState extends State<hanging> {
                 ),
               ),
               Transform.translate(
-                  offset: Offset(110, -160),
+                  offset: const Offset(110, -160),
                   child: SvgPicture.asset(
                     'assets/Checklist-bro.svg',
                     fit: BoxFit.cover,
@@ -101,16 +101,16 @@ class _hangingState extends State<hanging> {
               SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Transform.translate(
-                  offset: Offset(0, -60),
+                  offset: const Offset(0, -60),
                   child: Row(
                     children: [
                       Image.asset('assets/tik.png'),
                       Transform.translate(
-                        offset: Offset(-15, 0),
+                        offset: const Offset(-15, 0),
                         child: Container(
                           height: 100,
                           width: MediaQuery.of(context).size.width / 1.3,
-                          decoration: BoxDecoration(
+                          decoration: const BoxDecoration(
                               boxShadow: [
                                 BoxShadow(blurRadius: 2.5, color: Colors.grey)
                               ],
@@ -126,22 +126,22 @@ class _hangingState extends State<hanging> {
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(' Notes,Notes,Notes!',
+                                const Text(' Notes,Notes,Notes!',
                                     style: TextStyle(
                                         color: Color(0xff86898E),
                                         fontWeight: FontWeight.bold)),
-                                SizedBox(
+                                const SizedBox(
                                   height: 10,
                                 ),
-                                Text(
+                                const Text(
                                   '-Complete"Basic Information"portion of your ',
                                   style: TextStyle(
                                       fontSize: 13, color: Color(0xff86898E)),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 10,
                                 ),
-                                Text(
+                                const Text(
                                   ' notebook.',
                                   style: TextStyle(
                                       fontSize: 13, color: Color(0xff86898E)),
@@ -158,16 +158,16 @@ class _hangingState extends State<hanging> {
               SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Transform.translate(
-                  offset: Offset(0, -40),
+                  offset: const Offset(0, -40),
                   child: Row(
                     children: [
                       Image.asset('assets/white tick.png'),
                       Transform.translate(
-                        offset: Offset(-15, 0),
+                        offset: const Offset(-15, 0),
                         child: Container(
                           height: 100,
                           width: MediaQuery.of(context).size.width / 1.3,
-                          decoration: BoxDecoration(
+                          decoration: const BoxDecoration(
                               boxShadow: [
                                 BoxShadow(blurRadius: 2.5, color: Colors.grey)
                               ],
@@ -183,23 +183,23 @@ class _hangingState extends State<hanging> {
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(
+                                const Text(
                                     ' Photograph the scene:',
                                     style: TextStyle(
                                         color: Color(0xff86898E),
                                         fontWeight: FontWeight.bold)),
-                                SizedBox(
+                                const SizedBox(
                                   height: 10,
                                 ),
-                                Text(
+                                const Text(
                                   ' Make your to take good photographs of the ',
                                   style: TextStyle(
                                       fontSize: 13, color: Color(0xff86898E)),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 10,
                                 ),
-                                Text(
+                                const Text(
                                   ' knot. ',
                                   style: TextStyle(
                                       fontSize: 13, color: Color(0xff86898E)),
@@ -215,22 +215,22 @@ class _hangingState extends State<hanging> {
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Transform.translate(
-                  offset: Offset(0, -40),
+                  offset: const Offset(0, -40),
                   child: Row(
                     children: [
                       Image.asset('assets/white tick.png'),
                       Transform.translate(
-                        offset: Offset(-15, 0),
+                        offset: const Offset(-15, 0),
                         child: Container(
                           height: 130,
                           width: MediaQuery.of(context).size.width / 1.3,
-                          decoration: BoxDecoration(
+                          decoration: const BoxDecoration(
                               boxShadow: [
                                 BoxShadow(blurRadius: 2.5, color: Colors.grey)
                               ],
@@ -246,33 +246,33 @@ class _hangingState extends State<hanging> {
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(
+                                const Text(
                                     ' Measurements',
                                     style: TextStyle(
                                         color: Color(0xff86898E),
                                         fontWeight: FontWeight.bold)),
-                                SizedBox(
+                                const SizedBox(
                                   height: 10,
                                 ),
-                                Text(
+                                const Text(
                                   "-Measure from the ground to the knot.",
                                   style: TextStyle(
                                       fontSize: 13,
                                       color: Color(0xff86898E),
                                       ),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 10,
                                 ),
-                                Text(
+                                const Text(
                                   "-Complete the'body measurement'portion  ",
                                   style: TextStyle(
                                       fontSize: 13, color: Color(0xff86898E)),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 10,
                                 ),
-                                Text(
+                                const Text(
                                   " of your notebook",
                                   style: TextStyle(
                                       fontSize: 13, color: Color(0xff86898E)),
@@ -287,22 +287,22 @@ class _hangingState extends State<hanging> {
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Transform.translate(
-                  offset: Offset(0, -40),
+                  offset: const Offset(0, -40),
                   child: Row(
                     children: [
                       Image.asset('assets/tik.png'),
                       Transform.translate(
-                        offset: Offset(-15, 0),
+                        offset: const Offset(-15, 0),
                         child: Container(
                           height: 180,
                           width: MediaQuery.of(context).size.width / 1.3,
-                          decoration: BoxDecoration(
+                          decoration: const BoxDecoration(
                               boxShadow: [
                                 BoxShadow(blurRadius: 2.5, color: Colors.grey)
                               ],
@@ -318,46 +318,46 @@ class _hangingState extends State<hanging> {
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(' Collect',
+                                const Text(' Collect',
                                     style: TextStyle(
                                         color: Color(0xff86898E),
                                         fontWeight: FontWeight.bold)),
-                                SizedBox(
+                                const SizedBox(
                                   height: 10,
                                 ),
-                                Text(
+                                const Text(
                                   "-Collect any items of evidence.",
                                   style: TextStyle(
                                       fontSize: 13, color: Color(0xff86898E),),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 10,
                                 ),
-                                Text(
+                                const Text(
                                   " Search for handwritten notes or letters",
                                   style: TextStyle(
                                       fontSize: 13, color: Color(0xff86898E)),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 10,
                                 ),
-                                Text(
+                                const Text(
                                   " Collect the rope if it was already cut before ",
                                   style: TextStyle(
                                       fontSize: 13, color: Color(0xff86898E)),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 10,
                                 ),
-                                Text(
+                                const Text(
                                   " your arrival.",
                                   style: TextStyle(
                                       fontSize: 13, color: Color(0xff86898E)),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 10,
                                 ),
-                                Text(
+                                const Text(
                                   " Collect what was left of the rope.",
                                   style: TextStyle(
                                       fontSize: 13, color: Color(0xff86898E)),
@@ -371,22 +371,22 @@ class _hangingState extends State<hanging> {
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Transform.translate(
-                  offset: Offset(0, -40),
+                  offset: const Offset(0, -40),
                   child: Row(
                     children: [
                       Image.asset('assets/white tick.png'),
                       Transform.translate(
-                        offset: Offset(-15, 0),
+                        offset: const Offset(-15, 0),
                         child: Container(
                           height: 330,
                           width: MediaQuery.of(context).size.width / 1.3,
-                          decoration: BoxDecoration(
+                          decoration: const BoxDecoration(
                               boxShadow: [
                                 BoxShadow(blurRadius: 2.5, color: Colors.grey)
                               ],
@@ -402,86 +402,86 @@ class _hangingState extends State<hanging> {
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(' Cut the rope or item that was used for ',
+                                const Text(' Cut the rope or item that was used for ',
                                     style: TextStyle(
                                         color: Color(0xff86898E),
                                         fontWeight: FontWeight.bold)),
-                                SizedBox(
+                                const SizedBox(
                                   height: 10,
                                 ),
-                                Text(
+                                const Text(
                                   " the hanging",
                                   style: TextStyle(
                                     fontSize: 13, color: Color(0xff86898E),),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 10,
                                 ),
-                                Text(
+                                const Text(
                                   " IF the rope is not cut but still tied, DO ",
                                   style: TextStyle(
                                       fontSize: 13, color: Color(0xff86898E),),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 10,
                                 ),
-                                Text(
+                                const Text(
                                   " NOT UNDO",
                                   style: TextStyle(
                                       fontSize: 13, color: Color(0xff86898E)),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 10,
                                 ),
-                                Text(
+                                const Text(
                                   " THE KNOT.",
                                   style: TextStyle(
                                       fontSize: 13, color: Color(0xff86898E)),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 10,
                                 ),
-                                Text(
+                                const Text(
                                   "-Cut the rope and mark where you cut it,",
                                   style: TextStyle(
                                       fontSize: 13, color: Color(0xff86898E)),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 10,
                                 ),
-                                Text(
+                                const Text(
                                   "-If possible leave the rope on the victim's ",
                                   style: TextStyle(
                                       fontSize: 13, color: Color(0xff86898E)),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 10,
                                 ),
-                                Text(
+                                const Text(
                                   " neck,This allows",
                                   style: TextStyle(
                                       fontSize: 13, color: Color(0xff86898E)),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 10,
                                 ),
-                                Text(
+                                const Text(
                                   "-Medical Examinar to have a better visual of  ",
                                   style: TextStyle(
                                       fontSize: 13, color: Color(0xff86898E)),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 10,
                                 ),
-                                Text(
+                                const Text(
                                   " what may have Happened ",
                                   style: TextStyle(
                                       fontSize: 13, color: Color(0xff86898E)),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   height: 10,
                                 ),
-                                Text(
+                                const Text(
                                   " have Happened ",
                                   style: TextStyle(
                                       fontSize: 13, color: Color(0xff86898E)),
@@ -495,22 +495,22 @@ class _hangingState extends State<hanging> {
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Transform.translate(
-                  offset: Offset(0, -40),
+                  offset: const Offset(0, -40),
                   child: Row(
                     children: [
                       Image.asset('assets/tik.png'),
                       Transform.translate(
-                        offset: Offset(-15, 0),
+                        offset: const Offset(-15, 0),
                         child: Container(
                           height: 80,
                           width: MediaQuery.of(context).size.width / 1.3,
-                          decoration: BoxDecoration(
+                          decoration: const BoxDecoration(
                               boxShadow: [
                                 BoxShadow(blurRadius: 2.5, color: Colors.grey)
                               ],
@@ -526,14 +526,14 @@ class _hangingState extends State<hanging> {
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(' Process for latent prints if applicable',
+                                const Text(' Process for latent prints if applicable',
                                     style: TextStyle(
                                         color: Color(0xff86898E),
                                         fontWeight: FontWeight.bold)),
-                                SizedBox(
+                                const SizedBox(
                                   height: 10,
                                 ),
-                                Text(
+                                const Text(
                                   "-Stay focused ,Stay Organized, Stay Geek'd",
                                   style: TextStyle(
                                       fontSize: 13, color: Color(0xff86898E),),
@@ -549,13 +549,13 @@ class _hangingState extends State<hanging> {
                 ),
               ),
 
-              SizedBox(
+              const SizedBox(
                 height: 20,
               ),
               SizedBox(
                 height: 30,
                 child: Container(
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                       boxShadow: [
                         BoxShadow(blurRadius: 3.5, color: Colors.grey)
                       ],
@@ -570,7 +570,7 @@ class _hangingState extends State<hanging> {
                     child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.black,
-                            shape: RoundedRectangleBorder(
+                            shape: const RoundedRectangleBorder(
                                 borderRadius: BorderRadius.only(
                                     bottomLeft: Radius.circular(20),
                                     topLeft: Radius.circular(20),
@@ -579,17 +579,17 @@ class _hangingState extends State<hanging> {
                         onPressed: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) =>checklist()),
+                            MaterialPageRoute(builder: (context) =>const checklist()),
                           );
                         },
-                        child: Text(
+                        child: const Text(
                           'Save',
                           style: TextStyle(color: Colors.white),
                         )),
                   ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 40,
               ),
             ],

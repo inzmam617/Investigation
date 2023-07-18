@@ -1,11 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import '../AllCasesPage.dart';
 import '../Homepage/HomePage.dart';
 import '../courtdate.dart';
-import '../notebook.dart';
 import '../setting.dart';
 
 
@@ -19,6 +18,7 @@ class BottomBarPage extends StatefulWidget {
 class _BottomBarPageState extends State<BottomBarPage> {
   int _selectedIndex = 1;
  late List<Widget> _widgetOptions;
+ TextEditingController folder = TextEditingController();
 
   void _onItemTapped(int index) {
     setState(() {
@@ -37,8 +37,7 @@ class _BottomBarPageState extends State<BottomBarPage> {
     initialize();
     _widgetOptions = <Widget>[
       const courtdate(),
-      // AllCases(id: id),
-      const HomePage(),
+       HomePage( id:  id,),
       const setting(),
 
 
@@ -49,7 +48,7 @@ class _BottomBarPageState extends State<BottomBarPage> {
   Future<void> initialize() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     id =  prefs.getString("id").toString();
-    print(id);
+    print("thisis the id : " + id);
 
   }
   @override
@@ -63,14 +62,7 @@ class _BottomBarPageState extends State<BottomBarPage> {
         child: FloatingActionButton(
           backgroundColor:Colors.white,
           onPressed: () {
-
             _showMyDialog();
-            // Navigator.push(
-            //   context,
-            //   MaterialPageRoute(builder: (context) => const notebook()),
-            // );
-
-
           },
           child: const Icon(Icons.add,color: Colors.black,size: 50,),
         ),
@@ -116,37 +108,30 @@ class _BottomBarPageState extends State<BottomBarPage> {
         builder: (BuildContext context)
     {
       return AlertDialog(
-        title: const Text('AlertDialog Title'),
-        content: SingleChildScrollView(
-          child: ListBody(
-            children: <Widget>[
-              Container(
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: Colors.white,
-                    boxShadow: const [
-                      BoxShadow(color: Colors.grey, blurRadius: 3.6)
-                    ]),
-                height: 40,
-                child: Center(
-                  child: TextField(
-                    decoration: InputDecoration(
-                        hintStyle: const TextStyle(fontSize: 15),
-
-                        helperText: "Enter A name of Case",
-                        enabledBorder: OutlineInputBorder(
-                            borderSide: const BorderSide(
-                              color: Colors.white,
-                            ),
-                            borderRadius: BorderRadius.circular(10)),
-                        border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10))),
-                  ),
-                ),
-              ),
-
-
-            ],
+        title: const Text('Enter Name of the folder'),
+        content: Container(
+          height: 40,
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: Colors.white,
+              boxShadow: const [
+                BoxShadow(color: Colors.grey, blurRadius: 3.6)
+              ]),
+          child: Center(
+            child: TextField(
+              controller: folder,
+              decoration: InputDecoration(
+                contentPadding: const EdgeInsets.symmetric(vertical: 10,horizontal: 20),
+                  hintStyle: const TextStyle(fontSize: 15),
+                  hintText: "Enter Name of the folder",
+                  enabledBorder: OutlineInputBorder(
+                      borderSide: const BorderSide(
+                        color: Colors.white,
+                      ),
+                      borderRadius: BorderRadius.circular(10)),
+                  border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10))),
+            ),
           ),
         ),
         actions: <Widget>[
@@ -160,6 +145,7 @@ class _BottomBarPageState extends State<BottomBarPage> {
             child: const Text('Create'),
             onPressed: () {
               Navigator.of(context).pop();
+              uploadDataAndNavigate(context);
             },
           ),
         ],
@@ -167,4 +153,33 @@ class _BottomBarPageState extends State<BottomBarPage> {
     },
     );
   }
+
+  // void uploadData() async {
+  //
+  //   Map<String, dynamic> data = {
+  //     // Your data map here
+  //     "exampleField": "exampleValue",
+  //   };
+  //
+  //   CollectionReference casesCollection = FirebaseFirestore.instance.collection('Cases');
+  //   CollectionReference newCaseRef = casesCollection.doc(id).collection("AllFolders");
+  //   DocumentReference allCasesCollection = newCaseRef.doc(folder.text);
+  //   // DocumentReference collectionDataRef = allCasesCollection.collection("AllCases").doc();
+  //   // await collectionDataRef.set(data);
+  // }}
+
+void uploadDataAndNavigate(BuildContext context) async {
+
+  // CollectionReference casesCollection = FirebaseFirestore.instance.collection('Cases');
+  // CollectionReference newCaseRef = casesCollection.doc(id).collection("AllFolders");
+  // DocumentReference allCasesCollection = newCaseRef.doc(folder.text);
+  // allCasesCollection.set({});
+
+  Navigator.push(
+    context,
+    MaterialPageRoute(
+      builder: (context) => AllCases(FolderName: folder.text,),
+    ),
+  );
+}
 }

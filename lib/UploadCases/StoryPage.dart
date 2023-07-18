@@ -3,11 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:crime_investigation/notebook.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
-import '../AllCasesPage.dart';
 import '../BottomBarPage/BottomBarPage.dart';
 
 class StoryPage extends StatefulWidget {
+  final String? FolderName;
   final String? Story;
   final String? Title;
   final String? Edited;
@@ -15,7 +14,7 @@ class StoryPage extends StatefulWidget {
 
   @override
   State<StoryPage> createState() => _StoryPageState();
-  StoryPage({Key? key, this.Story, this.Title, this.Edited, this.id, }) : super(key: key);
+  StoryPage({Key? key, this.Story, this.Title, this.Edited, this.id, this.FolderName, }) : super(key: key);
 
 }
 
@@ -368,37 +367,61 @@ class _StoryPageState extends State<StoryPage> {
 
   }
   void delete(){
-    CollectionReference casesCollection =
-    FirebaseFirestore.instance.collection('Cases');
-
-    DocumentReference newCaseRef =
-    casesCollection.doc(id).collection('Allcaes').doc(widget.id);
-    newCaseRef.delete().then((value) {
+    CollectionReference casesCollection = FirebaseFirestore.instance.collection('Cases');
+    CollectionReference newCaseRef = casesCollection.doc(id).collection("AllFolders");
+    DocumentReference allCasesCollection = newCaseRef.doc(widget.FolderName).collection("AllCases").doc(widget.id);
+    allCasesCollection.delete().then((value) {
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => BottomBarPage()),
+        MaterialPageRoute(builder: (context) =>  const BottomBarPage()),
       );
     });
   }
-  void save(){
+
+  Future<void> save() async {
     Map<String, dynamic> data = {
       "Type" : "Story",
       'Title': title.text,
       'Story': story.text,
-
     };
-if(title.text == ""){
-return showErrorMessage("Fields cannot be empty");
-}
+      if(title.text == ""){
+      return showErrorMessage("Fields cannot be empty");
+      }
 
     CollectionReference casesCollection = FirebaseFirestore.instance.collection('Cases');
+    CollectionReference newCaseRef = casesCollection.doc(id).collection("AllFolders");
 
+// Check if the folder name already exists in the "AllFolders" collection
+    bool folderExists = false;
+    await newCaseRef
+        .where('Name', isEqualTo: widget.FolderName)
+        .get()
+        .then((querySnapshot) {
+      folderExists = querySnapshot.docs.isNotEmpty;
+    })
+        .catchError((error) {
+      print("Error checking folder name: $error");
+    });
 
-    DocumentReference newCaseRef = casesCollection.doc(id).collection('Allcaes').doc();
-    data['docId'] = newCaseRef.id;
+// If the folder name doesn't exist, add it
+    if (!folderExists) {
+      newCaseRef.add({"Name": widget.FolderName})
+          .then((value) {
+        // Folder name added successfully
+        print("Folder name added successfully");
+      })
+          .catchError((error) {
+        // Handle the error if folder name couldn't be added
+        print("Error adding folder name: $error");
+      });
+    }
 
-    newCaseRef.set(data).then((value) {
-      Navigator.push(context,MaterialPageRoute(builder: (context) =>  BottomBarPage()),
+    DocumentReference allCasesCollection = newCaseRef.doc(widget.FolderName).collection("AllCases").doc();
+    data['docId'] = allCasesCollection.id;
+    allCasesCollection.set(data).then((value) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) =>  const BottomBarPage()),
       );
     });
   }

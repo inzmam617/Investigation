@@ -13,8 +13,9 @@ class evidence extends StatefulWidget {
   final String? id;
   final List<dynamic>? WhatnWhere;
   final List<dynamic>? Notes;
+  final String? FolderName;
 
-  const evidence({Key? key, this.Edited, this.id, this.WhatnWhere, this.Notes, this.Title}) : super(key: key);
+  const evidence({Key? key, this.Edited, this.id, this.WhatnWhere, this.Notes, this.Title, this.FolderName}) : super(key: key);
 
   @override
   State<evidence> createState() => _evidenceState();
@@ -687,19 +688,17 @@ class _evidenceState extends State<evidence> {
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
   void delete(){
-    CollectionReference casesCollection =
-    FirebaseFirestore.instance.collection('Cases');
-
-    DocumentReference newCaseRef =
-    casesCollection.doc(id).collection('Allcaes').doc(widget.id);
-    newCaseRef.delete().then((value) {
+    CollectionReference casesCollection = FirebaseFirestore.instance.collection('Cases');
+    CollectionReference newCaseRef = casesCollection.doc(id).collection("AllFolders");
+    DocumentReference allCasesCollection = newCaseRef.doc(widget.FolderName).collection("AllCases").doc(widget.id);
+    allCasesCollection.delete().then((value) {
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => BottomBarPage()),
+        MaterialPageRoute(builder: (context) =>  const BottomBarPage()),
       );
     });
   }
-  void save(){
+  Future<void> save() async {
     Map<String, dynamic> data = {
       "Type" : "Evidence",
       "Title" : title.text,
@@ -750,17 +749,41 @@ class _evidenceState extends State<evidence> {
         return; // Stop further processing
       }
     }
-
     CollectionReference casesCollection = FirebaseFirestore.instance.collection('Cases');
+    CollectionReference newCaseRef = casesCollection.doc(id).collection("AllFolders");
 
+    bool folderExists = false;
+    await newCaseRef
+        .where('Name', isEqualTo: widget.FolderName)
+        .get()
+        .then((querySnapshot) {
+      folderExists = querySnapshot.docs.isNotEmpty;
+    })
+        .catchError((error) {
+      print("Error checking folder name: $error");
+    });
 
-    DocumentReference newCaseRef = casesCollection.doc(id).collection('Allcaes').doc();
+// If the folder name doesn't exist, add it
+    if (!folderExists) {
+      newCaseRef.add({"Name": widget.FolderName})
+          .then((value) {
+        // Folder name added successfully
+        print("Folder name added successfully");
+      })
+          .catchError((error) {
+        // Handle the error if folder name couldn't be added
+        print("Error adding folder name: $error");
+      });
+    }
     data['WhatnWhere'] = WhatnWhere;
     data['Notes'] = Notes;
-    data['docId'] = newCaseRef.id;
 
-    newCaseRef.set(data).then((value) {
-      Navigator.push(context,MaterialPageRoute(builder: (context) =>  BottomBarPage()),
+    DocumentReference allCasesCollection = newCaseRef.doc(widget.FolderName).collection("AllCases").doc();
+    data['docId'] = allCasesCollection.id;
+    allCasesCollection.set(data).then((value) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) =>  const BottomBarPage()),
       );
     });
   }
