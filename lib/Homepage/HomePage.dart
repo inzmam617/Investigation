@@ -28,9 +28,6 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    setState(() {
-      initialize();
-    });
     initialize();
   }
 
@@ -123,6 +120,12 @@ class _HomePageState extends State<HomePage> {
                 final allFolders = snapshot.data!.docs;
 
                 print(snapshot.data!.size);
+                if(snapshot.data!.size == 0){
+                  return const Padding(
+                    padding: EdgeInsets.only(top: 100),
+                    child: Text('No documents found'),
+                  );
+                }
                 return Expanded(
                   child: Padding(
                     padding: const EdgeInsets.all(10),
@@ -168,46 +171,7 @@ class _HomePageState extends State<HomePage> {
               },
             ),
 
-          // Expanded(
-          // child: ListView.builder(
-          // itemCount: allFolders.length,
-          // itemBuilder: (BuildContext context, int index) {
-          // final folderName = allFolders[index].id;
-          //
-          // // Get the number of documents inside each folder
-          // final folderLength = allFolders[index].data().length;
-          //
-          // return ListTile(
-          // title: Text('$folderName - $folderLength'),
-          // onTap: () {
-          // // Do something when the user taps on a folder
-          // // For example, navigate to another page to show the contents of this folder
-          // // You can use folderName to identify the folder and access its contents
-          //
-          // // Alternatively, if you just want to show the length of the folder, you can do this
-          // // Show a dialog with the folder length
-          // showDialog(
-          // context: context,
-          // builder: (context) {
-          // return AlertDialog(
-          // title: Text('$folderName Length'),
-          // content: Text('Number of Documents: $folderLength'),
-          // actions: [
-          // ElevatedButton(
-          // onPressed: () {
-          // Navigator.of(context).pop();
-          // },
-          // child: Text('OK'),
-          // ),
-          // ],
-          // );
-          // },
-          // );
-          // },
-          // );
-          // },
-          // ),
-          // );
+
         ],
       ),
     );

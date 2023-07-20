@@ -148,7 +148,7 @@ class _StoryPageState extends State<StoryPage> {
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                            builder: (context) => const notebook()),
+                                            builder: (context) =>  notebook()),
                                       );
                                     },
                                     child:

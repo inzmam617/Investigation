@@ -147,7 +147,7 @@ class _scenesketchState extends State<scenesketch> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => const notebook()),
+                                builder: (context) =>  notebook()),
                           );
                         },
                         child: CircleAvatar(
@@ -157,7 +157,7 @@ class _scenesketchState extends State<scenesketch> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => const notebook()),
+                                      builder: (context) =>  notebook()),
                                 );
                               },
                               child:
@@ -200,9 +200,10 @@ class _scenesketchState extends State<scenesketch> {
                       bottomRight: Radius.circular(30),
                       bottomLeft: Radius.circular(30))),
               height: 30,
-              child: const TextField(
+              child:  TextField(
+                controller: title,
                   textAlign: TextAlign.center,
-                  decoration: InputDecoration(
+                  decoration: const InputDecoration(
                       enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(color: Colors.white),
                           borderRadius: BorderRadius.all(Radius.circular(30))),
@@ -216,14 +217,14 @@ class _scenesketchState extends State<scenesketch> {
                               BorderRadius.all(Radius.circular(30))))),
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
           widget.Edited == "true"
               ? Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: Container(
-                    decoration: BoxDecoration(color: Colors.white, boxShadow: [
+                    decoration: const BoxDecoration(color: Colors.white, boxShadow: [
                       BoxShadow(color: Colors.grey, blurRadius: 2)
                     ]),
                     height: 300,
@@ -234,7 +235,7 @@ class _scenesketchState extends State<scenesketch> {
               : Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: Container(
-                    decoration: BoxDecoration(color: Colors.white, boxShadow: [
+                    decoration: const BoxDecoration(color: Colors.white, boxShadow: [
                       BoxShadow(color: Colors.grey, blurRadius: 2)
                     ]),
                     height: 300,
@@ -246,7 +247,7 @@ class _scenesketchState extends State<scenesketch> {
                     ),
                   ),
                 ),
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
           widget.Edited == "true"
@@ -290,7 +291,7 @@ class _scenesketchState extends State<scenesketch> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => AllCases()),
+                                    builder: (context) => const AllCases()),
                               );
                             });
                           },
@@ -335,30 +336,7 @@ class _scenesketchState extends State<scenesketch> {
             height: 20,
           ),
           widget.Edited == "true"
-              ? SizedBox(
-                  height: 30,
-                  child: Container(
-                    decoration: const BoxDecoration(
-                        boxShadow: [
-                          BoxShadow(blurRadius: 3.5, color: Colors.grey)
-                        ],
-                        color: Colors.white,
-                        borderRadius: BorderRadius.all(Radius.circular(20))),
-                    child: SizedBox(
-                      width: 160,
-                      child: ElevatedButton(
-                          style: ElevatedButton.styleFrom(
-                              backgroundColor: Colors.white,
-                              shape: const RoundedRectangleBorder(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(20)))),
-                          onPressed: delete,
-                          child: const Text(
-                            'Delete',
-                            style: TextStyle(color: Colors.black),
-                          )),
-                    ),
-                  ),
+              ? const SizedBox(
                 )
               : SizedBox(
                   height: 30,
@@ -397,6 +375,7 @@ class _scenesketchState extends State<scenesketch> {
     CollectionReference newCaseRef = casesCollection.doc(id).collection("AllFolders");
     DocumentReference allCasesCollection = newCaseRef.doc(widget.FolderName).collection("AllCases").doc(widget.id);
     allCasesCollection.delete().then((value) {
+      Navigator.of(context).pop();
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) =>  const BottomBarPage()),
@@ -436,19 +415,25 @@ class _scenesketchState extends State<scenesketch> {
   void _clearSignature() {
     _controller.clear();
   }
-
+  void showErrorMessage(String message) {
+    final snackBar = SnackBar(content: Text(message));
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
   void _saveSignature() async {
+    if(title.text == ""){
+ return showErrorMessage("Title cannot be empty");
+    }
     final signatureData = await _controller.toPngBytes();
     if (signatureData != null) {
       try {
-        final uniqueFilename = '${Uuid().v4()}.png';
+        final uniqueFilename = '${const Uuid().v4()}.png';
         final storageRef = firebase_storage.FirebaseStorage.instance
             .ref()
             .child('signatures')
             .child(uniqueFilename);
         final uploadTask = storageRef.putData(signatureData);
         Map<String, dynamic> data = {
-          "Title": "Sketch",
+          "Title": title.text,
           "Type": "Sketch",
           "ImageId": uniqueFilename
         };
@@ -486,9 +471,7 @@ class _scenesketchState extends State<scenesketch> {
         DocumentReference allCasesCollection = newCaseRef.doc(widget.FolderName).collection("AllCases").doc();
         data['docId'] = allCasesCollection.id;
         allCasesCollection.set(data).then((value) {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) =>  const BottomBarPage()),
+          Navigator.push(context,MaterialPageRoute(builder: (context) =>  const BottomBarPage()),
           );
         });
       } catch (e) {

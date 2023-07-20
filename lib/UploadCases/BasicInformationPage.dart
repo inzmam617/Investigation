@@ -190,39 +190,38 @@ bool _loading =false;
             padding: const EdgeInsets.only(top: 20),
             child: Row(
               children: [
-                Container(
-                  height: 30,
-                  width: 140,
-                  decoration: const BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.only(
-                          bottomRight: Radius.circular(30),
-                          topRight: Radius.circular(30))),
-                ),
-                Transform.translate(
-                  offset: const Offset(-130, 0),
-                  child: SizedBox(
-                      height: 30,
-                      width: 30,
-                      child: InkWell(
-                        onTap: () {
-                          Navigator.of(context).pop();
-                        },
-                        child: CircleAvatar(
-                          backgroundColor: Colors.black,
-                          child: const Icon(Icons.arrow_back_ios, size: 14),
+                InkWell(
+                  onTap: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Container(
+                    height: 30,
+                    width: 180,
+                    decoration: const BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.only(
+                            bottomRight: Radius.circular(30),
+                            topRight: Radius.circular(30))),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      
+                      children: const [
+                        SizedBox(
+                            height: 30,
+                            width: 30,
+                            child: CircleAvatar(
+                              backgroundColor: Colors.black,
+                              child: Icon(Icons.arrow_back_ios, size: 14),
+                            )),
+                        SizedBox(width:10),
+                        Text(
+                          'Basic Information',
                         ),
-                      )),
-                ),
-                Transform.translate(
-                  offset: const Offset(-115, 0),
-                  child: InkWell(
-                    onTap: () {},
-                    child: const Text(
-                      'Court date',
+                      ]
                     ),
                   ),
                 ),
+
                 Transform.translate(
                     offset: const Offset(0, 10),
                     child: Image.asset('assets/court.png'))

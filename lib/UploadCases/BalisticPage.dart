@@ -367,7 +367,7 @@ class _BalisticPageState extends State<BalisticPage> {
                                       child: InkWell(onTap:() {
                                         Navigator.push(
                                           context,
-                                          MaterialPageRoute(builder: (context) =>const notebook()),
+                                          MaterialPageRoute(builder: (context) => notebook()),
                                         );
                                       },
                                         child: CircleAvatar(
@@ -375,7 +375,7 @@ class _BalisticPageState extends State<BalisticPage> {
                                           child: InkWell(onTap:() {
                                             Navigator.push(
                                               context,
-                                              MaterialPageRoute(builder: (context) =>const notebook()),
+                                              MaterialPageRoute(builder: (context) => notebook()),
                                             );
                                           },
                                             child: const Icon(

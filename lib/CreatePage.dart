@@ -148,7 +148,7 @@ class _CreatePageState extends State<CreatePage> {
           InkWell(onTap:() {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) =>const notebook()),
+              MaterialPageRoute(builder: (context) =>notebook()),
             );
           },
             child: Container(

@@ -224,7 +224,7 @@ class _BodyMeasurementsPageState extends State<BodyMeasurementsPage> {
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                            builder: (context) => const notebook()),
+                                            builder: (context) =>  notebook()),
                                       );
                                     },
                                     child: CircleAvatar(
@@ -235,7 +235,7 @@ class _BodyMeasurementsPageState extends State<BodyMeasurementsPage> {
                                             context,
                                             MaterialPageRoute(
                                                 builder: (context) =>
-                                                    const notebook()),
+                                                     notebook()),
                                           );
                                         },
                                         child: const Icon(

@@ -48,19 +48,6 @@ class _SignInPageState extends State<SignInPage> {
         }
       });
 
-      // FirebaseFirestore.instance.collection('Cases').doc(userId).collection('Allcaes').get().then((value) => {
-    //    print("this is the data${value.docs.length}"),
-    //     if(value.docs.length == 0){
-    //         Navigator.of(context).push(
-    //             MaterialPageRoute(builder: (BuildContext context) {
-    //               return const CreatePage();
-    //             })),
-    // setState(() {
-    //
-    // _loading = false;
-    // })
-    //   }
-    //     else if(value.docs.length != 0){
           Navigator.of(context).push(
               MaterialPageRoute(builder: (BuildContext context) {
                 return  BottomBarPage();
@@ -69,8 +56,7 @@ class _SignInPageState extends State<SignInPage> {
 
             _loading = false;
           });
-        // }
-      // });
+
 
       showSnackBar('User Login successful!');
     } catch (e) {
@@ -78,6 +64,8 @@ class _SignInPageState extends State<SignInPage> {
 
         _loading = false;
       });
+      showSnackBar('$e');
+
       // User registration failed
       showSnackBar('User Login failed: $e');
     }
@@ -96,6 +84,7 @@ class _SignInPageState extends State<SignInPage> {
         inAsyncCall: _loading,
         child: Scaffold(
         body: SingleChildScrollView(
+          physics: ScrollPhysics(),
           child: Column(
             children: [
               Padding(

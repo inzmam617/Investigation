@@ -1,33 +1,52 @@
 import 'package:crime_investigation/UploadCases/BaseLinePage.dart';
 import 'package:crime_investigation/UploadCases/BodyMeasurementsPage.dart';
 import 'package:crime_investigation/UploadCases/BalisticPage.dart';
-import 'package:crime_investigation/death.dart';
 import 'package:crime_investigation/UploadCases/BasicInformationPage.dart';
-import 'package:crime_investigation/drawning.dart';
 import 'package:crime_investigation/UploadCases/evidence.dart';
-import 'package:crime_investigation/hanging.dart';
-import 'package:crime_investigation/homicide.dart';
 import 'package:crime_investigation/UploadCases/StoryPage.dart';
-import 'package:crime_investigation/robbery.dart';
-import 'package:crime_investigation/AllCasesPage.dart';
 import 'package:crime_investigation/UploadCases/SceneMeasurementPage.dart';
 import 'package:crime_investigation/UploadCases/scenesketch.dart';
-import 'package:crime_investigation/setting.dart';
-import 'package:crime_investigation/shooting.dart';
 import 'package:crime_investigation/UploadCases/WeasponsPage.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'dart:math';
 
 class notebook extends StatefulWidget {
-  final String? FolderName;
 
-  const notebook({Key? key, this.FolderName}) : super(key: key);
+
+   // notebook({Key? key, this.FolderName}) : super(key: key);
 
   @override
   State<notebook> createState() => _notebookState();
 }
 
 class _notebookState extends State<notebook> {
+
+
+  @override
+  void initState() {
+    super.initState();
+    FolderName = generateRandomFolderName(now);
+  }
+
+  DateTime now = DateTime.now();
+  late String? FolderName;
+
+  String generateRandomFolderName(DateTime dateTime) {
+    Random random = Random();
+    String alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+    String numbers = '0123456789';
+
+    // Create a prefix using the hour from the given DateTime
+    String prefix = dateTime.hour.toString();
+
+    // Generate a random 4-character string (you can adjust the length as needed)
+    String randomString = String.fromCharCodes(Iterable.generate(4, (_) =>
+    random.nextInt(2) == 0 ? alphabet.codeUnitAt(random.nextInt(alphabet.length)) :
+    numbers.codeUnitAt(random.nextInt(numbers.length))));
+
+    return '$prefix$randomString';
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -107,7 +126,7 @@ class _notebookState extends State<notebook> {
                           context,
                           MaterialPageRoute(builder: (context) => BasicInformationPage(
                             Edited: "null",
-                              FolderName: widget.FolderName
+                              FolderName: FolderName
 
 
                           )),
@@ -140,7 +159,7 @@ class _notebookState extends State<notebook> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(builder: (context) =>StoryPage(
-                              FolderName: widget.FolderName,
+                              FolderName: FolderName,
 
                           )),
                         );
@@ -160,7 +179,7 @@ class _notebookState extends State<notebook> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => SceneMeasurementPage(
-                      FolderName: widget.FolderName,
+                      FolderName: FolderName,
 
                     )),
                   );
@@ -181,7 +200,7 @@ class _notebookState extends State<notebook> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(builder: (context) => SceneMeasurementPage(
-                              FolderName: widget.FolderName,
+                              FolderName: FolderName,
 
                             )),
                           );
@@ -202,7 +221,7 @@ class _notebookState extends State<notebook> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => BodyMeasurementsPage(
-                      FolderName: widget.FolderName,
+                      FolderName: FolderName,
 
                     )),
                   );
@@ -223,7 +242,7 @@ class _notebookState extends State<notebook> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(builder: (context) => BodyMeasurementsPage(
-                              FolderName: widget.FolderName,
+                              FolderName: FolderName,
 
                             )),
                           );
@@ -244,7 +263,7 @@ class _notebookState extends State<notebook> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => WeaponsPage(
-                      FolderName: widget.FolderName,
+                      FolderName: FolderName,
 
 
                     )),
@@ -266,7 +285,7 @@ class _notebookState extends State<notebook> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(builder: (context) => WeaponsPage(
-                              FolderName: widget.FolderName,
+                              FolderName: FolderName,
 
                             )),
                           );
@@ -287,7 +306,7 @@ class _notebookState extends State<notebook> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => BaseLinePage(
-                      FolderName: widget.FolderName,
+                      FolderName: FolderName,
 
                     )),
                   );
@@ -308,7 +327,7 @@ class _notebookState extends State<notebook> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(builder: (context) => BaseLinePage(
-                              FolderName: widget.FolderName,
+                              FolderName: FolderName,
 
                             )),
                           );
@@ -329,7 +348,7 @@ class _notebookState extends State<notebook> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => BalisticPage(
-                      FolderName: widget.FolderName,
+                      FolderName: FolderName,
 
                     )),
                   );
@@ -350,7 +369,7 @@ class _notebookState extends State<notebook> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(builder: (context) => BalisticPage(
-                              FolderName: widget.FolderName,
+                              FolderName: FolderName,
 
                             )),
                           );
@@ -371,7 +390,7 @@ class _notebookState extends State<notebook> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => scenesketch(
-                      FolderName: widget.FolderName,
+                      FolderName: FolderName,
 
                     )),
                   );
@@ -387,20 +406,12 @@ class _notebookState extends State<notebook> {
                             topLeft: Radius.circular(30),
                             topRight: Radius.circular(30),
                             bottomRight: Radius.circular(30))),
-                    child: TextButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => scenesketch(
-                              FolderName: widget.FolderName,
-
-                            )),
-                          );
-                        },
-                        child: const Text(
-                          'Scene Sketch',
-                          style: TextStyle(color: Color(0xff86898E), fontSize: 16),
-                        )),
+                    child: const Center(
+                      child: Text(
+                        'Scene Sketch',
+                        style: TextStyle(color: Color(0xff86898E), fontSize: 16),
+                      ),
+                    ),
                   ),
                 ),
               ),
@@ -413,7 +424,7 @@ class _notebookState extends State<notebook> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => evidence(
-                      FolderName: widget.FolderName,
+                      FolderName: FolderName,
 
                     )),
                   );
@@ -429,9 +440,11 @@ class _notebookState extends State<notebook> {
                             topLeft: Radius.circular(30),
                             topRight: Radius.circular(30),
                             bottomRight: Radius.circular(30))),
-                    child: const Text(
-                      'Evidence List',
-                      style: TextStyle(color: Color(0xff86898E), fontSize: 16),
+                    child: const Center(
+                      child: Text(
+                        'Evidence List',
+                        style: TextStyle(color: Color(0xff86898E), fontSize: 16),
+                      ),
                     ),
                   ),
                 ),

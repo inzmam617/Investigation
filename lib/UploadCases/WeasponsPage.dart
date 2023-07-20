@@ -256,7 +256,7 @@ class _WeaponsPageState extends State<WeaponsPage> {
                                   child: InkWell(onTap:() {
                                     Navigator.push(
                                       context,
-                                      MaterialPageRoute(builder: (context) =>const notebook()),
+                                      MaterialPageRoute(builder: (context) => notebook()),
                                     );
                                   },
                                     child: CircleAvatar(
@@ -264,7 +264,7 @@ class _WeaponsPageState extends State<WeaponsPage> {
                                       child: InkWell(onTap:() {
                                         Navigator.push(
                                           context,
-                                          MaterialPageRoute(builder: (context) =>const notebook()),
+                                          MaterialPageRoute(builder: (context) => notebook()),
                                         );
                                       },
                                         child: const Icon(

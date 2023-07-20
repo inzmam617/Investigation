@@ -5,6 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../AllCasesPage.dart';
 import '../Homepage/HomePage.dart';
 import '../courtdate.dart';
+import '../notebook.dart';
 import '../setting.dart';
 
 
@@ -62,7 +63,7 @@ class _BottomBarPageState extends State<BottomBarPage> {
         child: FloatingActionButton(
           backgroundColor:Colors.white,
           onPressed: () {
-            _showMyDialog();
+            uploadDataAndNavigate(context);
           },
           child: const Icon(Icons.add,color: Colors.black,size: 50,),
         ),
@@ -154,31 +155,13 @@ class _BottomBarPageState extends State<BottomBarPage> {
     );
   }
 
-  // void uploadData() async {
-  //
-  //   Map<String, dynamic> data = {
-  //     // Your data map here
-  //     "exampleField": "exampleValue",
-  //   };
-  //
-  //   CollectionReference casesCollection = FirebaseFirestore.instance.collection('Cases');
-  //   CollectionReference newCaseRef = casesCollection.doc(id).collection("AllFolders");
-  //   DocumentReference allCasesCollection = newCaseRef.doc(folder.text);
-  //   // DocumentReference collectionDataRef = allCasesCollection.collection("AllCases").doc();
-  //   // await collectionDataRef.set(data);
-  // }}
 
 void uploadDataAndNavigate(BuildContext context) async {
-
-  // CollectionReference casesCollection = FirebaseFirestore.instance.collection('Cases');
-  // CollectionReference newCaseRef = casesCollection.doc(id).collection("AllFolders");
-  // DocumentReference allCasesCollection = newCaseRef.doc(folder.text);
-  // allCasesCollection.set({});
 
   Navigator.push(
     context,
     MaterialPageRoute(
-      builder: (context) => AllCases(FolderName: folder.text,),
+      builder: (context) => notebook(),
     ),
   );
 }
