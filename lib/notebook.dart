@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:crime_investigation/UploadCases/BaseLinePage.dart';
 import 'package:crime_investigation/UploadCases/BodyMeasurementsPage.dart';
 import 'package:crime_investigation/UploadCases/BalisticPage.dart';
@@ -7,53 +8,81 @@ import 'package:crime_investigation/UploadCases/StoryPage.dart';
 import 'package:crime_investigation/UploadCases/SceneMeasurementPage.dart';
 import 'package:crime_investigation/UploadCases/scenesketch.dart';
 import 'package:crime_investigation/UploadCases/WeasponsPage.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'dart:math';
 
+import 'package:shared_preferences/shared_preferences.dart';
+
 class notebook extends StatefulWidget {
+  String? FolderName;
 
-
-   // notebook({Key? key, this.FolderName}) : super(key: key);
-
+  notebook({this.FolderName});
   @override
   State<notebook> createState() => _notebookState();
 }
 
 class _notebookState extends State<notebook> {
 
+  late String package = ""; // Initialize with an empty string
+
+  initilize() async{
+    String userId = FirebaseAuth.instance.currentUser!.uid;
+    FirebaseFirestore.instance.collection('Users').doc(userId).get().then((value) async {
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      if (value.exists) {
+        setState(() {
+          package = value.data()!['package']; // Assign the value from Firestore to the 'package' variable
+          prefs.setString("package", package);
+        });
+        print("this is the id: $package");
+      } else {
+        print('User data does not exist');
+      }
+    });
+  }
 
   @override
   void initState() {
     super.initState();
-    FolderName = generateRandomFolderName(now);
+    print(widget.FolderName);
+    if (widget.FolderName != "new") {
+      FolderName = widget.FolderName;
+      print("Same");
+    } else  if(widget.FolderName == "new"){
+      print("object");
+        FolderName = generateRandomFolderName(now);
+      print("changed");
+    }
+     // widget.FolderName != ""  ? FolderName = widget.FolderName: FolderName = generateRandomFolderName(now);
+     print("this is the folder Name  $FolderName");
+    initilize();
   }
-
   DateTime now = DateTime.now();
-  late String? FolderName;
-
+   late String? FolderName;
   String generateRandomFolderName(DateTime dateTime) {
     Random random = Random();
     String alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
     String numbers = '0123456789';
-
-    // Create a prefix using the hour from the given DateTime
     String prefix = dateTime.hour.toString();
-
-    // Generate a random 4-character string (you can adjust the length as needed)
     String randomString = String.fromCharCodes(Iterable.generate(4, (_) =>
     random.nextInt(2) == 0 ? alphabet.codeUnitAt(random.nextInt(alphabet.length)) :
     numbers.codeUnitAt(random.nextInt(numbers.length))));
-
     return '$prefix$randomString';
   }
-
   @override
   Widget build(BuildContext context) {
+
+
+
+
     return Scaffold(
       body: SingleChildScrollView(
         scrollDirection: Axis.horizontal,physics: const NeverScrollableScrollPhysics(),
         child: SingleChildScrollView(scrollDirection: Axis.vertical,
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Row(children: [
                 Transform.translate(
@@ -106,7 +135,29 @@ class _notebookState extends State<notebook> {
                                       bottomRight: Radius.circular(20))))),
                     )),
               ]),
-              const SizedBox(height: 50,),
+              StreamBuilder<QuerySnapshot>(
+                stream: FirebaseFirestore.instance.collection('Users').snapshots(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const CircularProgressIndicator();
+                  }
+                  return Transform.translate(
+                    offset: const Offset(-50, 15),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Text('Package: ',style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold),),
+                        Text(package),
+                      ],
+                    ),
+                  );
+                },
+              ),
+              const Padding(
+                padding: EdgeInsets.only(top: 10),
+                child: SizedBox(height: 50,),
+              ),
               Transform.translate(
                 offset: const Offset(-50, -25),
                 child: Container(
@@ -449,7 +500,6 @@ class _notebookState extends State<notebook> {
                   ),
                 ),
               ),
-
             ],
           ),
         ),

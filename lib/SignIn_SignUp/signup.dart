@@ -15,9 +15,9 @@ class SignUpPage extends StatefulWidget {
 }
 
 class _SignUpPageState extends State<SignUpPage> {
-  TextEditingController emailC = TextEditingController();
-  TextEditingController nameC = TextEditingController();
-  TextEditingController passwordC = TextEditingController();
+  TextEditingController emailC = TextEditingController(text: "15312321321@gmail.com");
+  TextEditingController nameC = TextEditingController(text: "Faizan");
+  TextEditingController passwordC =  TextEditingController(text: "12304567");
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   String generatedDocId = FirebaseFirestore.instance.collection('Users').doc().id;
@@ -42,6 +42,7 @@ class _SignUpPageState extends State<SignUpPage> {
         'name': name,
         'email': email,
         'docId': uid,
+        "package" :"Basic"
       });
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
         content: Text('User registered successfully!'),

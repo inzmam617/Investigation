@@ -140,6 +140,7 @@ class _HomePageState extends State<HomePage> {
                       itemBuilder: (BuildContext context, int index) {
                         return InkWell(
                           onTap: () {
+                            print( snapshot.data!.docs[index]["Name"],);
                             Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) {
                               return AllCases(FolderName: snapshot.data!.docs[index]["Name"],);
                             }));

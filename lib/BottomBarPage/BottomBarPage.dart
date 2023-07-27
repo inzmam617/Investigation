@@ -10,14 +10,15 @@ import '../setting.dart';
 
 
 class BottomBarPage extends StatefulWidget {
-  const BottomBarPage({Key? key}) : super(key: key);
+  int? page;
+  BottomBarPage({Key? key ,this.page}) : super(key: key);
 
   @override
   State<BottomBarPage> createState() => _BottomBarPageState();
 }
 
 class _BottomBarPageState extends State<BottomBarPage> {
-  int _selectedIndex = 1;
+  late int _selectedIndex;
  late List<Widget> _widgetOptions;
  TextEditingController folder = TextEditingController();
 
@@ -30,6 +31,7 @@ class _BottomBarPageState extends State<BottomBarPage> {
   void initState(){
     super.initState();
     setState(() {
+      _selectedIndex = widget.page ?? 0;
       initialize();
 
       print( id);
@@ -161,7 +163,7 @@ void uploadDataAndNavigate(BuildContext context) async {
   Navigator.push(
     context,
     MaterialPageRoute(
-      builder: (context) => notebook(),
+      builder: (context) => notebook(FolderName: "new",),
     ),
   );
 }

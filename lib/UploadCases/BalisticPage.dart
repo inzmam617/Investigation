@@ -1821,7 +1821,7 @@ class _BalisticPageState extends State<BalisticPage> {
     allCasesCollection.set(data).then((value) {
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) =>  const BottomBarPage()),
+        MaterialPageRoute(builder: (context) =>  BottomBarPage()),
       );
     });
   }
@@ -1832,7 +1832,7 @@ class _BalisticPageState extends State<BalisticPage> {
     allCasesCollection.delete().then((value) {
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) =>  const BottomBarPage()),
+        MaterialPageRoute(builder: (context) =>  BottomBarPage()),
       );
     });
   }

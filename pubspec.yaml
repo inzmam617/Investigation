@@ -46,7 +46,27 @@ dependencies:
   signature: ^3.0.0
   firebase_storage: ^11.2.3
   uuid: ^3.0.7
+  intl: ^0.17.0
   modal_progress_hud_nsn: ^0.4.0
+  firebase_messaging: ^14.6.5
+  flutter_local_notifications:
+  app_settings: ^5.0.0
+  awesome_notifications: ^0.7.4+1
+  flutter_stripe: ^9.3.0
+  flutter_dotenv: ^5.1.0
+  http:
+  stripe_checkout: ^1.0.2
+  sealed_unions:
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -862,7 +862,7 @@ class _BodyMeasurementsPageState extends State<BodyMeasurementsPage> {
     allCasesCollection.delete().then((value) {
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) =>  const BottomBarPage()),
+        MaterialPageRoute(builder: (context) =>  BottomBarPage()),
       );
     });
   }
@@ -948,7 +948,7 @@ class _BodyMeasurementsPageState extends State<BodyMeasurementsPage> {
     allCasesCollection.set(data).then((value) {
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) =>  const BottomBarPage()),
+        MaterialPageRoute(builder: (context) =>  BottomBarPage()),
       );
     });
 

@@ -35,6 +35,7 @@ class _AllCasesState extends State<AllCases> {
       initialize();
     });
     initialize();
+    print(widget.FolderName);
   }
 
 
@@ -59,7 +60,7 @@ class _AllCasesState extends State<AllCases> {
           onPressed: () {
             // Add the functionality you want here when the button is pressed
             // For example, you can add a Navigator to navigate to another page
-            Navigator.push(context, MaterialPageRoute(builder: (context) =>  notebook()));
+            Navigator.push(context, MaterialPageRoute(builder: (context) =>  notebook(FolderName:  widget.FolderName,)));
           },
           backgroundColor: Colors.grey,
           elevation: 3.4,
@@ -157,7 +158,7 @@ class _AllCasesState extends State<AllCases> {
                                 //   // After the folder and its content are deleted, you can navigate to the desired page
                                 //   Navigator.push(
                                 //     context,
-                                //     MaterialPageRoute(builder: (context) => const BottomBarPage()),
+                                //     MaterialPageRoute(builder: (context) => BottomBarPage()),
                                 //   );
                                 // } catch (e) {
                                 //   // Handle any errors that might occur during the deletion process
@@ -201,7 +202,7 @@ class _AllCasesState extends State<AllCases> {
                                   // After the folder, its content, and the value are deleted, you can navigate to the desired page
                                   Navigator.push(
                                     context,
-                                    MaterialPageRoute(builder: (context) => const BottomBarPage()),
+                                    MaterialPageRoute(builder: (context) => BottomBarPage(page : 1)),
                                   );
                                   setState(() {
 
@@ -292,11 +293,13 @@ class _AllCasesState extends State<AllCases> {
 
                         return InkWell(
                           onTap: () async {
+                            print( widget.FolderName);
+
                             if(data?["Type"] == "Basic"){
+
                               Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) {
                                 return BasicInformationPage(
-                                  FolderName: widget. FolderName,
-
+                                  FolderName: widget.FolderName,
                                   Edited: "true",
                                   Csid: data?["CSI_ID"].toString(),
                                   id: data?["docId"].toString(),

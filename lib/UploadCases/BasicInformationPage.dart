@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:crime_investigation/notebook.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
@@ -24,10 +25,8 @@ class BasicInformationPage extends StatefulWidget {
   final String? TimeCall;
   final String? Title;
   final String? address;
-
   final List<dynamic>? Suspects;
   final List<dynamic>? Victims;
-
   const BasicInformationPage({
     Key? key,
     this.Csid,
@@ -79,6 +78,8 @@ class _BasicInformationPageState extends State<BasicInformationPage> {
   void initState() {
     super.initState();
     initialize();
+    print("folder name: ${widget.FolderName!}");
+
     title.text = widget.Title ?? '';
     date.text = widget.Date ?? '';
     Case.text = widget.Case ?? '';
@@ -1009,59 +1010,41 @@ bool _loading =false;
         return; // Stop further processing
       }
     }
-    // CollectionReference casesCollection =
-    //     FirebaseFirestore.instance.collection('Cases');
-    // DocumentReference newCaseRef =
-    //     casesCollection.doc(id).collection('Allcaes').doc();
-    // data['Victims'] = victimsData;
-    // data['Suspects'] = suspectData;
-    // data['docId'] = newCaseRef.id;
-
-
-    print(widget.FolderName);
-    //
-    // CollectionReference casesCollection = FirebaseFirestore.instance.collection('Cases');
-    // CollectionReference newCaseRef = casesCollection.doc(id).collection("AllFolders");
-    // newCaseRef.add({"Name": widget.FolderName});
+    print("this is the original folder Name: ${widget.FolderName!}");
     CollectionReference casesCollection = FirebaseFirestore.instance.collection('Cases');
     CollectionReference newCaseRef = casesCollection.doc(id).collection("AllFolders");
 
-// Check if the folder name already exists in the "AllFolders" collection
     bool folderExists = false;
     await newCaseRef
         .where('Name', isEqualTo: widget.FolderName)
         .get()
         .then((querySnapshot) {
       folderExists = querySnapshot.docs.isNotEmpty;
-    })
-        .catchError((error) {
+      print("the folder already exists: $folderExists");
+      // If the folder name doesn't exist, add it
+      if (!folderExists) {
+        print("the folder does not exist, adding...");
+
+        newCaseRef.add({"Name": widget.FolderName , }).then((value) {
+          // Folder name added successfully
+          print("Folder name added successfully");
+        }).catchError((error) {
+          // Handle the error if folder name couldn't be added
+          print("Error adding folder name: $error");
+        });
+      }
+    }).catchError((error) {
       print("Error checking folder name: $error");
     });
-
-// If the folder name doesn't exist, add it
-    if (!folderExists) {
-      newCaseRef.add({"Name": widget.FolderName})
-          .then((value) {
-        // Folder name added successfully
-        print("Folder name added successfully");
-      })
-          .catchError((error) {
-        // Handle the error if folder name couldn't be added
-        print("Error adding folder name: $error");
-      });
-    }
-
     DocumentReference allCasesCollection = newCaseRef.doc(widget.FolderName).collection("AllCases").doc();
     data['docId'] = allCasesCollection.id;
-
     data['Victims'] = victimsData;
     data['Suspects'] = suspectData;
+    print(newCaseRef.doc(widget.FolderName).collection("AllCases"));
     allCasesCollection.set(data).then((value) {
-
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) =>  const BottomBarPage()),
-
+        MaterialPageRoute(builder: (context) =>  BottomBarPage(page: 1,)),
       );
     });
     setState(() {
@@ -1080,7 +1063,7 @@ bool _loading =false;
     allCasesCollection.delete().then((value) {
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => const BottomBarPage()),
+        MaterialPageRoute(builder: (context) => BottomBarPage()),
       );
     });
     setState(() {

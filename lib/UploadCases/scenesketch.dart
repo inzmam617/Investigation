@@ -378,7 +378,7 @@ class _scenesketchState extends State<scenesketch> {
       Navigator.of(context).pop();
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) =>  const BottomBarPage()),
+        MaterialPageRoute(builder: (context) =>  BottomBarPage()),
       );
     });
   }
@@ -471,7 +471,7 @@ class _scenesketchState extends State<scenesketch> {
         DocumentReference allCasesCollection = newCaseRef.doc(widget.FolderName).collection("AllCases").doc();
         data['docId'] = allCasesCollection.id;
         allCasesCollection.set(data).then((value) {
-          Navigator.push(context,MaterialPageRoute(builder: (context) =>  const BottomBarPage()),
+          Navigator.push(context,MaterialPageRoute(builder: (context) =>  BottomBarPage()),
           );
         });
       } catch (e) {

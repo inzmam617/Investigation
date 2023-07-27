@@ -1288,7 +1288,7 @@ class _BaseLinePageState extends State<BaseLinePage> {
     allCasesCollection.delete().then((value) {
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) =>  const BottomBarPage()),
+        MaterialPageRoute(builder: (context) =>  BottomBarPage()),
       );
     });
   }
@@ -1431,7 +1431,7 @@ class _BaseLinePageState extends State<BaseLinePage> {
     allCasesCollection.set(data).then((value) {
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) =>  const BottomBarPage()),
+        MaterialPageRoute(builder: (context) =>  BottomBarPage()),
       );
     });
   }

@@ -694,7 +694,7 @@ class _evidenceState extends State<evidence> {
     allCasesCollection.delete().then((value) {
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) =>  const BottomBarPage()),
+        MaterialPageRoute(builder: (context) =>  BottomBarPage()),
       );
     });
   }
@@ -783,7 +783,7 @@ class _evidenceState extends State<evidence> {
     allCasesCollection.set(data).then((value) {
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) =>  const BottomBarPage()),
+        MaterialPageRoute(builder: (context) =>  BottomBarPage()),
       );
     });
   }

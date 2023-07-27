@@ -373,7 +373,7 @@ class _StoryPageState extends State<StoryPage> {
     allCasesCollection.delete().then((value) {
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) =>  const BottomBarPage()),
+        MaterialPageRoute(builder: (context) =>  BottomBarPage()),
       );
     });
   }
@@ -421,7 +421,7 @@ class _StoryPageState extends State<StoryPage> {
     allCasesCollection.set(data).then((value) {
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) =>  const BottomBarPage()),
+        MaterialPageRoute(builder: (context) =>  BottomBarPage()),
       );
     });
   }
