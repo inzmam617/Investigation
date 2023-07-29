@@ -2,8 +2,16 @@ import 'package:crime_investigation/PaymentPage/Hanlder.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 
-class Paymentpage extends StatelessWidget {
+class Paymentpage extends StatefulWidget {
+  @override
+  State<Paymentpage> createState() => _PaymentpageState();
+}
+
+class _PaymentpageState extends State<Paymentpage> {
+  final PaymentController controller = Get.put(PaymentController());
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -11,34 +19,9 @@ class Paymentpage extends StatelessWidget {
         appBar: AppBar(title: Text('Stripe Payment Sheet Example')),
         body: Center(
           child: ElevatedButton(
-            onPressed: () async {
-              var item = [
-                {
-                  "productPrice" : 4,
-                    "productName": "apple",
-                  "qty" : 10
-                },
-                {
-                  "productPrice" : 8,
-                  "productName": "banana",
-                  "qty" : 50
-                }
-              ];
+            onPressed: () {
+              controller.makePayment(amount: '5', currency: 'USD');
 
-              await StripeService.stripePaymentCheckout(
-                item,
-                500,
-                context, // The first context parameter, assuming it's for the UI context.
-                    () {
-                  print("Success");
-                },
-                    () {
-                  print("Cancelled");
-                },
-                    (error) {
-                  print("Error: $error");
-                },
-              );
             },
             child: const Text('Pay with Stripe'),
           ),
@@ -46,6 +29,4 @@ class Paymentpage extends StatelessWidget {
       ),
     );
   }
-
-
 }

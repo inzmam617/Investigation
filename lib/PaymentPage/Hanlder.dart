@@ -1,60 +1,160 @@
+// import 'dart:convert';
+// import 'package:flutter/material.dart';
+// import 'package:flutter_stripe/flutter_stripe.dart';
+// import 'package:get/get.dart';
+// import 'package:http/http.dart' as http;
+//
+// class PaymentController extends GetxController {
+//
+//   Map<String, dynamic>? paymentIntentData;
+//
+//   Future<void> makePayment(
+//       {required String amount, required String currency}) async {
+//     try {
+//       paymentIntentData = await createPaymentIntent(amount, currency);
+//       if (paymentIntentData != null) {
+//         await Stripe.instance.initPaymentSheet(
+//             paymentSheetParameters: SetupPaymentSheetParameters(
+//               applePay: PaymentSheetApplePay( merchantCountryCode: 'US',
+//               ),
+//               googlePay: PaymentSheetGooglePay(merchantCountryCode: 'US'),
+//
+//               merchantDisplayName: 'Prospects',
+//               customerId: paymentIntentData!['customer'],
+//               paymentIntentClientSecret: paymentIntentData!['client_secret'],
+//               customerEphemeralKeySecret: paymentIntentData!['ephemeralKey'],
+//             ));
+//         displayPaymentSheet();
+//       }
+//     } catch (e, s) {
+//       print('exception:$e$s');
+//     }
+//   }
+//
+//   displayPaymentSheet() async {
+//     try {
+//       await Stripe.instance.presentPaymentSheet();
+//       Get.snackbar('Payment', 'Payment Successful',
+//           snackPosition: SnackPosition.BOTTOM,
+//           backgroundColor: Colors.green,
+//           colorText: Colors.white,
+//           margin: const EdgeInsets.all(10),
+//           duration: const Duration(seconds: 2));
+//     } on Exception catch (e) {
+//       if (e is StripeException) {
+//         print("Error from Stripe: ${e.error.localizedMessage}");
+//       } else {
+//         print("Unforeseen error: ${e}");
+//       }
+//     } catch (e) {
+//       print("exception:$e");
+//     }
+//   }
+//
+//   //  Future<Map<String, dynamic>>
+//   createPaymentIntent(String amount, String currency) async {
+//     try {
+//       Map<String, dynamic> body = {
+//         'amount': calculateAmount(amount),
+//         'currency': currency,
+//         'payment_method_types[]': 'card'
+//       };
+//       var response = await http.post(
+//           Uri.parse('https://api.stripe.com/v1/payment_intents'),
+//           body: body,
+//           headers: {
+//             'Authorization': 'Bearer sk_test_51MwR8TAKJqb8m8FnRwFD3T1CbhzctycAEpCA8tr9BvdUS1K6A6OfrTCwzbavQR0d9lQecliHFcKicRGt7OLTlrey00KWuC3znA',
+//             'Content-Type': 'application/x-www-form-urlencoded'
+//           });
+//       return jsonDecode(response.body);
+//     } catch (err) {
+//       print('err charging user: ${err.toString()}');
+//     }
+//   }
+//
+//   calculateAmount(String amount) {
+//     final a = (int.parse(amount)) * 100;
+//     return a.toString();
+//   }
+// }
+
+
 import 'dart:convert';
+import 'package:flutter/material.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
+import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
-import 'package:stripe_checkout/stripe_checkout.dart';
 
-class StripeService {
-  static String secretKey = "pk_test_51MwR8TAKJqb8m8FnzPItMaBA4LVkjLVRbDOOPeEWbAYQZYVuSJcFJvXlPxkHiAoZsAQEhHzRY4XtnZm1llQvRuLj00yoKZ45vL";
-  static String publishableKey = "sk_test_51MwR8TAKJqb8m8FnRwFD3T1CbhzctycAEpCA8tr9BvdUS1K6A6OfrTCwzbavQR0d9lQecliHFcKicRGt7OLTlrey00KWuC3znA";
+class PaymentController extends GetxController {
+  Map<String, dynamic>? paymentIntentData;
 
-  static Future<dynamic> createCheckoutSession(List<dynamic> productItem, totalAmount) async {
-    final url = Uri.parse("https://api.stripe.com/v3/checkout/session");
-
-    String lineItem = "";
-    int index = 0;
-    productItem.forEach((val) {
-      var productPrice = (val["productPrice"] * 100).round().toString();
-
-      lineItem  += "&lineItems[$index][price_data][product_data][name]=${val["productName"]}&lineItems[$index][price_data][unit_amount]=$productPrice";
-
-      lineItem  += "&lineItems[$index][price_data][currency]=USD";
-      lineItem  += "&lineItems[$index][price_data][quantity]=${val['qty'].toString()}";
-      index++;
-    });
-
-    final response = await http.post(
-      url,
-      body: "success_url=https://checkout.stripe.dev/success&mode=payment$lineItem",
-      headers: {
-        "Authorization": "Bearer $secretKey",
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-    );
-
-    return json.decode(response.body)["id"];
+  Future<void> makePayment(
+      {required String amount, required String currency}) async {
+    try {
+      paymentIntentData = await createPaymentIntent(amount, currency);
+      if (paymentIntentData != null) {
+        await Stripe.instance.initPaymentSheet(
+          paymentSheetParameters: SetupPaymentSheetParameters(
+            googlePay: PaymentSheetGooglePay(merchantCountryCode: 'US'),
+            merchantDisplayName: 'Prospects',
+            customerId: paymentIntentData!['customer'],
+            paymentIntentClientSecret: paymentIntentData!['client_secret'],
+            customerEphemeralKeySecret: paymentIntentData!['ephemeralKey'],
+          ),
+        );
+        displayPaymentSheet();
+      }
+    } catch (e, s) {
+      print('exception:$e$s');
+    }
   }
 
-  static Future<dynamic> stripePaymentCheckout(
-      productItem,
-      subTotal,
-      context,
-      onSuccess,
-      onCancel,
-      onError,
-      ) async {
-    final String sessionId = await createCheckoutSession(productItem, subTotal);
+  displayPaymentSheet() async {
+    try {
+      await Stripe.instance.presentPaymentSheet();
+      Get.snackbar('Payment', 'Payment Successful',
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Colors.green,
+          colorText: Colors.white,
+          margin: const EdgeInsets.all(10),
+          duration: const Duration(seconds: 2));
+    } on Exception catch (e) {
+      if (e is StripeException) {
+        print("Error from Stripe: ${e.error.localizedMessage}");
+      } else {
+        print("Unforeseen error: ${e}");
+      }
+    } catch (e) {
+      print("exception:$e");
+    }
+  }
 
-    redirectToCheckout(
-      context: context,
-      sessionId: sessionId,
-      publishableKey: publishableKey,
-      successUrl: "https://api.stripe.com/v3/checkout/session",
-      canceledUrl: "https://api.stripe.com/v3/checkout/cancel",
-    ).then((result) {
-      const text = "Redirected Successfully";
-      onSuccess(text);
-    }).catchError((e) {
-      onError(e);
-    });
+  Future<Map<String, dynamic>> createPaymentIntent(
+      String amount, String currency) async {
+    try {
+      Map<String, dynamic> body = {
+        'amount': calculateAmount(amount),
+        'currency': currency,
+        'payment_method_types[]': 'card'
+      };
+      var response = await http.post(
+        Uri.parse('https://api.stripe.com/v1/payment_intents'),
+        body: body,
+        headers: {
+          'Authorization':
+          'Bearer sk_test_51MwR8TAKJqb8m8FnRwFD3T1CbhzctycAEpCA8tr9BvdUS1K6A6OfrTCwzbavQR0d9lQecliHFcKicRGt7OLTlrey00KWuC3znA',
+          'Content-Type': 'application/x-www-form-urlencoded'
+        },
+      );
+      return jsonDecode(response.body);
+    } catch (err) {
+      print('err charging user: ${err.toString()}');
+      return {};
+    }
+  }
+
+  String calculateAmount(String amount) {
+    final a = (int.parse(amount)) * 100;
+    return a.toString();
   }
 }

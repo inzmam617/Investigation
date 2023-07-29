@@ -57,6 +57,7 @@ dependencies:
   http:
   stripe_checkout: ^1.0.2
   sealed_unions:
+  get:
 
 
 
