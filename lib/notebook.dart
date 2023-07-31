@@ -26,9 +26,31 @@ class notebook extends StatefulWidget {
 class _notebookState extends State<notebook> {
 
   late String package = ""; // Initialize with an empty string
+  late bool visible  = false;
+  String userId = FirebaseAuth.instance.currentUser!.uid;
 
-  initilize() async{
-    String userId = FirebaseAuth.instance.currentUser!.uid;
+  String timeLeft = "";
+
+  Future<void> get() async {
+    final data =   await FirebaseFirestore.instance.collection('Users').doc(userId).get();
+    setState(() {
+      timeLeft =  data["Duration"];
+    });
+    if(package ==  "Basic"){
+      print("basic");
+      setState(() {
+        visible = false;
+      });
+    }
+    else{
+      print("Not Basic");
+      setState(() {
+        visible = true;
+      });
+    }
+
+  }
+  initilize() async {
     FirebaseFirestore.instance.collection('Users').doc(userId).get().then((value) async {
       final SharedPreferences prefs = await SharedPreferences.getInstance();
       if (value.exists) {
@@ -45,6 +67,8 @@ class _notebookState extends State<notebook> {
 
   @override
   void initState() {
+
+    get( );
     super.initState();
     print(widget.FolderName);
     if (widget.FolderName != "new") {
@@ -55,7 +79,9 @@ class _notebookState extends State<notebook> {
         FolderName = generateRandomFolderName(now);
       print("changed");
     }
-     // widget.FolderName != ""  ? FolderName = widget.FolderName: FolderName = generateRandomFolderName(now);
+    print(timeLeft);
+
+    // widget.FolderName != ""  ? FolderName = widget.FolderName: FolderName = generateRandomFolderName(now);
      print("this is the folder Name  $FolderName");
     initilize();
   }
@@ -73,10 +99,6 @@ class _notebookState extends State<notebook> {
   }
   @override
   Widget build(BuildContext context) {
-
-
-
-
     return Scaffold(
       body: SingleChildScrollView(
         scrollDirection: Axis.horizontal,physics: const NeverScrollableScrollPhysics(),
@@ -231,7 +253,6 @@ class _notebookState extends State<notebook> {
                     context,
                     MaterialPageRoute(builder: (context) => SceneMeasurementPage(
                       FolderName: FolderName,
-
                     )),
                   );
                 },
@@ -308,196 +329,203 @@ class _notebookState extends State<notebook> {
               const SizedBox(
                 height: 10,
               ),
-              Transform.translate(
-                offset: const Offset(-50, -25),
-                child: InkWell(onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => WeaponsPage(
-                      FolderName: FolderName,
+              Visibility(
+                visible: visible,
+                child: Column(
+                  children: [
+                    Transform.translate(
+                      offset: const Offset(-50, -25),
+                      child: InkWell(onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => WeaponsPage(
+                            FolderName: FolderName,
 
 
-                    )),
-                  );
-                },
-                  child: Container(
-                    height: 40,
-                    width: MediaQuery.of(context).size.width/1.2,
-                    decoration: const BoxDecoration(
-                        boxShadow: [BoxShadow(color: Colors.grey, blurRadius: 2)],
-                        color: Colors.white,
-                        borderRadius: BorderRadius.only(
-                            bottomLeft: Radius.circular(30),
-                            topLeft: Radius.circular(30),
-                            topRight: Radius.circular(30),
-                            bottomRight: Radius.circular(30))),
-                    child: TextButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => WeaponsPage(
-                              FolderName: FolderName,
+                          )),
+                        );
+                      },
+                        child: Container(
+                          height: 40,
+                          width: MediaQuery.of(context).size.width/1.2,
+                          decoration: const BoxDecoration(
+                              boxShadow: [BoxShadow(color: Colors.grey, blurRadius: 2)],
+                              color: Colors.white,
+                              borderRadius: BorderRadius.only(
+                                  bottomLeft: Radius.circular(30),
+                                  topLeft: Radius.circular(30),
+                                  topRight: Radius.circular(30),
+                                  bottomRight: Radius.circular(30))),
+                          child: TextButton(
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => WeaponsPage(
+                                    FolderName: FolderName,
 
-                            )),
-                          );
-                        },
-                        child: const Text(
-                          'Weapon Measurements',
-                          style: TextStyle(color: Color(0xff86898E), fontSize: 16),
-                        )),
-                  ),
-                ),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              Transform.translate(
-                offset: const Offset(-50, -25),
-                child: InkWell(onTap:() {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => BaseLinePage(
-                      FolderName: FolderName,
-
-                    )),
-                  );
-                },
-                  child: Container(
-                    height: 40,
-                    width: MediaQuery.of(context).size.width/1.2,
-                    decoration: const BoxDecoration(
-                        boxShadow: [BoxShadow(color: Colors.grey, blurRadius: 2)],
-                        color: Colors.white,
-                        borderRadius: BorderRadius.only(
-                            bottomLeft: Radius.circular(30),
-                            topLeft: Radius.circular(30),
-                            topRight: Radius.circular(30),
-                            bottomRight: Radius.circular(30))),
-                    child: TextButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => BaseLinePage(
-                              FolderName: FolderName,
-
-                            )),
-                          );
-                        },
-                        child: const Text(
-                          'Baseline Measurements',
-                          style: TextStyle(color: Color(0xff86898E), fontSize: 16),
-                        )),
-                  ),
-                ),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              Transform.translate(
-                offset: const Offset(-50, -25),
-                child: InkWell(onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => BalisticPage(
-                      FolderName: FolderName,
-
-                    )),
-                  );
-                },
-                  child: Container(
-                    height: 40,
-                    width: MediaQuery.of(context).size.width/1.2,
-                    decoration: const BoxDecoration(
-                        boxShadow: [BoxShadow(color: Colors.grey, blurRadius: 2)],
-                        color: Colors.white,
-                        borderRadius: BorderRadius.only(
-                            bottomLeft: Radius.circular(30),
-                            topLeft: Radius.circular(30),
-                            topRight: Radius.circular(30),
-                            bottomRight: Radius.circular(30))),
-                    child: TextButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => BalisticPage(
-                              FolderName: FolderName,
-
-                            )),
-                          );
-                        },
-                        child: const Text(
-                          'Ballistic Measurements',
-                          style: TextStyle(color: Color(0xff86898E), fontSize: 16),
-                        )),
-                  ),
-                ),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              Transform.translate(
-                offset: const Offset(-50, -25),
-                child: InkWell(onTap:() {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => scenesketch(
-                      FolderName: FolderName,
-
-                    )),
-                  );
-                },
-                  child: Container(
-                    height: 40,
-                    width: MediaQuery.of(context).size.width/1.2,
-                    decoration: const BoxDecoration(
-                        boxShadow: [BoxShadow(color: Colors.grey, blurRadius: 2)],
-                        color: Colors.white,
-                        borderRadius: BorderRadius.only(
-                            bottomLeft: Radius.circular(30),
-                            topLeft: Radius.circular(30),
-                            topRight: Radius.circular(30),
-                            bottomRight: Radius.circular(30))),
-                    child: const Center(
-                      child: Text(
-                        'Scene Sketch',
-                        style: TextStyle(color: Color(0xff86898E), fontSize: 16),
+                                  )),
+                                );
+                              },
+                              child: const Text(
+                                'Weapon Measurements',
+                                style: TextStyle(color: Color(0xff86898E), fontSize: 16),
+                              )),
+                        ),
                       ),
                     ),
-                  ),
-                ),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              Transform.translate(
-                offset: const Offset(-50, -25),
-                child: InkWell(onTap:() {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => evidence(
-                      FolderName: FolderName,
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Transform.translate(
+                      offset: const Offset(-50, -25),
+                      child: InkWell(onTap:() {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => BaseLinePage(
+                            FolderName: FolderName,
 
-                    )),
-                  );
-                },
-                  child: Container(
-                    height: 40,
-                    width: MediaQuery.of(context).size.width/1.2,
-                    decoration: const BoxDecoration(
-                        boxShadow: [BoxShadow(color: Colors.grey, blurRadius: 2)],
-                        color: Colors.white,
-                        borderRadius: BorderRadius.only(
-                            bottomLeft: Radius.circular(30),
-                            topLeft: Radius.circular(30),
-                            topRight: Radius.circular(30),
-                            bottomRight: Radius.circular(30))),
-                    child: const Center(
-                      child: Text(
-                        'Evidence List',
-                        style: TextStyle(color: Color(0xff86898E), fontSize: 16),
+                          )),
+                        );
+                      },
+                        child: Container(
+                          height: 40,
+                          width: MediaQuery.of(context).size.width/1.2,
+                          decoration: const BoxDecoration(
+                              boxShadow: [BoxShadow(color: Colors.grey, blurRadius: 2)],
+                              color: Colors.white,
+                              borderRadius: BorderRadius.only(
+                                  bottomLeft: Radius.circular(30),
+                                  topLeft: Radius.circular(30),
+                                  topRight: Radius.circular(30),
+                                  bottomRight: Radius.circular(30))),
+                          child: TextButton(
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => BaseLinePage(
+                                    FolderName: FolderName,
+
+                                  )),
+                                );
+                              },
+                              child: const Text(
+                                'Baseline Measurements',
+                                style: TextStyle(color: Color(0xff86898E), fontSize: 16),
+                              )),
+                        ),
                       ),
                     ),
-                  ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Transform.translate(
+                      offset: const Offset(-50, -25),
+                      child: InkWell(onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => BalisticPage(
+                            FolderName: FolderName,
+
+                          )),
+                        );
+                      },
+                        child: Container(
+                          height: 40,
+                          width: MediaQuery.of(context).size.width/1.2,
+                          decoration: const BoxDecoration(
+                              boxShadow: [BoxShadow(color: Colors.grey, blurRadius: 2)],
+                              color: Colors.white,
+                              borderRadius: BorderRadius.only(
+                                  bottomLeft: Radius.circular(30),
+                                  topLeft: Radius.circular(30),
+                                  topRight: Radius.circular(30),
+                                  bottomRight: Radius.circular(30))),
+                          child: TextButton(
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(builder: (context) => BalisticPage(
+                                    FolderName: FolderName,
+
+                                  )),
+                                );
+                              },
+                              child: const Text(
+                                'Ballistic Measurements',
+                                style: TextStyle(color: Color(0xff86898E), fontSize: 16),
+                              )),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Transform.translate(
+                      offset: const Offset(-50, -25),
+                      child: InkWell(onTap:() {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => scenesketch(
+                            FolderName: FolderName,
+
+                          )),
+                        );
+                      },
+                        child: Container(
+                          height: 40,
+                          width: MediaQuery.of(context).size.width/1.2,
+                          decoration: const BoxDecoration(
+                              boxShadow: [BoxShadow(color: Colors.grey, blurRadius: 2)],
+                              color: Colors.white,
+                              borderRadius: BorderRadius.only(
+                                  bottomLeft: Radius.circular(30),
+                                  topLeft: Radius.circular(30),
+                                  topRight: Radius.circular(30),
+                                  bottomRight: Radius.circular(30))),
+                          child: const Center(
+                            child: Text(
+                              'Scene Sketch',
+                              style: TextStyle(color: Color(0xff86898E), fontSize: 16),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Transform.translate(
+                      offset: const Offset(-50, -25),
+                      child: InkWell(onTap:() {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => evidence(
+                            FolderName: FolderName,
+
+                          )),
+                        );
+                      },
+                        child: Container(
+                          height: 40,
+                          width: MediaQuery.of(context).size.width/1.2,
+                          decoration: const BoxDecoration(
+                              boxShadow: [BoxShadow(color: Colors.grey, blurRadius: 2)],
+                              color: Colors.white,
+                              borderRadius: BorderRadius.only(
+                                  bottomLeft: Radius.circular(30),
+                                  topLeft: Radius.circular(30),
+                                  topRight: Radius.circular(30),
+                                  bottomRight: Radius.circular(30))),
+                          child: const Center(
+                            child: Text(
+                              'Evidence List',
+                              style: TextStyle(color: Color(0xff86898E), fontSize: 16),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ],

@@ -100,15 +100,7 @@ class _courtdateState extends State<courtdate> {
                         width: 30,
                         child: CircleAvatar(
                           backgroundColor: Colors.black,
-                          child: InkWell(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => scenesketch()),
-                                );
-                              },
-                              child: const Icon(Icons.arrow_back_ios, size: 14)),
+                          child: const Icon(Icons.arrow_back_ios, size: 14),
                         )),
                   ),
                   Transform.translate(
@@ -123,9 +115,6 @@ class _courtdateState extends State<courtdate> {
                 ],
               ),
             ),
-           TextButton(onPressed: (){
-
-           }, child: Text("see Lists")),
            Padding(
               padding: const EdgeInsets.only(left: 25, right: 25),
               child: Container(

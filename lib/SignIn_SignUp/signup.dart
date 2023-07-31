@@ -42,7 +42,8 @@ class _SignUpPageState extends State<SignUpPage> {
         'name': name,
         'email': email,
         'docId': uid,
-        "package" :"Basic"
+        "package" :"Basic",
+        "Duration" : "Month"
       });
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
         content: Text('User registered successfully!'),
@@ -52,13 +53,11 @@ class _SignUpPageState extends State<SignUpPage> {
         return const SignInPage();
       }));
       setState(() {
-
         _loading = false;
       });
       print('User registered successfully!');
     } catch (e) {
       setState(() {
-
         _loading = false;
       });
       ScaffoldMessenger.of(context).showSnackBar(SnackBar(

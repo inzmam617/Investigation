@@ -42,17 +42,13 @@ class _BottomBarPageState extends State<BottomBarPage> {
       const courtdate(),
        HomePage( id:  id,),
       const setting(),
-
-
     ];
-
   }
   String id = "";
   Future<void> initialize() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     id =  prefs.getString("id").toString();
     print("thisis the id : " + id);
-
   }
   @override
   Widget build(BuildContext context) {
