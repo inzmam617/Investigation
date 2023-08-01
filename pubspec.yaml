@@ -56,8 +56,10 @@ dependencies:
   flutter_dotenv: ^5.1.0
   http:
   stripe_checkout: ^1.0.2
-  sealed_unions:
   get:
+  flutter_background_service: ^3.0.1
+  timezone:
+
 
 
 

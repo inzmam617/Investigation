@@ -1,6 +1,11 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:crime_investigation/UploadCases/scenesketch.dart';
+import 'package:flutter_background_service/flutter_background_service.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:intl/intl.dart';
+import 'package:timezone/timezone.dart' as tz;
 
 class courtdate extends StatefulWidget {
   const courtdate({Key? key}) : super(key: key);
@@ -95,12 +100,12 @@ class _courtdateState extends State<courtdate> {
                   ),
                   Transform.translate(
                     offset: const Offset(-130, 0),
-                    child: SizedBox(
+                    child: const SizedBox(
                         height: 30,
                         width: 30,
                         child: CircleAvatar(
                           backgroundColor: Colors.black,
-                          child: const Icon(Icons.arrow_back_ios, size: 14),
+                          child: Icon(Icons.arrow_back_ios, size: 14),
                         )),
                   ),
                   Transform.translate(
@@ -241,7 +246,7 @@ class _courtdateState extends State<courtdate> {
                               Expanded(
                                 child: TextField(
                                   controller: note,
-                                  decoration: InputDecoration(
+                                  decoration: const InputDecoration(
                                       contentPadding: EdgeInsets.only(bottom: 8,left: 20),
                                       enabledBorder: InputBorder.none,
                                       filled: true,
@@ -272,14 +277,14 @@ class _courtdateState extends State<courtdate> {
                           padding: const EdgeInsets.symmetric(horizontal: 10),
                           child: Row(
                             children:  [
-                              Text('Case#:',
+                              const Text('Case#:',
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                   )),
                               Expanded(
                                 child: TextField(
                                   controller: casenumber,
-                                  decoration: InputDecoration(
+                                  decoration: const InputDecoration(
                                       contentPadding: EdgeInsets.only(bottom: 8,left: 20),
                                       enabledBorder: InputBorder.none,
                                       filled: true,
@@ -310,14 +315,14 @@ class _courtdateState extends State<courtdate> {
                           padding: const EdgeInsets.symmetric(horizontal: 10),
                           child: Row(
                             children:  [
-                              Text('Reminder:',
+                              const Text('Reminder:',
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                   )),
                               Expanded(
                                 child: TextField(
                                   controller: reminder,
-                                  decoration: InputDecoration(
+                                  decoration: const InputDecoration(
                                       contentPadding: EdgeInsets.only(bottom: 8,left: 20),
                                       enabledBorder: InputBorder.none,
                                       filled: true,
@@ -330,7 +335,6 @@ class _courtdateState extends State<courtdate> {
                         ),
                       ),
                     ),
-
                   ],
                 ),
               ),
@@ -368,15 +372,10 @@ class _courtdateState extends State<courtdate> {
                         print(note.text);
                         print(casenumber.text);
                         print(reminder.text);
-
-
-
-
+                        setAlarm();
                       },
-
                       child: const Text(
                         'Save',
-
                       )),
                 ),
               ),
@@ -384,50 +383,45 @@ class _courtdateState extends State<courtdate> {
             const SizedBox(
               height: 20,
             ),
-            // SizedBox(
-            //   height: 30,
-            //   child: Container(
-            //     decoration: const BoxDecoration(
-            //         boxShadow: [
-            //           BoxShadow(blurRadius: 3.5, color: Colors.grey)
-            //         ],
-            //         color: Colors.white,
-            //         borderRadius: BorderRadius.only(
-            //             topRight: Radius.circular(20),
-            //             bottomRight: Radius.circular(20),
-            //             topLeft: Radius.circular(20),
-            //             bottomLeft: Radius.circular(20))),
-            //     child: SizedBox(
-            //       width: 160,
-            //       child: ElevatedButton(
-            //           style: ElevatedButton.styleFrom(
-            //               backgroundColor: Colors.white,
-            //               shape: const RoundedRectangleBorder(
-            //                   borderRadius: BorderRadius.only(
-            //                       bottomLeft: Radius.circular(20),
-            //                       topLeft: Radius.circular(20),
-            //                       bottomRight: Radius.circular(20),
-            //                       topRight: Radius.circular(20)))),
-            //           onPressed: () {
-            //
-            //
-            //
-            //           },
-            //           child: const Text(
-            //             'Add',
-            //             style: TextStyle(color: Colors.black),
-            //           )),
-            //     ),
-            //   ),
-            // ),
+
             const SizedBox(height: 50,),
           ],
         ),
       ),
     );
   }
+}
 
 
+Future<void> showAlarmNotification(tz.TZDateTime alarmDateTime, String note) async {
+  final int alarmId = alarmDateTime.millisecondsSinceEpoch ~/ 1000;
+  const AndroidNotificationDetails androidPlatformChannelSpecifics =
+  AndroidNotificationDetails(
+    'channel_id',
+    'channel_name',
+    'channel_description',
+    importance: Importance.high,
+    priority: Priority.high,
+    showWhen: false,
+  );
+  const NotificationDetails platformChannelSpecifics =
+  NotificationDetails(android: androidPlatformChannelSpecifics);
+  await FlutterLocalNotificationsPlugin().zonedSchedule(
+    alarmId,
+    'Alarm',
+    note,
+    alarmDateTime,
+    platformChannelSpecifics,
+    androidAllowWhileIdle: true,
+    uiLocalNotificationDateInterpretation:
+    UILocalNotificationDateInterpretation.absoluteTime,
+    payload: 'alarm_data',
+  );
+  print('Alarm set for: $alarmDateTime');
+}
 
-
+void setAlarm() {
+  final tz.TZDateTime alarmDateTime = tz.TZDateTime.now(tz.local).add(const Duration(seconds: 5));
+  const String note = 'This is the alarm note.';
+  showAlarmNotification(alarmDateTime, note);
 }

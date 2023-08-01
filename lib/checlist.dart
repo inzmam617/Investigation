@@ -27,7 +27,6 @@ class _checklistState extends State<checklist> {
 
   Future<void> reset() async {
     await FirebaseFirestore.instance.collection('Users').doc(userId).update({
-
       "package" : "Basic",
       "Duration" : "2030-08-31",
       "Amount" : '0'
@@ -40,7 +39,7 @@ class _checklistState extends State<checklist> {
       Amount =  data["Amount"];
       package =  data["package"];
     });
-    print("the time ledt : "  +  timeLeft);
+    print("the time left : $timeLeft");
     DateTime parsedDate = DateTime.parse(timeLeft);
     DateTime currentDate = DateTime.now();
 
@@ -71,22 +70,17 @@ class _checklistState extends State<checklist> {
       print("The provided date is the same as the current date.");
       // Do something for dates equal to the current date
     }
-
-
-
   }
   @override
   void initState(){
     get();
     super.initState();
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
       body: SingleChildScrollView(scrollDirection: Axis.horizontal,
-        physics: NeverScrollableScrollPhysics(),
+        physics: const NeverScrollableScrollPhysics(),
         child: Column(
           children: [
             Row(children: [
