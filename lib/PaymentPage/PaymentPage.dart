@@ -32,10 +32,13 @@ class _PaymentpageState extends State<Paymentpage> {
     });
   }
     String Pakage = "";
+    String timeLeft = "";
   Future<void> get( ) async {
     final data =   await FirebaseFirestore.instance.collection('Users').doc(userId).get();
     setState(() {
       Pakage =data["package"];
+      timeLeft =  data["Duration"];
+
     });
   }
  String formatDateM(DateTime date) {
@@ -60,6 +63,12 @@ class _PaymentpageState extends State<Paymentpage> {
               const SizedBox(height: 50,),
 
               Text("Current Package: $Pakage"),
+              const SizedBox(height: 10,),
+
+              Pakage != "Basic"  ?  Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 50),
+                child: Text("Please Note that you have currently $Pakage package till $timeLeft after  that your Subscription will expire ", textAlign: TextAlign.center, style: TextStyle(fontWeight: FontWeight.bold),),
+              )  : const SizedBox() ,
               const SizedBox(height: 50,),
               SizedBox(
                 height: 150,
@@ -126,7 +135,7 @@ class _PaymentpageState extends State<Paymentpage> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: const [
                           Text("Price:",style: TextStyle(fontWeight: FontWeight.bold),),
-                          Text(' \$100 per month',),
+                          Text(' \$100 per Year',),
                         ],
                       ),
 

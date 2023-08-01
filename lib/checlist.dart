@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:crime_investigation/death.dart';
 import 'package:crime_investigation/drawning.dart';
 import 'package:crime_investigation/hanging.dart';
@@ -5,144 +6,286 @@ import 'package:crime_investigation/homicide.dart';
 import 'package:crime_investigation/robbery.dart';
 import 'package:crime_investigation/setting.dart';
 import 'package:crime_investigation/shooting.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class checklist extends StatelessWidget {
+class checklist extends StatefulWidget {
   const checklist({Key? key}) : super(key: key);
+
+  @override
+  State<checklist> createState() => _checklistState();
+}
+
+class _checklistState extends State<checklist> {
+  late bool visible  = false;
+  String userId = FirebaseAuth.instance.currentUser!.uid;
+
+  String timeLeft = "";
+  String Amount = "";
+  String package = "";
+
+  Future<void> reset() async {
+    await FirebaseFirestore.instance.collection('Users').doc(userId).update({
+
+      "package" : "Basic",
+      "Duration" : "2030-08-31",
+      "Amount" : '0'
+    });
+  }
+  Future<void> get() async {
+    final data =   await FirebaseFirestore.instance.collection('Users').doc(userId).get();
+    setState(() {
+      timeLeft =  data["Duration"];
+      Amount =  data["Amount"];
+      package =  data["package"];
+    });
+    print("the time ledt : "  +  timeLeft);
+    DateTime parsedDate = DateTime.parse(timeLeft);
+    DateTime currentDate = DateTime.now();
+
+    if (parsedDate.isBefore(currentDate)) {
+      reset();
+
+      print("The provided date is before the current date.");
+
+      // Do something for dates before the current date
+    } else if (parsedDate.isAfter(currentDate)) {
+      if(package ==  "Basic"){
+        print("basic");
+        setState(() {
+          visible = false;
+        });
+      }
+      else{
+        print("Not Basic");
+        setState(() {
+          visible = true;
+        });
+      }
+      print("The provided date is after the current date.");
+      // Do something for dates after the current date
+    } else {
+      reset();
+
+      print("The provided date is the same as the current date.");
+      // Do something for dates equal to the current date
+    }
+
+
+
+  }
+  @override
+  void initState(){
+    get();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.black,
-        items: <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Transform.translate(
-              offset: Offset(0, 10),
-              child: SvgPicture.asset('assets/Component 12 – 1.svg'),
-            ),
-            label: '',
-          ),
-          BottomNavigationBarItem(
-            icon: Transform.translate(
-              offset: Offset(0, -20),
-              child: Container(
-                decoration: BoxDecoration(
-                    border: Border.all(
-                      color: Colors.black,
-                    )),
-                child: SizedBox(
-                  height: 25,
-                  width: 25,
-                  child: Transform.scale(
-                    scale: 2,
-                    child: CircleAvatar(
-                        backgroundColor: Colors.white,
-                        child: Transform.translate(
-                          offset: Offset(0, 0),
-                          child: Icon(
-                            Icons.add,
-                            color: Colors.black,
-                            size: 25,
-                          ),
-                        )),
-                  ),
-                ),
-              ),
-            ),
-            label: '',
-          ),
-          BottomNavigationBarItem(
-            icon: Transform.translate(offset: Offset(0,10),
-              child: SingleChildScrollView(scrollDirection:Axis.horizontal ,
-                child: Row(
-                  children: [
-                    Container(
-                        height: 30,
-                        width: 100,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(20),
-                                topRight: Radius.circular(20),
-                                bottomRight: Radius.circular(20),
-                                bottomLeft: Radius.circular(20)),
-                            color: Colors.white),
-                        child: Transform.translate(offset: Offset(-25,0),
-                          child: Transform.scale(scale: 0.8,
-                            child: SvgPicture.asset(
-                              'assets/Iconly-Bold-Setting.svg',
-                              color: Colors.black,
-                            ),
-                          ),
-                        )),
-                    Transform.translate(offset: Offset(-55,0),
-                        child: Text('Setting'))
-                  ],
-                ),
-              ),
-            ),
-            label: '',
-          ),
-        ],
-      ),
+
       body: SingleChildScrollView(scrollDirection: Axis.horizontal,
+        physics: NeverScrollableScrollPhysics(),
         child: Column(
           children: [
             Row(children: [
-              Transform.translate(offset: Offset(15,0),
+              Transform.translate(offset: const Offset(15,0),
                 child: InkWell(onTap:() {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) =>setting()),
-                  );
+                  Navigator.of(context).pop();
                 },
-                  child: CircleAvatar(backgroundColor: Colors.black,
-                    child: InkWell(onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) =>setting()),
-                      );
-                    },
-                        child: Icon(Icons.arrow_back_ios_new_outlined)),
+                  child: const CircleAvatar(backgroundColor: Colors.black,
+                    child: Icon(Icons.arrow_back_ios_new_outlined),
                   ),
                 ),
               ),
-              Transform.translate(offset: Offset(-28,50),
+              Transform.translate(offset: const Offset(-28,50),
                 child: Container(height: 1,width: 50,
-                  decoration: BoxDecoration(color: Colors.black), ),
+                  decoration: const BoxDecoration(color: Colors.black), ),
               ),
               Container(
+                  height: 150,
+                  width: MediaQuery.of(context).size.width,
+                  decoration: const BoxDecoration(
+                      color: Colors.black,
+                      borderRadius: BorderRadius.only(
+                        bottomLeft: Radius.circular(40),
+                      )),
                   child: Padding(
                     padding: const EdgeInsets.only(left: 20,right: 100,top: 60),
                     child:
                     TextField(
-                        decoration: InputDecoration(contentPadding: EdgeInsets.all(10),
+                        decoration: InputDecoration(contentPadding: const EdgeInsets.all(10),
                             suffixIcon: Image.asset('assets/assa.png'),
-                            hintText: 'Check',hintStyle: TextStyle(),
+                            hintText: 'Check',hintStyle: const TextStyle(),
                             fillColor: Colors.white,
                             filled: true,
-                            border: OutlineInputBorder(
+                            border: const OutlineInputBorder(
                                 borderRadius: BorderRadius.only(
                                     topLeft: Radius.circular(20),
                                     bottomLeft: Radius.circular(20),
                                     topRight: Radius.circular(20),
                                     bottomRight: Radius.circular(20))))),
-                  ),
-                  height: 150,
-                  width: MediaQuery.of(context).size.width,
-                  decoration: BoxDecoration(
-                      color: Colors.black,
-                      borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(40),
-                      ))),
+                  )),
             ]),
-            SizedBox(height: 50,),
-            Transform.translate(offset: Offset(-50,0),
+            StreamBuilder<QuerySnapshot>(
+              stream: FirebaseFirestore.instance.collection('Users').snapshots(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const CircularProgressIndicator();
+                }
+                return Transform.translate(
+                  offset: const Offset(-50, 15),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          const Text('Package: ',style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold),),
+                          Text(package),
+                        ],
+                      ),
+                      package != "Basic" ?   Column(
+                        children: [
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              const Text('Time Till: ',style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold),),
+                              Text(timeLeft),
+                            ],
+                          ),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              const Text('Amount: ',style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold),),
+                              Text( "\$$Amount"),
+                            ],
+                          ),
+                        ],
+                      ) :SizedBox() ,
+                    ],
+                  ),
+                );
+              },
+            ),
+            const SizedBox(height: 50,),
+            Column(
+              children: [
+                Transform.translate(offset: const Offset(-50,0),
+                  child: Container(
+                    height: 40,
+                    width: MediaQuery.of(context).size.width/1.2,
+                    decoration: const BoxDecoration(
+                        boxShadow: [BoxShadow(color: Colors.grey, blurRadius: 2)],
+                        color: Colors.white,
+                        borderRadius: BorderRadius.only(
+                            bottomLeft: Radius.circular(30),
+                            topLeft: Radius.circular(30),
+                            topRight: Radius.circular(30),
+                            bottomRight: Radius.circular(30))),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        TextButton(
+                            onPressed: () {
+                              visible == true ?    Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) =>const drawning()),
+                              ) : const SizedBox();
+                            },
+                            child: const Text(
+                              'Drowning Investigation Checklist',
+                              style: TextStyle(color: Color(0xff86898E), fontSize: 16),
+                            )),
+                        visible == false ?   Icon(Icons.lock) : SizedBox()
+
+                      ],
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  height: 15,
+                ),
+                Transform.translate(offset: const Offset(-50,0),
+                  child: Container(
+                    height: 40,
+                    width: MediaQuery.of(context).size.width/1.2,
+                    decoration: const BoxDecoration(
+                        boxShadow: [BoxShadow(color: Colors.grey, blurRadius: 2)],
+                        color: Colors.white,
+                        borderRadius: BorderRadius.only(
+                            bottomLeft: Radius.circular(30),
+                            topLeft: Radius.circular(30),
+                            topRight: Radius.circular(30),
+                            bottomRight: Radius.circular(30))),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        TextButton(
+                            onPressed: () {
+                              visible == true ?  Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) =>const homicide()),
+                            ) : SizedBox();
+                            },
+                            child: const Text(
+                              'Homicide Investigation',
+                              style: TextStyle(color: Color(0xff86898E), fontSize: 16),
+                            )),
+                       visible == false ?   Icon(Icons.lock) : SizedBox()
+                      ],
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  height: 15,
+                ),
+                Transform.translate(offset: const Offset(-50,0),
+                  child: Container(
+                    height: 40,
+                    width: MediaQuery.of(context).size.width/1.2,
+                    decoration: const BoxDecoration(
+                        boxShadow: [BoxShadow(color: Colors.grey, blurRadius: 2)],
+                        color: Colors.white,
+                        borderRadius: BorderRadius.only(
+                            bottomLeft: Radius.circular(30),
+                            topLeft: Radius.circular(30),
+                            topRight: Radius.circular(30),
+                            bottomRight: Radius.circular(30))),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        TextButton(
+                            onPressed: () {
+                              visible == true ?  Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) =>const shooting()),
+                              ) : SizedBox();
+                            },
+                            child: const Text(
+                              'Shooting Investigation Checklist',
+                              style: TextStyle(color: Color(0xff86898E), fontSize: 16),
+                            )),
+                        visible == false ?   Icon(Icons.lock) : SizedBox()
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(
+              height: 15,
+            ),
+            Transform.translate(offset: const Offset(-50,0),
               child: Container(
                 height: 40,
                 width: MediaQuery.of(context).size.width/1.2,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                     boxShadow: [BoxShadow(color: Colors.grey, blurRadius: 2)],
                     color: Colors.white,
                     borderRadius: BorderRadius.only(
@@ -154,106 +297,23 @@ class checklist extends StatelessWidget {
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) =>drawning()),
+                        MaterialPageRoute(builder: (context) =>const hanging()),
                       );
                     },
-                    child: Text(
-                      'Drowning Investigation Checlist',
-                      style: TextStyle(color: Color(0xff86898E), fontSize: 16),
-                    )),
-              ),
-            ),
-            SizedBox(
-              height: 15,
-            ),
-            Transform.translate(offset: Offset(-50,0),
-              child: Container(
-                height: 40,
-                width: MediaQuery.of(context).size.width/1.2,
-                decoration: BoxDecoration(
-                    boxShadow: [BoxShadow(color: Colors.grey, blurRadius: 2)],
-                    color: Colors.white,
-                    borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(30),
-                        topLeft: Radius.circular(30),
-                        topRight: Radius.circular(30),
-                        bottomRight: Radius.circular(30))),
-                child: TextButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) =>robbery()),
-                      );
-                    },
-                    child: Text(
-                      'Burglary/Robbery',
-                      style: TextStyle(color: Color(0xff86898E), fontSize: 16),
-                    )),
-              ),
-            ),
-            SizedBox(
-              height: 15,
-            ),
-            Transform.translate(offset: Offset(-50,0),
-              child: Container(
-                height: 40,
-                width: MediaQuery.of(context).size.width/1.2,
-                decoration: BoxDecoration(
-                    boxShadow: [BoxShadow(color: Colors.grey, blurRadius: 2)],
-                    color: Colors.white,
-                    borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(30),
-                        topLeft: Radius.circular(30),
-                        topRight: Radius.circular(30),
-                        bottomRight: Radius.circular(30))),
-                child: TextButton(
-                    onPressed: () {Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) =>homicide()),
-                    );
-                    },
-                    child: Text(
-                      'Homicide Investigation',
-                      style: TextStyle(color: Color(0xff86898E), fontSize: 16),
-                    )),
-              ),
-            ),
-            SizedBox(
-              height: 15,
-            ),
-            Transform.translate(offset: Offset(-50,0),
-              child: Container(
-                height: 40,
-                width: MediaQuery.of(context).size.width/1.2,
-                decoration: BoxDecoration(
-                    boxShadow: [BoxShadow(color: Colors.grey, blurRadius: 2)],
-                    color: Colors.white,
-                    borderRadius: BorderRadius.only(
-                        bottomLeft: Radius.circular(30),
-                        topLeft: Radius.circular(30),
-                        topRight: Radius.circular(30),
-                        bottomRight: Radius.circular(30))),
-                child: TextButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) =>hanging()),
-                      );
-                    },
-                    child: Text(
+                    child: const Text(
                       'Hanging Checklist',
                       style: TextStyle(color: Color(0xff86898E), fontSize: 16),
                     )),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 15,
             ),
-            Transform.translate(offset: Offset(-50,0),
+            Transform.translate(offset: const Offset(-50,0),
               child: Container(
                 height: 40,
                 width: MediaQuery.of(context).size.width/1.2,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                     boxShadow: [BoxShadow(color: Colors.grey, blurRadius: 2)],
                     color: Colors.white,
                     borderRadius: BorderRadius.only(
@@ -265,23 +325,24 @@ class checklist extends StatelessWidget {
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) =>death()),
+                        MaterialPageRoute(builder: (context) =>const death()),
                       );
                     },
-                    child: Text(
+                    child: const Text(
                       'Death Investigation',
                       style: TextStyle(color: Color(0xff86898E), fontSize: 16),
                     )),
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 15,
             ),
-            Transform.translate(offset: Offset(-50,0),
+
+            Transform.translate(offset: const Offset(-50,0),
               child: Container(
                 height: 40,
                 width: MediaQuery.of(context).size.width/1.2,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                     boxShadow: [BoxShadow(color: Colors.grey, blurRadius: 2)],
                     color: Colors.white,
                     borderRadius: BorderRadius.only(
@@ -293,16 +354,15 @@ class checklist extends StatelessWidget {
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) =>shooting()),
+                        MaterialPageRoute(builder: (context) =>const robbery()),
                       );
                     },
-                    child: Text(
-                      'Shooting Investigation Checklist',
+                    child: const Text(
+                      'Burglary/Robbery',
                       style: TextStyle(color: Color(0xff86898E), fontSize: 16),
                     )),
               ),
             ),
-
 
           ],
         ),

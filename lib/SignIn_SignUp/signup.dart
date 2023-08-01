@@ -43,7 +43,8 @@ class _SignUpPageState extends State<SignUpPage> {
         'email': email,
         'docId': uid,
         "package" :"Basic",
-        "Duration" : "Month"
+        "Duration" : "2030-08-31",
+        "Amount" : "0",
       });
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
         content: Text('User registered successfully!'),

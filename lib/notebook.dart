@@ -30,24 +30,55 @@ class _notebookState extends State<notebook> {
   String userId = FirebaseAuth.instance.currentUser!.uid;
 
   String timeLeft = "";
+  String Amount = "";
 
+  Future<void> reset() async {
+    await FirebaseFirestore.instance.collection('Users').doc(userId).update({
+
+      "package" : "Basic",
+      "Duration" : "2030-08-31",
+      "Amount" : '0'
+    });
+  }
   Future<void> get() async {
     final data =   await FirebaseFirestore.instance.collection('Users').doc(userId).get();
     setState(() {
       timeLeft =  data["Duration"];
+      Amount =  data["Amount"];
     });
-    if(package ==  "Basic"){
-      print("basic");
-      setState(() {
-        visible = false;
-      });
+    print("the time ledt : "  +  timeLeft);
+    DateTime parsedDate = DateTime.parse(timeLeft);
+    DateTime currentDate = DateTime.now();
+
+    if (parsedDate.isBefore(currentDate)) {
+      reset();
+
+      print("The provided date is before the current date.");
+
+      // Do something for dates before the current date
+    } else if (parsedDate.isAfter(currentDate)) {
+      if(package ==  "Basic"){
+        print("basic");
+        setState(() {
+          visible = false;
+        });
+      }
+      else{
+        print("Not Basic");
+        setState(() {
+          visible = true;
+        });
+      }
+      print("The provided date is after the current date.");
+      // Do something for dates after the current date
+    } else {
+      reset();
+
+      print("The provided date is the same as the current date.");
+      // Do something for dates equal to the current date
     }
-    else{
-      print("Not Basic");
-      setState(() {
-        visible = true;
-      });
-    }
+
+
 
   }
   initilize() async {
@@ -165,12 +196,38 @@ class _notebookState extends State<notebook> {
                   }
                   return Transform.translate(
                     offset: const Offset(-50, 15),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text('Package: ',style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold),),
-                        Text(package),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            const Text('Package: ',style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold),),
+                            Text(package),
+                          ],
+                        ),
+                        package != "Basic" ?   Column(
+                          children: [
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                const Text('Time Till: ',style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold),),
+                                Text(timeLeft),
+                              ],
+                            ),
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                const Text('Amount: ',style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold),),
+                                Text( "\$$Amount"),
+                              ],
+                            ),
+                          ],
+                        ) :SizedBox() ,
                       ],
                     ),
                   );

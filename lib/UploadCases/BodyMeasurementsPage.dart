@@ -21,24 +21,58 @@ class BodyMeasurementsPage extends StatefulWidget {
 }
 
 class _BodyMeasurementsPageState extends State<BodyMeasurementsPage> {
+  List<String> predefinedValues = ['Head', 'Right Hand', 'Left Hand', 'Waist', 'Right Leg', 'Left Leg',];
+
+
   @override
   void initState() {
     super.initState();
     title.text = widget.Title ?? '';
-    textValues.add('');
-    controllers.add([TextEditingController(), TextEditingController(), TextEditingController()]);
-    errorMessages.add(['', '', '']);
-    textValues1.add('');
-    controllers1.add([TextEditingController(), TextEditingController(), TextEditingController()]);
-    errorMessages1.add(['', '', '']);
-    initialize();
-    widget.Edited != "true" ? setState(() {
+    // textValues.add('');
+    // controllers.add([TextEditingController(), TextEditingController(), TextEditingController()]);
+    // errorMessages.add(['', '', '']);
+    // textValues1.add('');
+    // controllers1.add([TextEditingController(), TextEditingController(), TextEditingController()]);
+    // errorMessages1.add(['', '', '']);
+    // textValues.add('');
+    // controllers.add([TextEditingController(), TextEditingController(), TextEditingController()]);
+    // errorMessages.add(['', '', '']);
+    // textValues1.add('');
+    // controllers1.add([TextEditingController(), TextEditingController(), TextEditingController()]);
+    // errorMessages1.add(['', '', '']);
+    // textValues.add('');
+    // controllers.add([TextEditingController(), TextEditingController(), TextEditingController()]);
+    // errorMessages.add(['', '', '']);
+    // textValues1.add('');
+    // controllers1.add([TextEditingController(), TextEditingController(), TextEditingController()]);
+    // errorMessages1.add(['', '', '']);
+    // textValues.add('');
+    // controllers.add([TextEditingController(), TextEditingController(), TextEditingController()]);
+    // errorMessages.add(['', '', '']);
+    // textValues1.add('');
+    // controllers1.add([TextEditingController(), TextEditingController(), TextEditingController()]);
+    // errorMessages1.add(['', '', '']);
+    // textValues.add('');
+    // controllers.add([TextEditingController(), TextEditingController(), TextEditingController()]);
+    // errorMessages.add(['', '', '']);
+    // textValues1.add('');
+    // controllers1.add([TextEditingController(), TextEditingController(), TextEditingController()]);
+    // errorMessages1.add(['', '', '']);
+    for (int i = 0; i < 6; i++) {
       textValues.add('');
       controllers.add([TextEditingController(), TextEditingController(), TextEditingController()]);
       errorMessages.add(['', '', '']);
+
       textValues1.add('');
       controllers1.add([TextEditingController(), TextEditingController(), TextEditingController()]);
       errorMessages1.add(['', '', '']);
+    }
+    for (int i = 0; i < 6; i++) {
+      controllers[i][1].text = predefinedValues[i];
+    }
+    initialize();
+    widget.Edited != "true" ? setState(() {
+
     }) :
     setState(() {
       final int suspectLength = widget.BodyOne?.length ?? 0;
@@ -113,53 +147,7 @@ class _BodyMeasurementsPageState extends State<BodyMeasurementsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.black,
-        items: <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Transform.translate(
-              offset: const Offset(0, 10),
-              child: SvgPicture.asset('assets/Component 12 – 1.svg'),
-            ),
-            label: '',
-          ),
-          BottomNavigationBarItem(
-            icon: Transform.translate(
-              offset: const Offset(0, -20),
-              child: Container(
-                decoration: BoxDecoration(
-                    border: Border.all(
-                  color: Colors.black,
-                )),
-                child: SizedBox(
-                  height: 25,
-                  width: 25,
-                  child: Transform.scale(
-                    scale: 2,
-                    child: CircleAvatar(
-                        backgroundColor: Colors.white,
-                        child: Transform.translate(
-                          offset: const Offset(0, 0),
-                          child: const Icon(
-                            Icons.add,
-                            color: Colors.black,
-                            size: 25,
-                          ),
-                        )),
-                  ),
-                ),
-              ),
-            ),
-            label: '',
-          ),
-          BottomNavigationBarItem(
-            icon: Transform.translate(
-                offset: const Offset(0, 10),
-                child: Image.asset('assets/Iconly-Bold-Setting.png')),
-            label: '',
-          ),
-        ],
-      ),
+
       body: ListView(
         scrollDirection: Axis.vertical,
         children: [
@@ -345,6 +333,7 @@ class _BodyMeasurementsPageState extends State<BodyMeasurementsPage> {
                   ],
                   rows: List<DataRow>.generate(
                     textValues.length,
+
                         (index) => DataRow(
                       cells: [
                         DataCell(Row(
@@ -371,8 +360,9 @@ class _BodyMeasurementsPageState extends State<BodyMeasurementsPage> {
                             SizedBox(
                               width: MediaQuery.of(context).size.width / 3.5,
                               child:  TextField(
+                                readOnly: true,
                                 controller: controllers[index][1],
-                                decoration: const InputDecoration(
+                                decoration:  InputDecoration(
                                   isDense: true,
                                   focusedBorder: OutlineInputBorder(
                                     borderSide: BorderSide(
@@ -382,7 +372,7 @@ class _BodyMeasurementsPageState extends State<BodyMeasurementsPage> {
                                     borderSide: BorderSide(
                                         color: Colors.black, width: 1.0),
                                   ),
-                                  hintText: '',
+                                  // hintText: predefinedValues[index],
                                 ),
                                 textAlign: TextAlign.center,
                               ),
@@ -415,91 +405,91 @@ class _BodyMeasurementsPageState extends State<BodyMeasurementsPage> {
                 ),
               ),
               const SizedBox(
-                height: 20,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  SizedBox(
-                    height: 30,
-                    child: Container(
-                      decoration: const BoxDecoration(
-                          boxShadow: [
-                            BoxShadow(blurRadius: 3.5, color: Colors.grey)
-                          ],
-                          color: Colors.white,
-                          borderRadius: BorderRadius.only(
-                              topRight: Radius.circular(20),
-                              bottomRight: Radius.circular(20),
-                              topLeft: Radius.circular(20),
-                              bottomLeft: Radius.circular(20))),
-                      child: SizedBox(
-                        width: 140,
-                        child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.white,
-                                shape: const RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.only(
-                                        bottomLeft: Radius.circular(20),
-                                        topLeft: Radius.circular(20),
-                                        bottomRight: Radius.circular(20),
-                                        topRight: Radius.circular(20)))),
-                            onPressed: () {
-                              setState(() {
-                                textValues.add('');
-                                controllers.add([TextEditingController(), TextEditingController(), TextEditingController()]);
-                                errorMessages.add(['', '', '']);// Add an empty value to the list
-                              });
-                            },
-                            child: const Text(
-                              'Add',
-                              style: TextStyle(color: Colors.black),
-                            )),
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 30,
-                    child: Container(
-                      decoration: const BoxDecoration(
-                          boxShadow: [
-                            BoxShadow(blurRadius: 3.5, color: Colors.grey)
-                          ],
-                          color: Colors.white,
-                          borderRadius: BorderRadius.only(
-                              topRight: Radius.circular(20),
-                              bottomRight: Radius.circular(20),
-                              topLeft: Radius.circular(20),
-                              bottomLeft: Radius.circular(20))),
-                      child: SizedBox(
-                        width: 140,
-                        child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.white,
-                                shape: const RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.only(
-                                        bottomLeft: Radius.circular(20),
-                                        topLeft: Radius.circular(20),
-                                        bottomRight: Radius.circular(20),
-                                        topRight: Radius.circular(20)))),
-                            onPressed: () {
-                              setState(() {
-                                textValues.remove(
-                                    ''); // Add an empty value to the list
-                              });
-                            },
-                            child: const Text(
-                              'Delete',
-                              style: TextStyle(color: Colors.black),
-                            )),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(
                 height: 50,
               ),
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.spaceAround,
+              //   children: [
+              //     SizedBox(
+              //       height: 30,
+              //       child: Container(
+              //         decoration: const BoxDecoration(
+              //             boxShadow: [
+              //               BoxShadow(blurRadius: 3.5, color: Colors.grey)
+              //             ],
+              //             color: Colors.white,
+              //             borderRadius: BorderRadius.only(
+              //                 topRight: Radius.circular(20),
+              //                 bottomRight: Radius.circular(20),
+              //                 topLeft: Radius.circular(20),
+              //                 bottomLeft: Radius.circular(20))),
+              //         child: SizedBox(
+              //           width: 140,
+              //           child: ElevatedButton(
+              //               style: ElevatedButton.styleFrom(
+              //                   backgroundColor: Colors.white,
+              //                   shape: const RoundedRectangleBorder(
+              //                       borderRadius: BorderRadius.only(
+              //                           bottomLeft: Radius.circular(20),
+              //                           topLeft: Radius.circular(20),
+              //                           bottomRight: Radius.circular(20),
+              //                           topRight: Radius.circular(20)))),
+              //               onPressed: () {
+              //                 setState(() {
+              //                   textValues.add('');
+              //                   controllers.add([TextEditingController(), TextEditingController(), TextEditingController()]);
+              //                   errorMessages.add(['', '', '']);// Add an empty value to the list
+              //                 });
+              //               },
+              //               child: const Text(
+              //                 'Add',
+              //                 style: TextStyle(color: Colors.black),
+              //               )),
+              //         ),
+              //       ),
+              //     ),
+              //     SizedBox(
+              //       height: 30,
+              //       child: Container(
+              //         decoration: const BoxDecoration(
+              //             boxShadow: [
+              //               BoxShadow(blurRadius: 3.5, color: Colors.grey)
+              //             ],
+              //             color: Colors.white,
+              //             borderRadius: BorderRadius.only(
+              //                 topRight: Radius.circular(20),
+              //                 bottomRight: Radius.circular(20),
+              //                 topLeft: Radius.circular(20),
+              //                 bottomLeft: Radius.circular(20))),
+              //         child: SizedBox(
+              //           width: 140,
+              //           child: ElevatedButton(
+              //               style: ElevatedButton.styleFrom(
+              //                   backgroundColor: Colors.white,
+              //                   shape: const RoundedRectangleBorder(
+              //                       borderRadius: BorderRadius.only(
+              //                           bottomLeft: Radius.circular(20),
+              //                           topLeft: Radius.circular(20),
+              //                           bottomRight: Radius.circular(20),
+              //                           topRight: Radius.circular(20)))),
+              //               onPressed: () {
+              //                 setState(() {
+              //                   textValues.remove(
+              //                       ''); // Add an empty value to the list
+              //                 });
+              //               },
+              //               child: const Text(
+              //                 'Delete',
+              //                 style: TextStyle(color: Colors.black),
+              //               )),
+              //         ),
+              //       ),
+              //     ),
+              //   ],
+              // ),
+              // const SizedBox(
+              //   height: 50,
+              // ),
 
               Transform.translate(
                 offset: const Offset(0, -20),
@@ -602,21 +592,24 @@ class _BodyMeasurementsPageState extends State<BodyMeasurementsPage> {
                             ),
                             SizedBox(
                               width: MediaQuery.of(context).size.width / 3.5,
-                              child:  TextField(
-                                controller: controllers1[index][1],
-                                decoration: const InputDecoration(
+                              child: TextField(
+
+                                readOnly: true,
+
+                                controller: controllers[index][1],
+                                decoration:  InputDecoration(
                                   isDense: true,
                                   focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Colors.black, width: 1.0),
+                                    borderSide: BorderSide(color: Colors.black, width: 1.0),
                                   ),
                                   enabledBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Colors.black, width: 1.0),
+                                    borderSide: BorderSide(color: Colors.black, width: 1.0),
                                   ),
-                                  hintText: '',
+                                  // hintText:  predefinedValues[index],
                                 ),
                                 textAlign: TextAlign.center,
+                                // Set the initial value from the predefinedValues list based on the index
+
                               ),
                             ),
                             SizedBox(
@@ -649,89 +642,89 @@ class _BodyMeasurementsPageState extends State<BodyMeasurementsPage> {
               const SizedBox(
                 height: 20,
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  SizedBox(
-                    height: 30,
-                    child: Container(
-                      decoration: const BoxDecoration(
-                          boxShadow: [
-                            BoxShadow(blurRadius: 3.5, color: Colors.grey)
-                          ],
-                          color: Colors.white,
-                          borderRadius: BorderRadius.only(
-                              topRight: Radius.circular(20),
-                              bottomRight: Radius.circular(20),
-                              topLeft: Radius.circular(20),
-                              bottomLeft: Radius.circular(20))),
-                      child: SizedBox(
-                        width: 140,
-                        child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.white,
-                                shape: const RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.only(
-                                        bottomLeft: Radius.circular(20),
-                                        topLeft: Radius.circular(20),
-                                        bottomRight: Radius.circular(20),
-                                        topRight: Radius.circular(20)))),
-                            onPressed: () {
-                              setState(() {
-                                textValues1.add('');
-                                controllers1.add([TextEditingController(), TextEditingController(), TextEditingController()]);
-                                errorMessages1.add(['', '', '']);
-                              });
-                            },
-                            child: const Text(
-                              'Add',
-                              style: TextStyle(color: Colors.black),
-                            )),
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    height: 30,
-                    child: Container(
-                      decoration: const BoxDecoration(
-                          boxShadow: [
-                            BoxShadow(blurRadius: 3.5, color: Colors.grey)
-                          ],
-                          color: Colors.white,
-                          borderRadius: BorderRadius.only(
-                              topRight: Radius.circular(20),
-                              bottomRight: Radius.circular(20),
-                              topLeft: Radius.circular(20),
-                              bottomLeft: Radius.circular(20))),
-                      child: SizedBox(
-                        width: 140,
-                        child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.white,
-                                shape: const RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.only(
-                                        bottomLeft: Radius.circular(20),
-                                        topLeft: Radius.circular(20),
-                                        bottomRight: Radius.circular(20),
-                                        topRight: Radius.circular(20)))),
-                            onPressed: () {
-                              setState(() {
-                                textValues1.remove(
-                                    ''); // Add an empty value to the list
-                              });
-                            },
-                            child: const Text(
-                              'Delete',
-                              style: TextStyle(color: Colors.black),
-                            )),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(
-                height: 20,
-              ),
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.spaceAround,
+              //   children: [
+              //     SizedBox(
+              //       height: 30,
+              //       child: Container(
+              //         decoration: const BoxDecoration(
+              //             boxShadow: [
+              //               BoxShadow(blurRadius: 3.5, color: Colors.grey)
+              //             ],
+              //             color: Colors.white,
+              //             borderRadius: BorderRadius.only(
+              //                 topRight: Radius.circular(20),
+              //                 bottomRight: Radius.circular(20),
+              //                 topLeft: Radius.circular(20),
+              //                 bottomLeft: Radius.circular(20))),
+              //         child: SizedBox(
+              //           width: 140,
+              //           child: ElevatedButton(
+              //               style: ElevatedButton.styleFrom(
+              //                   backgroundColor: Colors.white,
+              //                   shape: const RoundedRectangleBorder(
+              //                       borderRadius: BorderRadius.only(
+              //                           bottomLeft: Radius.circular(20),
+              //                           topLeft: Radius.circular(20),
+              //                           bottomRight: Radius.circular(20),
+              //                           topRight: Radius.circular(20)))),
+              //               onPressed: () {
+              //                 setState(() {
+              //                   textValues1.add('');
+              //                   controllers1.add([TextEditingController(), TextEditingController(), TextEditingController()]);
+              //                   errorMessages1.add(['', '', '']);
+              //                 });
+              //               },
+              //               child: const Text(
+              //                 'Add',
+              //                 style: TextStyle(color: Colors.black),
+              //               )),
+              //         ),
+              //       ),
+              //     ),
+              //     SizedBox(
+              //       height: 30,
+              //       child: Container(
+              //         decoration: const BoxDecoration(
+              //             boxShadow: [
+              //               BoxShadow(blurRadius: 3.5, color: Colors.grey)
+              //             ],
+              //             color: Colors.white,
+              //             borderRadius: BorderRadius.only(
+              //                 topRight: Radius.circular(20),
+              //                 bottomRight: Radius.circular(20),
+              //                 topLeft: Radius.circular(20),
+              //                 bottomLeft: Radius.circular(20))),
+              //         child: SizedBox(
+              //           width: 140,
+              //           child: ElevatedButton(
+              //               style: ElevatedButton.styleFrom(
+              //                   backgroundColor: Colors.white,
+              //                   shape: const RoundedRectangleBorder(
+              //                       borderRadius: BorderRadius.only(
+              //                           bottomLeft: Radius.circular(20),
+              //                           topLeft: Radius.circular(20),
+              //                           bottomRight: Radius.circular(20),
+              //                           topRight: Radius.circular(20)))),
+              //               onPressed: () {
+              //                 setState(() {
+              //                   textValues1.remove(
+              //                       ''); // Add an empty value to the list
+              //                 });
+              //               },
+              //               child: const Text(
+              //                 'Delete',
+              //                 style: TextStyle(color: Colors.black),
+              //               )),
+              //         ),
+              //       ),
+              //     ),
+              //   ],
+              // ),
+              // const SizedBox(
+              //   height: 20,
+              // ),
               widget.Edited != "true" ? SizedBox(
                 height: 30,
                 child: Container(
@@ -841,7 +834,6 @@ class _BodyMeasurementsPageState extends State<BodyMeasurementsPage> {
                   ],
                 ),
               ),
-
               const SizedBox(
                 height: 50,
               ),
@@ -872,8 +864,7 @@ class _BodyMeasurementsPageState extends State<BodyMeasurementsPage> {
 
     Map<String, dynamic> data = {
       "Type" : "Body",
-      "Title" : "Body",
-
+      "Title" : title.text,
     };
     for (int i = 0; i < textValues.length; i++) {
       var rowControllers = controllers[i];
@@ -881,7 +872,7 @@ class _BodyMeasurementsPageState extends State<BodyMeasurementsPage> {
       String partTwo = rowControllers[1].text;
       String partThree = rowControllers[2].text;
 
-      if (partOne.isNotEmpty && partTwo.isNotEmpty && partThree.isNotEmpty) {
+      if (partOne.isNotEmpty  && partThree.isNotEmpty) {
         Map<String, dynamic>  rowDataa = {
           'partOne 1': partOne,
           'partTwo 2': partTwo,
@@ -900,7 +891,7 @@ class _BodyMeasurementsPageState extends State<BodyMeasurementsPage> {
       String partTwo = rowControllers[1].text;
       String partThree = rowControllers[2].text;
 
-      if (partOne.isNotEmpty && partTwo.isNotEmpty && partThree.isNotEmpty) {
+      if (partOne.isNotEmpty && partThree.isNotEmpty) {
         Map<String, dynamic>  rowDataa = {
           'partOne 1': partOne,
           'partTwo 2': partTwo,
@@ -908,7 +899,10 @@ class _BodyMeasurementsPageState extends State<BodyMeasurementsPage> {
         };
         BodyTwo.add(rowDataa);
       } else {
-        // Show SnackBar with error message
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text("Field values cannot be empty"),
+          duration: Duration(milliseconds: 300),
+        ));
         showErrorMessage('Field values cannot be empty');
         return; // Stop further processing
       }
@@ -916,7 +910,6 @@ class _BodyMeasurementsPageState extends State<BodyMeasurementsPage> {
     CollectionReference casesCollection = FirebaseFirestore.instance.collection('Cases');
     CollectionReference newCaseRef = casesCollection.doc(id).collection("AllFolders");
 
-// Check if the folder name already exists in the "AllFolders" collection
     bool folderExists = false;
     await newCaseRef
         .where('Name', isEqualTo: widget.FolderName)

@@ -4,7 +4,6 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'StartingScreens/StartingPageOne.dart';
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   Stripe.publishableKey = "pk_test_51MwR8TAKJqb8m8FnzPItMaBA4LVkjLVRbDOOPeEWbAYQZYVuSJcFJvXlPxkHiAoZsAQEhHzRY4XtnZm1llQvRuLj00yoKZ45vL";
@@ -14,7 +13,6 @@ void main() async {
     home: MyApp(),
   ));
 }
-
 class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
   @override
@@ -27,16 +25,9 @@ class _MyAppState extends State<MyApp> {
     id =  prefs.getString("id").toString();
     print(id);
   }
-  // NotificationService notificationService  = NotificationService();
   @override
   void initState(){
     super.initState();
-    // notificationService.requestNotPermission();
-    // notificationService.firebaseInit();
-    // // notificationService.isTokenRefresh();
-    // notificationService.getDeviceToken().then((value) => {
-    //   print( "Device Token : $value"),
-    // });
     setState(() {
       initialize();
     });
