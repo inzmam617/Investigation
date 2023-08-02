@@ -11,12 +11,13 @@ import 'package:crime_investigation/UploadCases/WeasponsPage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'dart:math';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'PaymentPage/PaymentPage.dart';
+
 class notebook extends StatefulWidget {
-  String? FolderName;
+  int? FolderName;
 
   notebook({this.FolderName});
   @override
@@ -28,25 +29,67 @@ class _notebookState extends State<notebook> {
   late String package = ""; // Initialize with an empty string
   late bool visible  = false;
   String userId = FirebaseAuth.instance.currentUser!.uid;
-
   String timeLeft = "";
   String Amount = "";
+  Future<int?> getHighestFolderName() async {
+    QuerySnapshot<Map<String, dynamic>> snapshot = await FirebaseFirestore.instance
+        .collection('Cases')
+        .doc(userId)
+        .collection('AllFolders')
+        .orderBy('Name', descending: true)
+        .limit(1)
+        .get();
 
+    if (snapshot.docs.isNotEmpty) {
+      int highestFolderName =  int.parse(  snapshot.docs.first.get('Name') );
+      // print("Highest Folder Name: $highestFolderName");
+      return highestFolderName;
+    } else {
+      print("No folders found");
+      return null;
+    }
+  }
   Future<void> reset() async {
     await FirebaseFirestore.instance.collection('Users').doc(userId).update({
-
       "package" : "Basic",
       "Duration" : "2030-08-31",
       "Amount" : '0'
     });
   }
   Future<void> get() async {
+    FolderName = (await getHighestFolderName())!;
+    print("Getting the Number: $FolderName");
+
+    if (widget.FolderName == 0) {
+      // FolderName == widget.FolderName;
+      setState(() {
+        FolderName++;
+
+
+      });
+      print(FolderName);
+      print("Changes");
+    } else  if(widget.FolderName != FolderName){
+      setState(() {
+
+        FolderName =   widget.FolderName!;
+      });
+      print(FolderName);
+
+
+      // FolderName++;
+
+
+      print("Same");
+    }
     final data =   await FirebaseFirestore.instance.collection('Users').doc(userId).get();
     setState(() {
+
       timeLeft =  data["Duration"];
       Amount =  data["Amount"];
+      package =  data["package"];
     });
-    print("the time ledt : "  +  timeLeft);
+
     DateTime parsedDate = DateTime.parse(timeLeft);
     DateTime currentDate = DateTime.now();
 
@@ -77,9 +120,6 @@ class _notebookState extends State<notebook> {
       print("The provided date is the same as the current date.");
       // Do something for dates equal to the current date
     }
-
-
-
   }
   initilize() async {
     FirebaseFirestore.instance.collection('Users').doc(userId).get().then((value) async {
@@ -98,36 +138,20 @@ class _notebookState extends State<notebook> {
 
   @override
   void initState() {
-
-    get( );
+    get();
+    print("this is older:${widget.FolderName}");
+    // getHighestFolderName();
     super.initState();
-    print(widget.FolderName);
-    if (widget.FolderName != "new") {
-      FolderName = widget.FolderName;
-      print("Same");
-    } else  if(widget.FolderName == "new"){
-      print("object");
-        FolderName = generateRandomFolderName(now);
-      print("changed");
-    }
-    print(timeLeft);
+    print("this is the folder Name: ${widget.FolderName}");
 
-    // widget.FolderName != ""  ? FolderName = widget.FolderName: FolderName = generateRandomFolderName(now);
-     print("this is the folder Name  $FolderName");
+
+
+
+
     initilize();
   }
   DateTime now = DateTime.now();
-   late String? FolderName;
-  String generateRandomFolderName(DateTime dateTime) {
-    Random random = Random();
-    String alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
-    String numbers = '0123456789';
-    String prefix = dateTime.hour.toString();
-    String randomString = String.fromCharCodes(Iterable.generate(4, (_) =>
-    random.nextInt(2) == 0 ? alphabet.codeUnitAt(random.nextInt(alphabet.length)) :
-    numbers.codeUnitAt(random.nextInt(numbers.length))));
-    return '$prefix$randomString';
-  }
+   late int FolderName = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -227,7 +251,7 @@ class _notebookState extends State<notebook> {
                               ],
                             ),
                           ],
-                        ) :SizedBox() ,
+                        ) :const SizedBox() ,
                       ],
                     ),
                   );
@@ -256,7 +280,7 @@ class _notebookState extends State<notebook> {
                           context,
                           MaterialPageRoute(builder: (context) => BasicInformationPage(
                             Edited: "null",
-                              FolderName: FolderName
+                              FolderName: FolderName.toString()
 
 
                           )),
@@ -289,7 +313,7 @@ class _notebookState extends State<notebook> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(builder: (context) =>StoryPage(
-                              FolderName: FolderName,
+                              FolderName: FolderName.toString(),
 
                           )),
                         );
@@ -309,7 +333,7 @@ class _notebookState extends State<notebook> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => SceneMeasurementPage(
-                      FolderName: FolderName,
+                      FolderName: FolderName.toString(),
                     )),
                   );
                 },
@@ -329,7 +353,7 @@ class _notebookState extends State<notebook> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(builder: (context) => SceneMeasurementPage(
-                              FolderName: FolderName,
+                              FolderName: FolderName.toString(),
 
                             )),
                           );
@@ -350,7 +374,7 @@ class _notebookState extends State<notebook> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => BodyMeasurementsPage(
-                      FolderName: FolderName,
+                      FolderName: FolderName.toString(),
 
                     )),
                   );
@@ -371,7 +395,7 @@ class _notebookState extends State<notebook> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(builder: (context) => BodyMeasurementsPage(
-                              FolderName: FolderName,
+                              FolderName: FolderName.toString(),
 
                             )),
                           );
@@ -386,209 +410,215 @@ class _notebookState extends State<notebook> {
               const SizedBox(
                 height: 10,
               ),
-              Visibility(
-                visible: visible,
-                child: Column(
-                  children: [
-                    Transform.translate(
-                      offset: const Offset(-50, -25),
-                      child: InkWell(onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => WeaponsPage(
-                            FolderName: FolderName,
+              Column(
+                children: [
+                  Transform.translate(
+                    offset: const Offset(-50, -25),
+                    child: Container(
+                      height: 40,
+                      width: MediaQuery.of(context).size.width/1.2,
+                      decoration: const BoxDecoration(
+                          boxShadow: [BoxShadow(color: Colors.grey, blurRadius: 2)],
+                          color: Colors.white,
+                          borderRadius: BorderRadius.only(
+                              bottomLeft: Radius.circular(30),
+                              topLeft: Radius.circular(30),
+                              topRight: Radius.circular(30),
+                              bottomRight: Radius.circular(30))),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
 
-
-                          )),
-                        );
-                      },
-                        child: Container(
-                          height: 40,
-                          width: MediaQuery.of(context).size.width/1.2,
-                          decoration: const BoxDecoration(
-                              boxShadow: [BoxShadow(color: Colors.grey, blurRadius: 2)],
-                              color: Colors.white,
-                              borderRadius: BorderRadius.only(
-                                  bottomLeft: Radius.circular(30),
-                                  topLeft: Radius.circular(30),
-                                  topRight: Radius.circular(30),
-                                  bottomRight: Radius.circular(30))),
-                          child: TextButton(
+                        children: [
+                            TextButton(
                               onPressed: () {
-                                Navigator.push(
+                                visible == true ?    Navigator.push(
                                   context,
                                   MaterialPageRoute(builder: (context) => WeaponsPage(
-                                    FolderName: FolderName,
+                                    FolderName: FolderName.toString(),
 
                                   )),
-                                );
+                                ) :  NavigateToPay();
                               },
                               child: const Text(
                                 'Weapon Measurements',
                                 style: TextStyle(color: Color(0xff86898E), fontSize: 16),
                               )),
-                        ),
+                          visible == false ?   const Icon(Icons.lock) : const SizedBox()
+
+                        ],
                       ),
                     ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Transform.translate(
-                      offset: const Offset(-50, -25),
-                      child: InkWell(onTap:() {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => BaseLinePage(
-                            FolderName: FolderName,
-
-                          )),
-                        );
-                      },
-                        child: Container(
-                          height: 40,
-                          width: MediaQuery.of(context).size.width/1.2,
-                          decoration: const BoxDecoration(
-                              boxShadow: [BoxShadow(color: Colors.grey, blurRadius: 2)],
-                              color: Colors.white,
-                              borderRadius: BorderRadius.only(
-                                  bottomLeft: Radius.circular(30),
-                                  topLeft: Radius.circular(30),
-                                  topRight: Radius.circular(30),
-                                  bottomRight: Radius.circular(30))),
-                          child: TextButton(
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Transform.translate(
+                    offset: const Offset(-50, -25),
+                    child: Container(
+                      height: 40,
+                      width: MediaQuery.of(context).size.width/1.2,
+                      decoration: const BoxDecoration(
+                          boxShadow: [BoxShadow(color: Colors.grey, blurRadius: 2)],
+                          color: Colors.white,
+                          borderRadius: BorderRadius.only(
+                              bottomLeft: Radius.circular(30),
+                              topLeft: Radius.circular(30),
+                              topRight: Radius.circular(30),
+                              bottomRight: Radius.circular(30))),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          TextButton(
                               onPressed: () {
-                                Navigator.push(
+                                visible == true ?   Navigator.push(
                                   context,
                                   MaterialPageRoute(builder: (context) => BaseLinePage(
-                                    FolderName: FolderName,
+                                    FolderName: FolderName.toString(),
 
                                   )),
-                                );
+                                ):  NavigateToPay();
                               },
                               child: const Text(
                                 'Baseline Measurements',
                                 style: TextStyle(color: Color(0xff86898E), fontSize: 16),
                               )),
-                        ),
+                          visible == false ?   const Icon(Icons.lock) : const SizedBox()
+
+                        ],
                       ),
                     ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Transform.translate(
-                      offset: const Offset(-50, -25),
-                      child: InkWell(onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => BalisticPage(
-                            FolderName: FolderName,
-
-                          )),
-                        );
-                      },
-                        child: Container(
-                          height: 40,
-                          width: MediaQuery.of(context).size.width/1.2,
-                          decoration: const BoxDecoration(
-                              boxShadow: [BoxShadow(color: Colors.grey, blurRadius: 2)],
-                              color: Colors.white,
-                              borderRadius: BorderRadius.only(
-                                  bottomLeft: Radius.circular(30),
-                                  topLeft: Radius.circular(30),
-                                  topRight: Radius.circular(30),
-                                  bottomRight: Radius.circular(30))),
-                          child: TextButton(
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Transform.translate(
+                    offset: const Offset(-50, -25),
+                    child: Container(
+                      height: 40,
+                      width: MediaQuery.of(context).size.width/1.2,
+                      decoration: const BoxDecoration(
+                          boxShadow: [BoxShadow(color: Colors.grey, blurRadius: 2)],
+                          color: Colors.white,
+                          borderRadius: BorderRadius.only(
+                              bottomLeft: Radius.circular(30),
+                              topLeft: Radius.circular(30),
+                              topRight: Radius.circular(30),
+                              bottomRight: Radius.circular(30))),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          TextButton(
                               onPressed: () {
-                                Navigator.push(
+                                visible == true ?    Navigator.push(
                                   context,
                                   MaterialPageRoute(builder: (context) => BalisticPage(
-                                    FolderName: FolderName,
+                                    FolderName: FolderName.toString(),
 
                                   )),
-                                );
+                                ):  NavigateToPay();
+
                               },
                               child: const Text(
                                 'Ballistic Measurements',
                                 style: TextStyle(color: Color(0xff86898E), fontSize: 16),
                               )),
-                        ),
+              visible == false ?   const Icon(Icons.lock) : const SizedBox()
+
+    ],
                       ),
                     ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Transform.translate(
-                      offset: const Offset(-50, -25),
-                      child: InkWell(onTap:() {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => scenesketch(
-                            FolderName: FolderName,
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Transform.translate(
+                    offset: const Offset(-50, -25),
+                    child: Container(
+                      height: 40,
+                      width: MediaQuery.of(context).size.width/1.2,
+                      decoration: const BoxDecoration(
+                          boxShadow: [BoxShadow(color: Colors.grey, blurRadius: 2)],
+                          color: Colors.white,
+                          borderRadius: BorderRadius.only(
+                              bottomLeft: Radius.circular(30),
+                              topLeft: Radius.circular(30),
+                              topRight: Radius.circular(30),
+                              bottomRight: Radius.circular(30))),
+                      child:  Center(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            TextButton(
+                               child: const Text('Scene Sketch',style: TextStyle(color: Color(0xff86898E), fontSize: 16), ),
+                              onPressed: () {
+                                visible == true ? Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => scenesketch(
+                                  FolderName: FolderName.toString(),
 
-                          )),
-                        );
-                      },
-                        child: Container(
-                          height: 40,
-                          width: MediaQuery.of(context).size.width/1.2,
-                          decoration: const BoxDecoration(
-                              boxShadow: [BoxShadow(color: Colors.grey, blurRadius: 2)],
-                              color: Colors.white,
-                              borderRadius: BorderRadius.only(
-                                  bottomLeft: Radius.circular(30),
-                                  topLeft: Radius.circular(30),
-                                  topRight: Radius.circular(30),
-                                  bottomRight: Radius.circular(30))),
-                          child: const Center(
-                            child: Text(
-                              'Scene Sketch',
-                              style: TextStyle(color: Color(0xff86898E), fontSize: 16),
+                                )),
+                                ) :  NavigateToPay();
+                            },
                             ),
-                          ),
+                            visible == false ?   const Icon(Icons.lock) : const SizedBox()
+
+                          ],
                         ),
                       ),
                     ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Transform.translate(
-                      offset: const Offset(-50, -25),
-                      child: InkWell(onTap:() {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => evidence(
-                            FolderName: FolderName,
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  Transform.translate(
+                    offset: const Offset(-50, -25),
+                    child: Container(
+                      height: 40,
+                      width: MediaQuery.of(context).size.width/1.2,
+                      decoration: const BoxDecoration(
+                          boxShadow: [BoxShadow(color: Colors.grey, blurRadius: 2)],
+                          color: Colors.white,
+                          borderRadius: BorderRadius.only(
+                              bottomLeft: Radius.circular(30),
+                              topLeft: Radius.circular(30),
+                              topRight: Radius.circular(30),
+                              bottomRight: Radius.circular(30))),
+                      child:  Center(
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            TextButton(onPressed: (){
+                              visible == true ?  Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => evidence(
+                                  FolderName: FolderName.toString(),
 
-                          )),
-                        );
-                      },
-                        child: Container(
-                          height: 40,
-                          width: MediaQuery.of(context).size.width/1.2,
-                          decoration: const BoxDecoration(
-                              boxShadow: [BoxShadow(color: Colors.grey, blurRadius: 2)],
-                              color: Colors.white,
-                              borderRadius: BorderRadius.only(
-                                  bottomLeft: Radius.circular(30),
-                                  topLeft: Radius.circular(30),
-                                  topRight: Radius.circular(30),
-                                  bottomRight: Radius.circular(30))),
-                          child: const Center(
-                            child: Text(
+                                )),
+                              ) : NavigateToPay();
+                            }, child: const Text(
                               'Evidence List',
                               style: TextStyle(color: Color(0xff86898E), fontSize: 16),
-                            ),
-                          ),
+                            ),),
+                            visible == false ?   const Icon(Icons.lock) : const SizedBox()
+
+
+                          ],
                         ),
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ],
           ),
         ),
       ),
     );
+  }
+  NavigateToPay(){
+    Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) {
+      return Paymentpage();
+    }));
+
   }
 }

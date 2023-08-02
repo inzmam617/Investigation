@@ -17,7 +17,7 @@ import 'notebook.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 
 class AllCases extends StatefulWidget {
-  final String? FolderName;
+  final int? FolderName;
   const AllCases({Key? key,  this.FolderName}) : super(key: key);
   @override
   State<AllCases> createState() => _AllCasesState();
@@ -35,7 +35,7 @@ class _AllCasesState extends State<AllCases> {
       initialize();
     });
     initialize();
-    print(widget.FolderName);
+    print(widget.FolderName.toString());
   }
 
 
@@ -131,47 +131,6 @@ class _AllCasesState extends State<AllCases> {
 
                                 _loading = true;
                               });
-
-                                //
-                                // // Get a reference to the Firestore instance
-                                // FirebaseFirestore firestore = FirebaseFirestore.instance;
-                                //
-                                // // Reference to the 'Cases' collection
-                                // CollectionReference casesCollection = firestore.collection('Cases');
-                                //
-                                // // Reference to the 'AllFolders' subcollection under the specific 'id'
-                                // CollectionReference folderRef = casesCollection.doc(id).collection("AllFolders");
-                                //
-                                // // Reference to the 'AllCases' subcollection under the specific folderName
-                                // CollectionReference casesRef = folderRef.doc(widget.FolderName).collection("AllCases");
-                                //
-                                // try {
-                                //   // Delete all documents inside the 'AllCases' subcollection
-                                //   QuerySnapshot snapshot = await casesRef.get();
-                                //   for (DocumentSnapshot doc in snapshot.docs) {
-                                //     await doc.reference.delete();
-                                //   }
-                                //
-                                //   // Delete the folder itself
-                                //   await folderRef.doc(widget.FolderName).delete();
-                                //
-                                //   // After the folder and its content are deleted, you can navigate to the desired page
-                                //   Navigator.push(
-                                //     context,
-                                //     MaterialPageRoute(builder: (context) => BottomBarPage()),
-                                //   );
-                                // } catch (e) {
-                                //   // Handle any errors that might occur during the deletion process
-                                //   print("Error deleting folder and content: $e");
-                                // }
-
-
-
-
-
-
-
-                                // Get a reference to the Firestore instance
                                 FirebaseFirestore firestore = FirebaseFirestore.instance;
 
                                 // Reference to the 'Cases' collection
@@ -181,7 +140,7 @@ class _AllCasesState extends State<AllCases> {
                                 CollectionReference folderRef = casesCollection.doc(id).collection("AllFolders");
 
                                 // Reference to the 'AllCases' subcollection under the specific folderName
-                                CollectionReference casesRef = folderRef.doc(widget.FolderName).collection("AllCases");
+                                CollectionReference casesRef = folderRef.doc(widget.FolderName.toString()).collection("AllCases");
 
                                 try {
                                   // Delete all documents inside the 'AllCases' subcollection
@@ -191,15 +150,16 @@ class _AllCasesState extends State<AllCases> {
                                   }
 
                                   // Delete the folder itself
-                                  await folderRef.doc(widget.FolderName).delete();
+                                  await folderRef.doc(widget.FolderName.toString()).delete();
 
                                   // Now, remove the value from newCaseRef
-                                  QuerySnapshot newCaseSnapshot = await folderRef.where("Name", isEqualTo: widget.FolderName).get();
+                                  QuerySnapshot newCaseSnapshot = await folderRef.where("Name", isEqualTo: widget.FolderName.toString()).get();
                                   if (newCaseSnapshot.docs.isNotEmpty) {
                                     await newCaseSnapshot.docs.first.reference.delete();
                                   }
 
                                   // After the folder, its content, and the value are deleted, you can navigate to the desired page
+                                  // ignore: use_build_context_synchronously
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(builder: (context) => BottomBarPage(page : 1)),
@@ -234,7 +194,7 @@ class _AllCasesState extends State<AllCases> {
                           width: MediaQuery.of(context).size.width / 3,
                           child: Align(
                             alignment: Alignment.centerLeft,
-                            child: Text('Folder Name: ${widget.FolderName}',
+                            child: Text('Folder Name: ${widget.FolderName.toString()}',
                                 style: const TextStyle(
                                     color: Colors.white,
                                     fontWeight: FontWeight.bold,
@@ -260,7 +220,7 @@ class _AllCasesState extends State<AllCases> {
       ]
 
             ) else StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
-              stream: FirebaseFirestore.instance.collection('Cases').doc(id).collection('AllFolders').doc(widget.FolderName).collection("AllCases").snapshots(),
+              stream: FirebaseFirestore.instance.collection('Cases').doc(id).collection('AllFolders').doc(widget.FolderName.toString()).collection("AllCases").snapshots(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const CircularProgressIndicator();
@@ -293,13 +253,13 @@ class _AllCasesState extends State<AllCases> {
 
                         return InkWell(
                           onTap: () async {
-                            print( widget.FolderName);
+                            print( widget.FolderName.toString());
 
                             if(data?["Type"] == "Basic"){
 
                               Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) {
                                 return BasicInformationPage(
-                                  FolderName: widget.FolderName,
+                                  FolderName: widget.FolderName.toString(),
                                   Edited: "true",
                                   Csid: data?["CSI_ID"].toString(),
                                   id: data?["docId"].toString(),
@@ -322,7 +282,7 @@ class _AllCasesState extends State<AllCases> {
                             if(data?["Type"] == "Story"){
                               Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) {
                                 return StoryPage(
-                                  FolderName: widget. FolderName,
+                                  FolderName: widget. FolderName.toString(),
                                   Edited: "true",
                                   id: data?["docId"].toString(),
                                   Story: data?["Story"].toString(),
@@ -336,7 +296,7 @@ class _AllCasesState extends State<AllCases> {
                             if(data?["Type"] == "Measurement"){
                               Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) {
                                 return SceneMeasurementPage(
-                                  FolderName: widget. FolderName,
+                                  FolderName: widget. FolderName.toString(),
 
                                   Rooms: data?["Rooms"],
                                   Title: data?["Title"].toString(),
@@ -349,7 +309,7 @@ class _AllCasesState extends State<AllCases> {
                             if(data?["Type"] == "Body"){
                               Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) {
                                 return BodyMeasurementsPage(
-                                  FolderName: widget. FolderName,
+                                  FolderName: widget. FolderName.toString(),
 
                                   BodyOne: data?["BodyOne"],
                                   BodyTwo: data?["BodyTwo"],
@@ -363,7 +323,7 @@ class _AllCasesState extends State<AllCases> {
                             if(data?["Type"] == "Weapons"){
                               Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) {
                                 return WeaponsPage(
-                                  FolderName: widget. FolderName,
+                                  FolderName: widget. FolderName.toString(),
 
                                   Title: data?["Title"].toString(),
                                   WeaponOne: data?["WeaponOne"],
@@ -378,7 +338,7 @@ class _AllCasesState extends State<AllCases> {
                             if(data?["Type"] == "BaseLine"){
                               Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) {
                                 return BaseLinePage(
-                                  FolderName: widget. FolderName,
+                                  FolderName: widget. FolderName.toString(),
 
                                   startingpoint: data?["startingPoint"].toString(),
                                   dsitanceAtoB: data?["DistanceAtoB"].toString(),
@@ -398,7 +358,7 @@ class _AllCasesState extends State<AllCases> {
                             if(data?["Type"] == "Ballistic"){
                               Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) {
                                 return BalisticPage(
-                                  FolderName: widget. FolderName,
+                                  FolderName: widget. FolderName.toString(),
 
                                   Title: data?["Title"].toString(),
                                   Hole: data?["Hole"],
@@ -426,7 +386,7 @@ class _AllCasesState extends State<AllCases> {
 
                               Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) {
                                 return scenesketch(
-                                  FolderName: widget. FolderName,
+                                  FolderName: widget. FolderName.toString(),
 
                                   ImageId : data["ImageId"],
                                   Edited: "true",
@@ -446,7 +406,7 @@ class _AllCasesState extends State<AllCases> {
 
                               Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) {
                                 return evidence(
-                                  FolderName: widget. FolderName,
+                                  FolderName: widget. FolderName.toString(),
 
                                   Edited: "true",
                                   WhatnWhere: data!["WhatnWhere"],

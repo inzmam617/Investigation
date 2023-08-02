@@ -1,11 +1,15 @@
 import 'dart:async';
+import 'dart:typed_data';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:crime_investigation/UploadCases/scenesketch.dart';
 import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:intl/intl.dart';
 import 'package:timezone/timezone.dart' as tz;
+
+import 'AlarmLists.dart';
 
 class courtdate extends StatefulWidget {
   const courtdate({Key? key}) : super(key: key);
@@ -85,38 +89,64 @@ class _courtdateState extends State<courtdate> {
                   color: Colors.black,
                   borderRadius:
                       BorderRadius.only(bottomLeft: Radius.circular(40))),
-              child: Row(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Container(
-                    height: 30,
-                    width: 140,
-                    decoration: const BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.only(
-                            bottomRight: Radius.circular(30),
-                            topRight: Radius.circular(30),
-                            topLeft: Radius.circular(0),
-                            bottomLeft: Radius.circular(0))),
-                  ),
-                  Transform.translate(
-                    offset: const Offset(-130, 0),
-                    child: const SizedBox(
+                  Row(
+                    children: [
+                      Container(
                         height: 30,
-                        width: 30,
-                        child: CircleAvatar(
-                          backgroundColor: Colors.black,
-                          child: Icon(Icons.arrow_back_ios, size: 14),
-                        )),
+                        width: 140,
+                        decoration: const BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.only(
+                                bottomRight: Radius.circular(30),
+                                topRight: Radius.circular(30),
+                                topLeft: Radius.circular(0),
+                                bottomLeft: Radius.circular(0))),
+                      ),
+                      Transform.translate(
+                        offset: const Offset(-130, 0),
+                        child: const SizedBox(
+                            height: 30,
+                            width: 30,
+                            child: CircleAvatar(
+                              backgroundColor: Colors.black,
+                              child: Icon(Icons.arrow_back_ios, size: 14),
+                            )),
+                      ),
+                      Transform.translate(
+                        offset: const Offset(-115, 0),
+                        child: const Text(
+                          'Court date',
+                        ),
+                      ),
+                      Transform.translate(
+                          offset: const Offset(10, 10),
+                          child: Image.asset('assets/court.png')),
+
+
+                    ],
+
                   ),
-                  Transform.translate(
-                    offset: const Offset(-115, 0),
-                    child: const Text(
-                      'Court date',
-                    ),
-                  ),
-                  Transform.translate(
-                      offset: const Offset(10, 10),
-                      child: Image.asset('assets/court.png'))
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const SizedBox(),
+                      ElevatedButton(
+                          style: ButtonStyle(
+                              backgroundColor: MaterialStateProperty.all(Colors.grey),
+                              shape: MaterialStateProperty.all(const RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.all(Radius.circular(20))
+                              ))
+                          ),
+                          onPressed: (){
+                            Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) {
+                              return const AlarmsLists();
+                            }));
+                          }, child: const Text("See the List")),
+                    ],
+                  )
                 ],
               ),
             ),
@@ -372,7 +402,7 @@ class _courtdateState extends State<courtdate> {
                         print(note.text);
                         print(casenumber.text);
                         print(reminder.text);
-                        setAlarm();
+                        setAlarm(note.text ,casenumber.text  ,reminder.text);
                       },
                       child: const Text(
                         'Save',
@@ -390,38 +420,126 @@ class _courtdateState extends State<courtdate> {
       ),
     );
   }
+  Future<void> _showMyDialog(String text) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Alert'),
+
+          content: SingleChildScrollView(
+            child: ListBody(
+              children:  <Widget>[
+                Text(text),
+
+              ],
+            ),
+          ),
+          actions: <Widget>[
+
+            TextButton(
+              child: const Text('Okay'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+  Future<void> setAlarm(String message, String text ,String title ) async {
+    final String dateInput = date.text;
+    final String timeInput = time.text;
+    final List<String> dateParts = dateInput.split('-');
+    final int year = int.parse(dateParts[0]);
+    final int month = int.parse(dateParts[1]);
+    final int day = int.parse(dateParts[2]);
+    final DateFormat timeFormat = DateFormat('h:mm a');
+    final DateTime parsedTime = timeFormat.parse(timeInput);
+    final int hour = parsedTime.hour;
+    final int minute = parsedTime.minute;
+
+    // Create a TZDateTime with the provided date and time.
+    final tz.TZDateTime selectedDateTime = tz.TZDateTime(
+      tz.local,
+      year,
+      month,
+      day,
+      hour,
+      minute,
+    );
+
+    // Calculate the difference between the selectedDateTime and the current time (now).
+    final Duration timeDifference = selectedDateTime.difference(tz.TZDateTime.now(tz.local));
+    final CollectionReference alarmsCollection = FirebaseFirestore.instance.collection('alarms');
+
+    // Save the alarm details to Firestore.
+    await alarmsCollection.add({
+      'message': message,
+      'text': text,
+      'title': title,
+      'year': year,
+      'month': month,
+      'day': day,
+      'hour': hour,
+      'minute': minute,
+    });
+
+    // Show a confirmation dialog.
+    _showMyDialog('Alarm set for: $year-$month-$day $hour:$minute');
+    // Only schedule the notification if the selectedDateTime is in the future.
+    if (timeDifference.isNegative) {
+      _showMyDialog('Selected time is in the past. Please choose a future time.');
+      print('Selected time is in the past. Please choose a future time.');
+    } else {
+      final List<String> messages = [
+        '${message}.',
+        '${text}',
+      ];
+      showAlarmNotification(selectedDateTime, messages , title);
+    }
+  }
+
+  Future<void> showAlarmNotification(tz.TZDateTime alarmDateTime,  List<String>  note ,String titile ) async {
+    final int alarmId = alarmDateTime.millisecondsSinceEpoch ~/ 1000;
+    final AndroidNotificationDetails androidPlatformChannelSpecifics =
+    AndroidNotificationDetails(
+      'channel_id',
+      'channel_name',
+      'channel_description',
+      importance: Importance.high,
+      priority: Priority.high,
+      showWhen: false,
+      // sound: const RawResourceAndroidNotificationSound('notification_sound'), // Add this line for sound
+      vibrationPattern: Int64List.fromList([0, 1000, 500, 1000]),
+    );
+    final NotificationDetails platformChannelSpecifics =
+    NotificationDetails(android: androidPlatformChannelSpecifics);
+    await FlutterLocalNotificationsPlugin().zonedSchedule(
+      alarmId,
+      titile,
+      note.join('\n'),
+      alarmDateTime,
+      platformChannelSpecifics,
+      androidAllowWhileIdle: true,
+      uiLocalNotificationDateInterpretation:
+      UILocalNotificationDateInterpretation.absoluteTime,
+      payload: 'alarm_data',
+    );
+    print('Alarm set for: $alarmDateTime');
+  }
 }
 
 
-Future<void> showAlarmNotification(tz.TZDateTime alarmDateTime, String note) async {
-  final int alarmId = alarmDateTime.millisecondsSinceEpoch ~/ 1000;
-  const AndroidNotificationDetails androidPlatformChannelSpecifics =
-  AndroidNotificationDetails(
-    'channel_id',
-    'channel_name',
-    'channel_description',
-    importance: Importance.high,
-    priority: Priority.high,
-    showWhen: false,
-  );
-  const NotificationDetails platformChannelSpecifics =
-  NotificationDetails(android: androidPlatformChannelSpecifics);
-  await FlutterLocalNotificationsPlugin().zonedSchedule(
-    alarmId,
-    'Alarm',
-    note,
-    alarmDateTime,
-    platformChannelSpecifics,
-    androidAllowWhileIdle: true,
-    uiLocalNotificationDateInterpretation:
-    UILocalNotificationDateInterpretation.absoluteTime,
-    payload: 'alarm_data',
-  );
-  print('Alarm set for: $alarmDateTime');
-}
 
-void setAlarm() {
-  final tz.TZDateTime alarmDateTime = tz.TZDateTime.now(tz.local).add(const Duration(seconds: 5));
-  const String note = 'This is the alarm note.';
-  showAlarmNotification(alarmDateTime, note);
-}
+
+// void setAlarm(String message , String text) {
+//   final tz.TZDateTime alarmDateTime = tz.TZDateTime.now(tz.local).add(const Duration(seconds: 5));
+//   final List<String> messages = [
+//     '${message}.',
+//     '${text}',
+//   ];
+//   showAlarmNotification(alarmDateTime, messages);
+// }
