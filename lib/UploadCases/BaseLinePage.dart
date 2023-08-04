@@ -41,6 +41,7 @@ class _BaseLinePageState extends State<BaseLinePage> {
   TextEditingController title =TextEditingController();
   TextEditingController startingpoint =TextEditingController();
   TextEditingController dsitanceAtoB =TextEditingController();
+  TextEditingController CaseTitle = TextEditingController();
 
   @override
   void initState() {
@@ -223,50 +224,7 @@ class _BaseLinePageState extends State<BaseLinePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        bottomNavigationBar: BottomNavigationBar(
-          backgroundColor: Colors.black,
-          items: <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon: Transform.translate(
-                offset: const Offset(0, 10),
-                child: SvgPicture.asset('assets/Component 12 – 1.svg'),
-              ),
-              label: '',
-            ),
-            BottomNavigationBarItem(
-              icon: Transform.translate(
-                offset: const Offset(0, -20),
-                child: Container(
-                  decoration: BoxDecoration(
-                      border: Border.all(
-                    color: Colors.black,
-                  )),
-                  child: SizedBox(
-                    height: 25,
-                    width: 25,
-                    child: Transform.scale(
-                      scale: 2,
-                      child: const CircleAvatar(
-                          backgroundColor: Colors.white,
-                          child: Icon(
-                            Icons.add,
-                            color: Colors.black,
-                            size: 25,
-                          )),
-                    ),
-                  ),
-                ),
-              ),
-              label: '',
-            ),
-            BottomNavigationBarItem(
-              icon: Transform.translate(
-                  offset: const Offset(0, 10),
-                  child: Image.asset('assets/Iconly-Bold-Setting.png')),
-              label: '',
-            ),
-          ],
-        ),
+
         body: ListView(children: [
           Column(
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -301,7 +259,6 @@ class _BaseLinePageState extends State<BaseLinePage> {
                                  const SizedBox(
                                   height: 30,
                                   child: TextField(
-
                                       enabled: false,
                                       decoration: InputDecoration(
                                           enabledBorder: OutlineInputBorder(
@@ -372,6 +329,19 @@ class _BaseLinePageState extends State<BaseLinePage> {
               const SizedBox(
                 height: 30,
               ),
+              widget.FolderName == "new"  ?     Padding(
+              padding: const EdgeInsets.only(left: 30, right: 30),
+              child: TextField(
+              controller: CaseTitle,
+
+              decoration: const InputDecoration(
+              enabledBorder: UnderlineInputBorder(),
+              hintText: '                                  Add Case Name',
+              hintStyle: TextStyle(fontSize: 14),
+              border: UnderlineInputBorder()),
+              ),
+              ) : const SizedBox.shrink(),
+
               Padding(
                 padding: const EdgeInsets.only(left: 30, right: 30),
                 child: TextField(
@@ -1322,6 +1292,15 @@ class _BaseLinePageState extends State<BaseLinePage> {
         return; // Stop further processing
       }
     }
+    if (widget.FolderName == "new") {
+      if (CaseTitle.text.isEmpty) {
+        showErrorMessage('Case Name cannot be empty');
+      } else {
+        // Your code if CaseTitle is not empty
+      }
+    } else {
+      // Your code for a different case
+    }
 
     for (int i = 0; i < textValues1.length; i++) {
       var rowControllers = controllers[i];
@@ -1393,46 +1372,61 @@ class _BaseLinePageState extends State<BaseLinePage> {
 
     CollectionReference casesCollection = FirebaseFirestore.instance.collection('Cases');
     CollectionReference newCaseRef = casesCollection.doc(id).collection("AllFolders");
-    data['markerItem'] = markerItem;
-    data['direction'] = direction;
-    data['FirstMeasurement'] = FirstMeasurement;
-    data['DirectionBaseline'] = DirectionBaseline;
-    data['SecondMeasurement'] = SecondMeasurement;
-    data['docId'] = newCaseRef.id;
+    if (widget.FolderName == "new") {
+      newCaseRef.add({"Name": CaseTitle.text,}).then((value) {
+        print("Creating New CaseName");
 
-
-// Check if the folder name already exists in the "AllFolders" collection
-    bool folderExists = false;
-    await newCaseRef
-        .where('Name', isEqualTo: widget.FolderName)
-        .get()
-        .then((querySnapshot) {
-      folderExists = querySnapshot.docs.isNotEmpty;
-    })
-        .catchError((error) {
-      print("Error checking folder name: $error");
-    });
-
-// If the folder name doesn't exist, add it
-    if (!folderExists) {
-      newCaseRef.add({"Name": widget.FolderName})
-          .then((value) {
-        // Folder name added successfully
-        print("Folder name added successfully");
-      })
-          .catchError((error) {
+      }).catchError((error) {
         // Handle the error if folder name couldn't be added
         print("Error adding folder name: $error");
       });
+    }else {
+      // newCaseRef.add({"Name": widget.FolderName,}).then((value) {
+      //   // Folder name added successfully
+      //   print("Using  Older CaseName");
+      //
+      // }).catchError((error) {
+      //   // Handle the error if folder name couldn't be added
+      //   print("Error adding folder name: $error");
+      // });
     }
 
-    DocumentReference allCasesCollection = newCaseRef.doc(widget.FolderName).collection("AllCases").doc();
-    data['docId'] = allCasesCollection.id;
-    allCasesCollection.set(data).then((value) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) =>  BottomBarPage()),
-      );
-    });
+    if (widget.FolderName == "new") {
+      data['markerItem'] = markerItem;
+      data['direction'] = direction;
+      data['FirstMeasurement'] = FirstMeasurement;
+      data['DirectionBaseline'] = DirectionBaseline;
+      data['SecondMeasurement'] = SecondMeasurement;
+      data['docId'] = newCaseRef.id;
+      DocumentReference allCasesCollection = newCaseRef.doc(CaseTitle.text)
+          .collection("AllCases")
+          .doc();
+      data['docId'] = allCasesCollection.id;
+      allCasesCollection.set(data).then((value) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => BottomBarPage()),
+        );
+      });
+    }
+    else{
+      data['markerItem'] = markerItem;
+      data['direction'] = direction;
+      data['FirstMeasurement'] = FirstMeasurement;
+      data['DirectionBaseline'] = DirectionBaseline;
+      data['SecondMeasurement'] = SecondMeasurement;
+      data['docId'] = newCaseRef.id;
+      DocumentReference allCasesCollection = newCaseRef.doc(widget.FolderName)
+          .collection("AllCases")
+          .doc();
+      data['docId'] = allCasesCollection.id;
+      allCasesCollection.set(data).then((value) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => BottomBarPage()),
+        );
+      });
+    }
+
   }
 }

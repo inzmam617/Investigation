@@ -159,7 +159,7 @@ void uploadDataAndNavigate(BuildContext context) async {
   Navigator.push(
     context,
     MaterialPageRoute(
-      builder: (context) => notebook(FolderName: 0,),
+      builder: (context) => notebook(FolderName: "new",),
     ),
   );
 }

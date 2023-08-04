@@ -49,18 +49,17 @@ class BasicInformationPage extends StatefulWidget {
   @override
   State<BasicInformationPage> createState() => _BasicInformationPageState();
 }
-
 class _BasicInformationPageState extends State<BasicInformationPage> {
   List<List<TextEditingController>> controllers = [];
   List<List<TextEditingController>> controllers2 = [];
-
   TextEditingController title = TextEditingController();
-  TextEditingController date = TextEditingController();
-  TextEditingController Case = TextEditingController();
-  TextEditingController Scene = TextEditingController();
-  TextEditingController Offense = TextEditingController();
-  TextEditingController Address = TextEditingController();
-  TextEditingController Csi_ID = TextEditingController();
+  TextEditingController CaseTitle = TextEditingController();
+  TextEditingController date =  TextEditingController();
+  TextEditingController Case =    TextEditingController();
+  TextEditingController Scene =   TextEditingController();
+  TextEditingController Offense =  TextEditingController();
+  TextEditingController Address =   TextEditingController();
+  TextEditingController Csi_ID =  TextEditingController();
   TextEditingController Time_arivel = TextEditingController();
   TextEditingController Time_clear_the_call = TextEditingController();
   TextEditingController Time_call_recieved = TextEditingController();
@@ -79,7 +78,6 @@ class _BasicInformationPageState extends State<BasicInformationPage> {
     super.initState();
     initialize();
     print("folder name: ${widget.FolderName!}");
-
     title.text = widget.Title ?? '';
     date.text = widget.Date ?? '';
     Case.text = widget.Case ?? '';
@@ -96,7 +94,6 @@ class _BasicInformationPageState extends State<BasicInformationPage> {
     setState(() {
       initialize();
     });
-
     setState(() {
       widget.Edited != "true"
           ? controllers = List.generate(
@@ -234,7 +231,7 @@ bool _loading =false;
           height: 10,
         ),
         Container(
-          height: 830,
+          height: 880,
           decoration: const BoxDecoration(
               boxShadow: [BoxShadow(color: Colors.grey, blurRadius: 3.5)],
               color: Colors.white,
@@ -264,6 +261,32 @@ bool _loading =false;
                 ),
               ),
             ),
+
+            const SizedBox(
+              height: 10,
+            ),
+            widget.FolderName == "new"  ?     Padding(
+              padding: const EdgeInsets.only(left: 40, right: 20),
+              child: SizedBox(
+                height: 30,
+                child: TextField(
+                  controller: CaseTitle,
+                  textAlign: TextAlign.center,
+                  decoration: const InputDecoration(
+                      contentPadding: EdgeInsets.all(10),
+                      hintText: 'Add Case Name',
+                      hintStyle: TextStyle(
+                        fontSize: 12,
+                      ),
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.only(
+                              bottomRight: Radius.circular(20),
+                              bottomLeft: Radius.circular(20),
+                              topRight: Radius.circular(20),
+                              topLeft: Radius.circular(20)))),
+                ),
+              ),
+            ) : const SizedBox.shrink(),
             Padding(
               padding: const EdgeInsets.only(left: 40, right: 24),
               child: TextField(
@@ -420,6 +443,7 @@ bool _loading =false;
                             const SizedBox(
                               height: 10,
                             ),
+                   
                             Column(
                               children: [
                                 Padding(
@@ -476,6 +500,7 @@ bool _loading =false;
             ]),
           ]),
         ),
+          
         const SizedBox(
           height: 60,
         ),
@@ -966,6 +991,21 @@ bool _loading =false;
       'Primary_Officer/Deputy_Id': Primary_detective_ID.text,
     };
 
+    if (widget.FolderName == "new") {
+      if (CaseTitle.text.isEmpty) {
+        setState(() {
+          _loading = false;
+        });
+        showErrorMessage('Case Name cannot be empty');
+      } else {
+        // Your code if CaseTitle is not empty
+      }
+    } else {
+      // Your code for a different case
+    }
+
+
+
     List<Map<String, dynamic>> victimsData = [];
     List<Map<String, dynamic>> suspectData = [];
 
@@ -1014,42 +1054,62 @@ bool _loading =false;
     CollectionReference casesCollection = FirebaseFirestore.instance.collection('Cases');
     CollectionReference newCaseRef = casesCollection.doc(id).collection("AllFolders");
 
-    bool folderExists = false;
-    await newCaseRef
-        .where('Name', isEqualTo: widget.FolderName)
-        .get()
-        .then((querySnapshot) {
-      folderExists = querySnapshot.docs.isNotEmpty;
-      print("the folder already exists: $folderExists");
-      // If the folder name doesn't exist, add it
-      if (!folderExists) {
-        print("the folder does not exist, adding...");
 
-        newCaseRef.add({"Name": widget.FolderName , }).then((value) {
-          // Folder name added successfully
-          print("Folder name added successfully");
-        }).catchError((error) {
-          // Handle the error if folder name couldn't be added
-          print("Error adding folder name: $error");
-        });
-      }
-    }).catchError((error) {
-      print("Error checking folder name: $error");
-    });
-    DocumentReference allCasesCollection = newCaseRef.doc(widget.FolderName).collection("AllCases").doc();
-    data['docId'] = allCasesCollection.id;
-    data['Victims'] = victimsData;
-    data['Suspects'] = suspectData;
-    print(newCaseRef.doc(widget.FolderName).collection("AllCases"));
-    allCasesCollection.set(data).then((value) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) =>  BottomBarPage(page: 1,)),
-      );
-    });
-    setState(() {
-      _loading = false;
-    });
+        if (widget.FolderName == "new") {
+          newCaseRef.add({"Name": CaseTitle.text,}).then((value) {
+            print("Creating New CaseName");
+
+          }).catchError((error) {
+            // Handle the error if folder name couldn't be added
+            print("Error adding folder name: $error");
+          });
+        }else {
+          // newCaseRef.add({"Name": widget.FolderName,}).then((value) {
+          //   // Folder name added successfully
+          //   print("Using  Older CaseName");
+          //
+          // }).catchError((error) {
+          //   // Handle the error if folder name couldn't be added
+          //   print("Error adding folder name: $error");
+          // });
+        }
+
+
+
+    late DocumentReference allCasesCollection;
+    if (widget.FolderName == "new") {
+      print("Craeting New Casetitle");
+
+    allCasesCollection = newCaseRef.doc(CaseTitle.text).collection("AllCases").doc();
+      data['docId'] = allCasesCollection.id;
+      data['Victims'] = victimsData;
+      data['Suspects'] = suspectData;
+      print("this is the path:${newCaseRef.doc(widget.FolderName).collection("AllCases")}");
+      allCasesCollection.set(data).then((value) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) =>  BottomBarPage(page: 1,)),
+        );
+      });
+    } else {
+      print("Using Older Casetitle");
+      allCasesCollection =newCaseRef.doc(widget.FolderName).collection("AllCases").doc();
+      data['docId'] = allCasesCollection.id;
+      data['Victims'] = victimsData;
+      data['Suspects'] = suspectData;
+      print("this is the path:${newCaseRef.doc(widget.FolderName).collection("AllCases")}");
+      allCasesCollection.set(data).then((value) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) =>  BottomBarPage(page: 1,)),
+        );
+      });
+    }
+
+
+    // setState(() {
+    //   _loading = false;
+    // });
   }
 
 
@@ -1075,3 +1135,4 @@ bool _loading =false;
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 }
+

@@ -113,6 +113,7 @@ class _evidenceState extends State<evidence> {
 }
   List<String> textValues = [];
   List<String> textValues1 = [];
+  TextEditingController CaseTitle = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -231,10 +232,26 @@ class _evidenceState extends State<evidence> {
                   border: UnderlineInputBorder()),
                   ),
                   ),
-                  const SizedBox(height: 40,),
-              ]
+                  const SizedBox(height: 20,),
+              widget.FolderName == "new"  ?       Padding(
+              padding: const EdgeInsets.only(left: 30, right: 30),
+              child: TextField(
+              controller: CaseTitle,
+              decoration: const InputDecoration(
+              enabledBorder: UnderlineInputBorder(),
+              hintText: '                                  Add Case Name',
+              hintStyle: TextStyle(fontSize: 14),
+              border: UnderlineInputBorder()),
+              ),
+              ): const SizedBox.shrink(),
+              const SizedBox(height: 40,),
+
+            ]
                   ),
-          SizedBox(height: 35,),
+          const SizedBox(height: 40,),
+
+
+
           Column(children: [
             Transform.translate(
               offset: const Offset(0, -40),
@@ -708,6 +725,16 @@ class _evidenceState extends State<evidence> {
       showErrorMessage('Title cannot be empty');
 
     }
+    if (widget.FolderName == "new") {
+      if (CaseTitle.text.isEmpty) {
+        showErrorMessage('Case Name cannot be empty');
+      } else {
+        // Your code if CaseTitle is not empty
+      }
+    } else {
+      // Your code for a different case
+    }
+
     List<Map<String, dynamic>> WhatnWhere = [];
     List<Map<String, dynamic>> Notes = [];
 
@@ -752,39 +779,53 @@ class _evidenceState extends State<evidence> {
     CollectionReference casesCollection = FirebaseFirestore.instance.collection('Cases');
     CollectionReference newCaseRef = casesCollection.doc(id).collection("AllFolders");
 
-    bool folderExists = false;
-    await newCaseRef
-        .where('Name', isEqualTo: widget.FolderName)
-        .get()
-        .then((querySnapshot) {
-      folderExists = querySnapshot.docs.isNotEmpty;
-    })
-        .catchError((error) {
-      print("Error checking folder name: $error");
-    });
+    if (widget.FolderName == "new") {
+      newCaseRef.add({"Name": CaseTitle.text,}).then((value) {
+        print("Creating New CaseName");
 
-// If the folder name doesn't exist, add it
-    if (!folderExists) {
-      newCaseRef.add({"Name": widget.FolderName})
-          .then((value) {
-        // Folder name added successfully
-        print("Folder name added successfully");
-      })
-          .catchError((error) {
+      }).catchError((error) {
         // Handle the error if folder name couldn't be added
         print("Error adding folder name: $error");
       });
+    }else {
+      // newCaseRef.add({"Name": widget.FolderName,}).then((value) {
+      //   // Folder name added successfully
+      //   print("Using  Older CaseName");
+      //
+      // }).catchError((error) {
+      //   // Handle the error if folder name couldn't be added
+      //   print("Error adding folder name: $error");
+      // });
     }
-    data['WhatnWhere'] = WhatnWhere;
-    data['Notes'] = Notes;
 
-    DocumentReference allCasesCollection = newCaseRef.doc(widget.FolderName).collection("AllCases").doc();
-    data['docId'] = allCasesCollection.id;
-    allCasesCollection.set(data).then((value) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) =>  BottomBarPage()),
-      );
-    });
+    if (widget.FolderName == "new") {
+      data['WhatnWhere'] = WhatnWhere;
+      data['Notes'] = Notes;
+
+      DocumentReference allCasesCollection = newCaseRef.doc(CaseTitle.text)
+          .collection("AllCases")
+          .doc();
+      data['docId'] = allCasesCollection.id;
+      allCasesCollection.set(data).then((value) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => BottomBarPage()),
+        );
+      });
+    }else{
+      data['WhatnWhere'] = WhatnWhere;
+      data['Notes'] = Notes;
+
+      DocumentReference allCasesCollection = newCaseRef.doc(widget.FolderName)
+          .collection("AllCases")
+          .doc();
+      data['docId'] = allCasesCollection.id;
+      allCasesCollection.set(data).then((value) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => BottomBarPage()),
+        );
+      });
+    }
   }
 }

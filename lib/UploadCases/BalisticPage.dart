@@ -27,6 +27,7 @@ class BalisticPage extends StatefulWidget {
 class _BalisticPageState extends State<BalisticPage> {
   List<List<TextEditingController>> controllers = [];
   TextEditingController title = TextEditingController();
+  TextEditingController CaseTitle = TextEditingController();
 
   @override
   void initState() {
@@ -56,9 +57,6 @@ class _BalisticPageState extends State<BalisticPage> {
               TextEditingController(),
               TextEditingController(),
               TextEditingController(),
-
-
-
             ]);
           }
 
@@ -264,51 +262,6 @@ class _BalisticPageState extends State<BalisticPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        bottomNavigationBar: BottomNavigationBar(
-          backgroundColor: Colors.black,
-          items: <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon: Transform.translate(
-                offset: const Offset(0, 10),
-                child: SvgPicture.asset('assets/Component 12 – 1.svg'),
-              ),
-              label: '',
-            ),
-            BottomNavigationBarItem(
-              icon: Transform.translate(
-                offset: const Offset(0, -20),
-                child: Container(
-                  decoration: BoxDecoration(
-                      border: Border.all(
-                        color: Colors.black,
-                      )),
-                  child: SizedBox(
-                    height: 25,
-                    width: 25,
-                    child: Transform.scale(
-                      scale: 2,
-
-                      child: const CircleAvatar(
-                          backgroundColor: Colors.white,
-                          child: Icon(
-                            Icons.add,
-                            color: Colors.black,
-                            size: 25,
-                          )),
-                    ),
-                  ),
-                ),
-              ),
-              label: '',
-            ),
-            BottomNavigationBarItem(
-              icon: Transform.translate(
-                  offset: const Offset(0, 10),
-                  child: Image.asset('assets/Iconly-Bold-Setting.png')),
-              label: '',
-            ),
-          ],
-        ),
         body: ListView(
             children: [
               Column(
@@ -365,23 +318,13 @@ class _BalisticPageState extends State<BalisticPage> {
                                       height: 26,
                                       width: 26,
                                       child: InkWell(onTap:() {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(builder: (context) => notebook()),
-                                        );
+                                        Navigator.of(context).pop();
                                       },
                                         child: CircleAvatar(
                                           backgroundColor: Colors.black,
-                                          child: InkWell(onTap:() {
-                                            Navigator.push(
-                                              context,
-                                              MaterialPageRoute(builder: (context) => notebook()),
-                                            );
-                                          },
-                                            child: const Icon(
-                                                Icons.arrow_back_ios_new_outlined,
-                                                size: 16),
-                                          ),
+                                          child: const Icon(
+                                              Icons.arrow_back_ios_new_outlined,
+                                              size: 16),
                                         ),
                                       ),
                                     ),
@@ -412,6 +355,18 @@ class _BalisticPageState extends State<BalisticPage> {
                           border: UnderlineInputBorder()),
                     ),
                   ),
+                  const SizedBox(height: 30,),
+                  widget.FolderName == "new"  ?          Padding(
+                padding: EdgeInsets.only(left: 30, right: 30),
+                child: TextField(
+                controller: CaseTitle,
+                decoration: InputDecoration(
+                enabledBorder: UnderlineInputBorder(),
+                hintText: '                                  Add Case Name',
+                hintStyle: TextStyle(fontSize: 14),
+                border: UnderlineInputBorder()),
+                ),
+                ): const SizedBox.shrink(),
                   const SizedBox(height: 30,),
 
                 ],
@@ -1656,8 +1611,8 @@ class _BalisticPageState extends State<BalisticPage> {
   }
   Future<void> save() async {
     Map<String, dynamic> data = {
-      "Type" : "Ballistic",
-      "Title" : "Ballistic",
+      "Type": "Ballistic",
+      "Title": "Ballistic",
     };
 
     List<Map<String, dynamic>> Hole = [];
@@ -1668,9 +1623,18 @@ class _BalisticPageState extends State<BalisticPage> {
     List<Map<String, dynamic>> HorizontalAngle = [];
     List<Map<String, dynamic>> ProjectileRecovered = [];
 
-    if(title.text == ""){
-      showErrorMessage('Title cannot be empty');
+    if (widget.FolderName == "new") {
+      if (CaseTitle.text.isEmpty) {
+        showErrorMessage('Case Name cannot be empty');
+      } else {
+        // Your code if CaseTitle is not empty
+      }
+    } else {
+      // Your code for a different case
+    }
 
+    if (title.text == "") {
+      showErrorMessage('Title cannot be empty');
     }
     for (int i = 0; i < textValues.length; i++) {
       var rowControllers = controllers[i];
@@ -1678,7 +1642,7 @@ class _BalisticPageState extends State<BalisticPage> {
 
       if (partOne.isNotEmpty) {
         Map<String, dynamic> rowDataa = {
-          'Hole ${i+1}': partOne,
+          'Hole ${i + 1}': partOne,
         };
         Hole.add(rowDataa);
       } else {
@@ -1694,7 +1658,7 @@ class _BalisticPageState extends State<BalisticPage> {
 
       if (partOne.isNotEmpty) {
         Map<String, dynamic> rowData = {
-          'EntryExit ${i+1}': partOne,
+          'EntryExit ${i + 1}': partOne,
         };
         EntryorExit.add(rowData);
       } else {
@@ -1710,7 +1674,7 @@ class _BalisticPageState extends State<BalisticPage> {
 
       if (partOne.isNotEmpty) {
         Map<String, dynamic> rowDataa = {
-          'Height fromGround ${i+1}': partOne,
+          'Height fromGround ${i + 1}': partOne,
         };
         HeightfromGround.add(rowDataa);
       } else {
@@ -1725,7 +1689,7 @@ class _BalisticPageState extends State<BalisticPage> {
 
       if (partOne.isNotEmpty) {
         Map<String, dynamic> rowDataa = {
-          'ofSide ${i+1}': partOne,
+          'ofSide ${i + 1}': partOne,
         };
         ofSide.add(rowDataa);
       } else {
@@ -1740,7 +1704,7 @@ class _BalisticPageState extends State<BalisticPage> {
 
       if (partOne.isNotEmpty) {
         Map<String, dynamic> rowDataa = {
-          'VerticalAngle ${i+1}': partOne,
+          'VerticalAngle ${i + 1}': partOne,
         };
         VerticalAngle.add(rowDataa);
       } else {
@@ -1755,7 +1719,7 @@ class _BalisticPageState extends State<BalisticPage> {
 
       if (partOne.isNotEmpty) {
         Map<String, dynamic> rowDataa = {
-          'HorizontalAngle ${i+1}': partOne,
+          'HorizontalAngle ${i + 1}': partOne,
         };
         HorizontalAngle.add(rowDataa);
       } else {
@@ -1770,7 +1734,7 @@ class _BalisticPageState extends State<BalisticPage> {
 
       if (partOne.isNotEmpty) {
         Map<String, dynamic> rowDataa = {
-          'ProjectileRecovered ${i+1}': partOne,
+          'ProjectileRecovered ${i + 1}': partOne,
         };
         ProjectileRecovered.add(rowDataa);
       } else {
@@ -1779,8 +1743,10 @@ class _BalisticPageState extends State<BalisticPage> {
         return; // Stop further processing
       }
     }
-    CollectionReference casesCollection = FirebaseFirestore.instance.collection('Cases');
-    CollectionReference newCaseRef = casesCollection.doc(id).collection("AllFolders");
+    CollectionReference casesCollection = FirebaseFirestore.instance.collection(
+        'Cases');
+    CollectionReference newCaseRef = casesCollection.doc(id).collection(
+        "AllFolders");
     data['Hole'] = Hole;
     data['EntryorExit'] = EntryorExit;
     data['HeightfromGround'] = HeightfromGround;
@@ -1791,39 +1757,47 @@ class _BalisticPageState extends State<BalisticPage> {
     data['docId'] = newCaseRef.id;
 
 
-// Check if the folder name already exists in the "AllFolders" collection
-    bool folderExists = false;
-    await newCaseRef
-        .where('Name', isEqualTo: widget.FolderName)
-        .get()
-        .then((querySnapshot) {
-      folderExists = querySnapshot.docs.isNotEmpty;
-    })
-        .catchError((error) {
-      print("Error checking folder name: $error");
-    });
-
-// If the folder name doesn't exist, add it
-    if (!folderExists) {
-      newCaseRef.add({"Name": widget.FolderName})
-          .then((value) {
-        // Folder name added successfully
-        print("Folder name added successfully");
-      })
-          .catchError((error) {
+    if (widget.FolderName == "new") {
+      newCaseRef.add({"Name": CaseTitle.text,}).then((value) {
+        print("Creating New CaseName");
+      }).catchError((error) {
         // Handle the error if folder name couldn't be added
         print("Error adding folder name: $error");
       });
+    } else {
+      // newCaseRef.add({"Name": widget.FolderName,}).then((value) {
+      //   // Folder name added successfully
+      //   print("Using  Older CaseName");
+      //
+      // }).catchError((error) {
+      //   // Handle the error if folder name couldn't be added
+      //   print("Error adding folder name: $error");
+      // });
+    }
+    if (widget.FolderName == "new") {
+      DocumentReference allCasesCollection = newCaseRef.doc(CaseTitle.text)
+          .collection("AllCases")
+          .doc();
+      data['docId'] = allCasesCollection.id;
+      allCasesCollection.set(data).then((value) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => BottomBarPage()),
+        );
+      });
+    } else {
+      DocumentReference allCasesCollection = newCaseRef.doc(widget.FolderName)
+          .collection("AllCases")
+          .doc();
+      data['docId'] = allCasesCollection.id;
+      allCasesCollection.set(data).then((value) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => BottomBarPage()),
+        );
+      });
     }
 
-    DocumentReference allCasesCollection = newCaseRef.doc(widget.FolderName).collection("AllCases").doc();
-    data['docId'] = allCasesCollection.id;
-    allCasesCollection.set(data).then((value) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) =>  BottomBarPage()),
-      );
-    });
   }
   void delete(){
     CollectionReference casesCollection = FirebaseFirestore.instance.collection('Cases');

@@ -17,38 +17,36 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'PaymentPage/PaymentPage.dart';
 
 class notebook extends StatefulWidget {
-  int? FolderName;
-
+  String? FolderName;
   notebook({this.FolderName});
   @override
   State<notebook> createState() => _notebookState();
 }
 
 class _notebookState extends State<notebook> {
-
   late String package = ""; // Initialize with an empty string
   late bool visible  = false;
   String userId = FirebaseAuth.instance.currentUser!.uid;
   String timeLeft = "";
   String Amount = "";
-  Future<int?> getHighestFolderName() async {
-    QuerySnapshot<Map<String, dynamic>> snapshot = await FirebaseFirestore.instance
-        .collection('Cases')
-        .doc(userId)
-        .collection('AllFolders')
-        .orderBy('Name', descending: true)
-        .limit(1)
-        .get();
+  // Future<String?> getHighestFolderName() async {
+  //   QuerySnapshot<Map<String, dynamic>> snapshot = await FirebaseFirestore.instance
+  //       .collection('Cases')
+  //       .doc(userId)
+  //       .collection('AllFolders')
+  //       .orderBy('Name', descending: true)
+  //       .limit(1)
+  //       .get();
+  //
+  //   if (snapshot.docs.isNotEmpty) {
+  //     String highestFolderName =    snapshot.docs.first.get('Name');
+  //     return highestFolderName;
+  //   } else {
+  //     print("No folders found");
+  //     return null;
+  //   }
+  // }
 
-    if (snapshot.docs.isNotEmpty) {
-      int highestFolderName =  int.parse(  snapshot.docs.first.get('Name') );
-      // print("Highest Folder Name: $highestFolderName");
-      return highestFolderName;
-    } else {
-      print("No folders found");
-      return null;
-    }
-  }
   Future<void> reset() async {
     await FirebaseFirestore.instance.collection('Users').doc(userId).update({
       "package" : "Basic",
@@ -56,20 +54,17 @@ class _notebookState extends State<notebook> {
       "Amount" : '0'
     });
   }
+
+  late String FolderName = "new";
+
   Future<void> get() async {
-    FolderName = (await getHighestFolderName())!;
-    print("Getting the Number: $FolderName");
 
-    if (widget.FolderName == 0) {
-      // FolderName == widget.FolderName;
-      setState(() {
-        FolderName++;
+    print("Getting the Number: ${widget.FolderName}");
 
+    if (widget.FolderName == "new"){
 
-      });
-      print(FolderName);
       print("Changes");
-    } else  if(widget.FolderName != FolderName){
+    } else  if(widget.FolderName != "new"){
       setState(() {
 
         FolderName =   widget.FolderName!;
@@ -77,22 +72,18 @@ class _notebookState extends State<notebook> {
       print(FolderName);
 
 
-      // FolderName++;
 
 
       print("Same");
     }
     final data =   await FirebaseFirestore.instance.collection('Users').doc(userId).get();
     setState(() {
-
       timeLeft =  data["Duration"];
       Amount =  data["Amount"];
       package =  data["package"];
     });
-
     DateTime parsedDate = DateTime.parse(timeLeft);
     DateTime currentDate = DateTime.now();
-
     if (parsedDate.isBefore(currentDate)) {
       reset();
 
@@ -151,7 +142,6 @@ class _notebookState extends State<notebook> {
     initilize();
   }
   DateTime now = DateTime.now();
-   late int FolderName = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(

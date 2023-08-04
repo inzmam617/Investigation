@@ -23,41 +23,12 @@ class BodyMeasurementsPage extends StatefulWidget {
 class _BodyMeasurementsPageState extends State<BodyMeasurementsPage> {
   List<String> predefinedValues = ['Head', 'Right Hand', 'Left Hand', 'Waist', 'Right Leg', 'Left Leg',];
 
+  TextEditingController CaseTitle = TextEditingController();
 
   @override
   void initState() {
     super.initState();
     title.text = widget.Title ?? '';
-    // textValues.add('');
-    // controllers.add([TextEditingController(), TextEditingController(), TextEditingController()]);
-    // errorMessages.add(['', '', '']);
-    // textValues1.add('');
-    // controllers1.add([TextEditingController(), TextEditingController(), TextEditingController()]);
-    // errorMessages1.add(['', '', '']);
-    // textValues.add('');
-    // controllers.add([TextEditingController(), TextEditingController(), TextEditingController()]);
-    // errorMessages.add(['', '', '']);
-    // textValues1.add('');
-    // controllers1.add([TextEditingController(), TextEditingController(), TextEditingController()]);
-    // errorMessages1.add(['', '', '']);
-    // textValues.add('');
-    // controllers.add([TextEditingController(), TextEditingController(), TextEditingController()]);
-    // errorMessages.add(['', '', '']);
-    // textValues1.add('');
-    // controllers1.add([TextEditingController(), TextEditingController(), TextEditingController()]);
-    // errorMessages1.add(['', '', '']);
-    // textValues.add('');
-    // controllers.add([TextEditingController(), TextEditingController(), TextEditingController()]);
-    // errorMessages.add(['', '', '']);
-    // textValues1.add('');
-    // controllers1.add([TextEditingController(), TextEditingController(), TextEditingController()]);
-    // errorMessages1.add(['', '', '']);
-    // textValues.add('');
-    // controllers.add([TextEditingController(), TextEditingController(), TextEditingController()]);
-    // errorMessages.add(['', '', '']);
-    // textValues1.add('');
-    // controllers1.add([TextEditingController(), TextEditingController(), TextEditingController()]);
-    // errorMessages1.add(['', '', '']);
     for (int i = 0; i < 6; i++) {
       textValues.add('');
       controllers.add([TextEditingController(), TextEditingController(), TextEditingController()]);
@@ -180,6 +151,7 @@ class _BodyMeasurementsPageState extends State<BodyMeasurementsPage> {
                               const SizedBox(
                                 height: 30,
                                 child: TextField(
+                                  enabled: false,
                                     decoration: InputDecoration(
                                         enabledBorder: OutlineInputBorder(
                                             borderRadius: BorderRadius.only(
@@ -209,27 +181,13 @@ class _BodyMeasurementsPageState extends State<BodyMeasurementsPage> {
                                   width: 26,
                                   child: InkWell(
                                     onTap: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>  notebook()),
-                                      );
+                                     Navigator.of(context).pop();
                                     },
                                     child: CircleAvatar(
                                       backgroundColor: Colors.black,
-                                      child: InkWell(
-                                        onTap: () {
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                     notebook()),
-                                          );
-                                        },
-                                        child: const Icon(
-                                            Icons.arrow_back_ios_new_outlined,
-                                            size: 16),
-                                      ),
+                                      child: const Icon(
+                                          Icons.arrow_back_ios_new_outlined,
+                                          size: 16),
                                     ),
                                   ),
                                 ),
@@ -261,8 +219,22 @@ class _BodyMeasurementsPageState extends State<BodyMeasurementsPage> {
                 ),
               ),
               const SizedBox(
-                height: 60,
-              )
+                height: 20,
+              ),
+              widget.FolderName == "new"  ?          Padding(
+                    padding: EdgeInsets.only(left: 30, right: 30),
+                    child: TextField(
+                    controller: CaseTitle,
+                    decoration: InputDecoration(
+                    enabledBorder: UnderlineInputBorder(),
+                    hintText: '                                  Add Case Name',
+                    hintStyle: TextStyle(fontSize: 14),
+                    border: UnderlineInputBorder()),
+                    ),
+    ): const SizedBox.shrink(),
+              const SizedBox(
+                height: 20,
+              ),
             ],
           ),
           const Padding(
@@ -907,43 +879,68 @@ class _BodyMeasurementsPageState extends State<BodyMeasurementsPage> {
         return; // Stop further processing
       }
     }
+    if (widget.FolderName == "new") {
+      if (CaseTitle.text.isEmpty) {
+        showErrorMessage('Case Name cannot be empty');
+      } else {
+        // Your code if CaseTitle is not empty
+      }
+    } else {
+      // Your code for a different case
+    }
+
     CollectionReference casesCollection = FirebaseFirestore.instance.collection('Cases');
     CollectionReference newCaseRef = casesCollection.doc(id).collection("AllFolders");
 
-    bool folderExists = false;
-    await newCaseRef
-        .where('Name', isEqualTo: widget.FolderName)
-        .get()
-        .then((querySnapshot) {
-      folderExists = querySnapshot.docs.isNotEmpty;
-    })
-        .catchError((error) {
-      print("Error checking folder name: $error");
-    });
 
-// If the folder name doesn't exist, add it
-    if (!folderExists) {
-      newCaseRef.add({"Name": widget.FolderName})
-          .then((value) {
-        // Folder name added successfully
-        print("Folder name added successfully");
-      })
-          .catchError((error) {
+
+    if (widget.FolderName == "new") {
+      newCaseRef.add({"Name": CaseTitle.text,}).then((value) {
+        print("Creating New CaseName");
+
+      }).catchError((error) {
         // Handle the error if folder name couldn't be added
         print("Error adding folder name: $error");
       });
+    }else {
+      // newCaseRef.add({"Name": widget.FolderName,}).then((value) {
+      //   // Folder name added successfully
+      //   print("Using  Older CaseName");
+      //
+      // }).catchError((error) {
+      //   // Handle the error if folder name couldn't be added
+      //   print("Error adding folder name: $error");
+      // });
     }
-    data['BodyOne'] = BodyOne;
-    data['BodyTwo'] = BodyTwo;
-    print(data);
-    DocumentReference allCasesCollection = newCaseRef.doc(widget.FolderName).collection("AllCases").doc();
-    data['docId'] = allCasesCollection.id;
-    allCasesCollection.set(data).then((value) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) =>  BottomBarPage()),
-      );
-    });
+    if (widget.FolderName == "new") {
+      data['BodyOne'] = BodyOne;
+      data['BodyTwo'] = BodyTwo;
+      print(data);
+      DocumentReference allCasesCollection = newCaseRef.doc(CaseTitle.text)
+          .collection("AllCases")
+          .doc();
+      data['docId'] = allCasesCollection.id;
+      allCasesCollection.set(data).then((value) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => BottomBarPage()),
+        );
+      });
+    }else{
+      data['BodyOne'] = BodyOne;
+      data['BodyTwo'] = BodyTwo;
+      print(data);
+      DocumentReference allCasesCollection = newCaseRef.doc(widget.FolderName)
+          .collection("AllCases")
+          .doc();
+      data['docId'] = allCasesCollection.id;
+      allCasesCollection.set(data).then((value) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => BottomBarPage()),
+        );
+      });
+    }
 
   }
 }

@@ -38,83 +38,12 @@ class scenesketch extends StatefulWidget {
 
 class _scenesketchState extends State<scenesketch> {
   List<Offset> points = [];
+  TextEditingController CaseTitle = TextEditingController();
+  // TextEditingController title = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        /*bottomNavigationBar: BottomNavigationBar(
-          backgroundColor: Colors.black,
-          items: <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon: Transform.translate(
-                offset: const Offset(0, 10),
-                child: SvgPicture.asset('assets/Component 12 – 1.svg'),
-              ),
-              label: '',
-            ),
-            BottomNavigationBarItem(
-              icon: Transform.translate(
-                offset: const Offset(0, -20),
-                child: Container(
-                  decoration: BoxDecoration(
-                      border: Border.all(
-                        color: Colors.black,
-                      )),
-                  child: SizedBox(
-                    height: 25,
-                    width: 25,
-                    child: Transform.scale(
-                      scale: 2,
-                      child: InkWell(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => StoryPage()),
-                          );
-                        },
-                        child: CircleAvatar(
-                            backgroundColor: Colors.white,
-                            child: Transform.translate(
-                              offset: const Offset(0, 0),
-                              child: InkWell(
-                                onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => StoryPage()),
-                                  );
-                                },
-                                child: InkWell(
-                                  onTap: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => StoryPage()),
-                                    );
-                                  },
-                                  child: const Icon(
-                                    Icons.add,
-                                    color: Colors.black,
-                                    size: 25,
-                                  ),
-                                ),
-                              ),
-                            )),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-              label: '',
-            ),
-            BottomNavigationBarItem(
-              icon: Transform.translate(
-                  offset: const Offset(0, 10),
-                  child: Image.asset('assets/Iconly-Bold-Setting.png')),
-              label: '',
-            ),
-          ],
-        ),*/
         body: Column(children: [
       Container(
         height: MediaQuery.of(context).size.height / 4,
@@ -144,24 +73,11 @@ class _scenesketchState extends State<scenesketch> {
                       width: 30,
                       child: InkWell(
                         onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>  notebook()),
-                          );
+                          Navigator.of(context).pop();
                         },
-                        child: CircleAvatar(
+                        child: const CircleAvatar(
                           backgroundColor: Colors.black,
-                          child: InkWell(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>  notebook()),
-                                );
-                              },
-                              child:
-                                  const Icon(Icons.arrow_back_ios, size: 14)),
+                          child: Icon(Icons.arrow_back_ios, size: 14),
                         ),
                       )),
                 ),
@@ -217,6 +133,38 @@ class _scenesketchState extends State<scenesketch> {
                               BorderRadius.all(Radius.circular(30))))),
             ),
           ),
+          const SizedBox(
+            height: 20,
+          ),
+          widget.FolderName == "new"  ?           Padding(
+            padding: const EdgeInsets.only(left: 20, right: 20),
+            child: Container(
+            decoration: const BoxDecoration(
+            boxShadow: [BoxShadow(color: Colors.grey, blurRadius: 3.5)],
+            color: Colors.white,
+            borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(30),
+            topRight: Radius.circular(30),
+            bottomRight: Radius.circular(30),
+            bottomLeft: Radius.circular(30))),
+            height: 30,
+            child:  TextField(
+            controller: CaseTitle,
+            textAlign: TextAlign.center,
+            decoration: const InputDecoration(
+            enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.white),
+            borderRadius: BorderRadius.all(Radius.circular(30))),
+            filled: true,
+            fillColor: Colors.white,
+            hintText: 'Add Case Name',
+            hintStyle: TextStyle(fontSize: 14),
+            contentPadding: EdgeInsets.all(8),
+            border: OutlineInputBorder(
+            borderRadius:
+            BorderRadius.all(Radius.circular(30))))),
+            ),
+            ): const SizedBox.shrink(),
           const SizedBox(
             height: 20,
           ),
@@ -440,6 +388,15 @@ class _scenesketchState extends State<scenesketch> {
         CollectionReference casesCollection = FirebaseFirestore.instance.collection('Cases');
         CollectionReference newCaseRef = casesCollection.doc(id).collection("AllFolders");
 
+        if (widget.FolderName == "new") {
+          if (CaseTitle.text.isEmpty) {
+            showErrorMessage('Case Name cannot be empty');
+          } else {
+            // Your code if CaseTitle is not empty
+          }
+        } else {
+          // Your code for a different case
+        }
 
 // Check if the folder name already exists in the "AllFolders" collection
         bool folderExists = false;

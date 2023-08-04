@@ -66,6 +66,7 @@ class _SceneMeasurementPageState extends State<SceneMeasurementPage> {
   }
 
   TextEditingController title = TextEditingController();
+  TextEditingController CaseTitle = TextEditingController();
 
 
   String id = " ";
@@ -232,6 +233,20 @@ class _SceneMeasurementPageState extends State<SceneMeasurementPage> {
                         border: UnderlineInputBorder()),
                   ),
                 ),
+                const SizedBox(
+                  height: 30,
+                ),
+                widget.FolderName == "new"  ?         Padding(
+                  padding: const EdgeInsets.only(left: 30, right: 30),
+                  child: TextField(
+                    controller: CaseTitle,
+                    decoration: const InputDecoration(
+                        enabledBorder: UnderlineInputBorder(),
+                        hintText: '                                  Add Case Name',
+                        hintStyle: TextStyle(fontSize: 14),
+                        border: UnderlineInputBorder()),
+                  ),
+                ) : const SizedBox.shrink(),
                 const SizedBox(
                   height: 30,
                 ),
@@ -622,42 +637,61 @@ class _SceneMeasurementPageState extends State<SceneMeasurementPage> {
         return; // Stop further processing
       }
     }
+    if (widget.FolderName == "new") {
+      if (CaseTitle.text.isEmpty) {
+        showErrorMessage('Case Name cannot be empty');
+      } else {
+        // Your code if CaseTitle is not empty
+      }
+    } else {
+      // Your code for a different case
+    }
 
     CollectionReference casesCollection = FirebaseFirestore.instance.collection('Cases');
     CollectionReference newCaseRef = casesCollection.doc(id).collection("AllFolders");
 
-// Check if the folder name already exists in the "AllFolders" collection
-    bool folderExists = false;
-    await newCaseRef
-        .where('Name', isEqualTo: widget.FolderName)
-        .get()
-        .then((querySnapshot) {
-      folderExists = querySnapshot.docs.isNotEmpty;
-    })
-        .catchError((error) {
-      print("Error checking folder name: $error");
-    });
+    if (widget.FolderName == "new") {
+      newCaseRef.add({"Name": CaseTitle.text,}).then((value) {
+        print("Creating New CaseName");
 
-// If the folder name doesn't exist, add it
-    if (!folderExists) {
-      newCaseRef.add({"Name": widget.FolderName})
-          .then((value) {
-        // Folder name added successfully
-        print("Folder name added successfully");
-      })
-          .catchError((error) {
+      }).catchError((error) {
         // Handle the error if folder name couldn't be added
         print("Error adding folder name: $error");
       });
+    }else {
+      // newCaseRef.add({"Name": widget.FolderName,}).then((value) {
+      //   // Folder name added successfully
+      //   print("Using  Older CaseName");
+      //
+      // }).catchError((error) {
+      //   // Handle the error if folder name couldn't be added
+      //   print("Error adding folder name: $error");
+      // });
     }
-    data['Rooms'] = Rooms;
-    DocumentReference allCasesCollection = newCaseRef.doc(widget.FolderName).collection("AllCases").doc();
-    data['docId'] = allCasesCollection.id;
-    allCasesCollection.set(data).then((value) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) =>  BottomBarPage()),
-      );
-    });
+    if (widget.FolderName == "new") {
+      data['Rooms'] = Rooms;
+      DocumentReference allCasesCollection = newCaseRef.doc(CaseTitle.text)
+          .collection("AllCases")
+          .doc();
+      data['docId'] = allCasesCollection.id;
+      allCasesCollection.set(data).then((value) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => BottomBarPage()),
+        );
+      });
+    }else{
+      data['Rooms'] = Rooms;
+      DocumentReference allCasesCollection = newCaseRef.doc(widget.FolderName)
+          .collection("AllCases")
+          .doc();
+      data['docId'] = allCasesCollection.id;
+      allCasesCollection.set(data).then((value) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => BottomBarPage()),
+        );
+      });
+    }
   }
 }

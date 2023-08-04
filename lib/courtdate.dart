@@ -1,14 +1,12 @@
 import 'dart:async';
 import 'dart:typed_data';
-
+import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:crime_investigation/UploadCases/scenesketch.dart';
-import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:intl/intl.dart';
 import 'package:timezone/timezone.dart' as tz;
-
 import 'AlarmLists.dart';
 
 class courtdate extends StatefulWidget {
@@ -29,7 +27,23 @@ class _courtdateState extends State<courtdate> {
 
   DateTime Date =DateTime.now();
   TimeOfDay Time = TimeOfDay.now();
+  final AssetsAudioPlayer _assetsAudioPlayer = AssetsAudioPlayer();
+  @override
+  void initState(){
+    super.initState();
+    _assetsAudioPlayer.open(
+        Playlist(
+          audios: [
+            Audio('assets/nokia_sms_tone.mp3'),
 
+          ],
+        ),
+        showNotification: false,
+        autoStart: false,
+        loopMode: LoopMode.none);
+
+
+  }
   String _formatDateTime(DateTime dateTime) {
     // Format the DateTime object to display only the date in a specific format.
     final DateFormat formatter = DateFormat('yyyy-MM-dd');
@@ -56,7 +70,9 @@ class _courtdateState extends State<courtdate> {
         _selectedDate = picked;
         Date = picked;
         date.text =    _formatDateTime(_selectedDate); // Update the TextEditingController value.
-        print(date.text);
+        if (kDebugMode) {
+          print(date.text);
+        }
       });
     }
   }
@@ -188,7 +204,9 @@ class _courtdateState extends State<courtdate> {
                                   controller: date,
                                   // enabled: false,
                                   onTap: (){
-                                    print("object");
+                                    if (kDebugMode) {
+                                      print("object");
+                                    }
                                     _selectDate(context);
                                   },
                                   readOnly: true,
@@ -397,11 +415,15 @@ class _courtdateState extends State<courtdate> {
                                   bottomRight: Radius.circular(20),
                                   topRight: Radius.circular(20)))),
                       onPressed: () {
-                        print(date.text);
-                        print(time.text);
-                        print(note.text);
-                        print(casenumber.text);
-                        print(reminder.text);
+                        if (kDebugMode) {
+                          print(time.text);
+                          print(note.text);
+                          print(casenumber.text);
+                          print(reminder.text);
+                          print(date.text);
+
+                        }
+
                         setAlarm(note.text ,casenumber.text  ,reminder.text);
                       },
                       child: const Text(
@@ -475,7 +497,6 @@ class _courtdateState extends State<courtdate> {
     final Duration timeDifference = selectedDateTime.difference(tz.TZDateTime.now(tz.local));
     final CollectionReference alarmsCollection = FirebaseFirestore.instance.collection('alarms');
 
-    // Save the alarm details to Firestore.
     await alarmsCollection.add({
       'message': message,
       'text': text,
@@ -492,18 +513,21 @@ class _courtdateState extends State<courtdate> {
     // Only schedule the notification if the selectedDateTime is in the future.
     if (timeDifference.isNegative) {
       _showMyDialog('Selected time is in the past. Please choose a future time.');
-      print('Selected time is in the past. Please choose a future time.');
+      if (kDebugMode) {
+        print('Selected time is in the past. Please choose a future time.');
+      }
     } else {
       final List<String> messages = [
-        '${message}.',
-        '${text}',
+        '$message.',
+        text,
       ];
       showAlarmNotification(selectedDateTime, messages , title);
     }
   }
 
-  Future<void> showAlarmNotification(tz.TZDateTime alarmDateTime,  List<String>  note ,String titile ) async {
+  Future<void> showAlarmNotification(tz.TZDateTime alarmDateTime,  List<String>  note ,String title ) async {
     final int alarmId = alarmDateTime.millisecondsSinceEpoch ~/ 1000;
+
     final AndroidNotificationDetails androidPlatformChannelSpecifics =
     AndroidNotificationDetails(
       'channel_id',
@@ -512,14 +536,14 @@ class _courtdateState extends State<courtdate> {
       importance: Importance.high,
       priority: Priority.high,
       showWhen: false,
-      // sound: const RawResourceAndroidNotificationSound('notification_sound'), // Add this line for sound
-      vibrationPattern: Int64List.fromList([0, 1000, 500, 1000]),
+
+      vibrationPattern:  Int64List.fromList([0, 1000, 500, 1000]),
     );
     final NotificationDetails platformChannelSpecifics =
     NotificationDetails(android: androidPlatformChannelSpecifics);
     await FlutterLocalNotificationsPlugin().zonedSchedule(
       alarmId,
-      titile,
+      title,
       note.join('\n'),
       alarmDateTime,
       platformChannelSpecifics,
@@ -528,18 +552,8 @@ class _courtdateState extends State<courtdate> {
       UILocalNotificationDateInterpretation.absoluteTime,
       payload: 'alarm_data',
     );
-    print('Alarm set for: $alarmDateTime');
+    if (kDebugMode) {
+      print('Alarm set for: $alarmDateTime');
+    }
   }
 }
-
-
-
-
-// void setAlarm(String message , String text) {
-//   final tz.TZDateTime alarmDateTime = tz.TZDateTime.now(tz.local).add(const Duration(seconds: 5));
-//   final List<String> messages = [
-//     '${message}.',
-//     '${text}',
-//   ];
-//   showAlarmNotification(alarmDateTime, messages);
-// }

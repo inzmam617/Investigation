@@ -22,9 +22,10 @@ void main() async {
   const InitializationSettings initializationSettings =
   InitializationSettings(android: initializationSettingsAndroid);
   tzdata.initializeTimeZones();
-  tz.setLocalLocation(tz.getLocation('Asia/Karachi'));
-  await notifications.initialize(initializationSettings);
+  // tz.setLocalLocation(tz.getLocation('Asia/Karachi'));
 
+  tz.setLocalLocation(tz.getLocation('US/Eastern'));
+  await notifications.initialize(initializationSettings);
   await Firebase.initializeApp(); // Initialize Firebase
   runApp( const MaterialApp(
     debugShowCheckedModeBanner: false,
@@ -62,6 +63,7 @@ class _MyAppState extends State<MyApp> {
 
 
 Future<void> initializeApp() async {
+  print("Initializing");
   final service = FlutterBackgroundService();
   await service.configure(
     androidConfiguration: AndroidConfiguration(

@@ -31,22 +31,46 @@ class _WeaponsPageState extends State<WeaponsPage> {
       title.text = widget.Title ?? '';
 
       textValues.add('');
-      controllers.add([TextEditingController(), TextEditingController(), TextEditingController()]);
+      controllers.add([
+        TextEditingController(),
+        TextEditingController(),
+        TextEditingController()
+      ]);
       errorMessages.add(['', '', '']);
       textValues1.add('');
-      controllers1.add([TextEditingController(), TextEditingController(), TextEditingController()]);
+      controllers1.add([
+        TextEditingController(),
+        TextEditingController(),
+        TextEditingController()
+      ]);
       errorMessages1.add(['', '', '']);
       textValues2.add('');
-      controllers2.add([TextEditingController(), TextEditingController(), TextEditingController()]);
+      controllers2.add([
+        TextEditingController(),
+        TextEditingController(),
+        TextEditingController()
+      ]);
       errorMessages2.add(['', '', '']);
       widget.Edited != "true" ? setState(() {
-        controllers.add([TextEditingController(), TextEditingController(), TextEditingController()]);
+        controllers.add([
+          TextEditingController(),
+          TextEditingController(),
+          TextEditingController()
+        ]);
         errorMessages.add(['', '', '']);
         textValues1.add('');
-        controllers1.add([TextEditingController(), TextEditingController(), TextEditingController()]);
+        controllers1.add([
+          TextEditingController(),
+          TextEditingController(),
+          TextEditingController()
+        ]);
         errorMessages1.add(['', '', '']);
         textValues2.add('');
-        controllers2.add([TextEditingController(), TextEditingController(), TextEditingController()]);
+        controllers2.add([
+          TextEditingController(),
+          TextEditingController(),
+          TextEditingController()
+        ]);
         errorMessages2.add(['', '', '']);
       }) :
       setState(() {
@@ -57,21 +81,26 @@ class _WeaponsPageState extends State<WeaponsPage> {
             textValues.add('');
           }
         }
-        controllers = (widget.WeaponOne ?? []).map<List<TextEditingController>>((dynamic suspect) {
-          List<TextEditingController> rowControllers = [];
-          for (int i = 0; i < textValues.length; i++) {
-            String partOne  = suspect['partOne 1'] ?? '';
-            String partTwo = suspect['partTwo 2'] ?? '';
-            String partThree = suspect['partThree 3'] ?? '';
-            TextEditingController partOneC = TextEditingController(text: partOne);
-            TextEditingController partTwoC = TextEditingController(text: partTwo);
-            TextEditingController partThreeC = TextEditingController(text: partThree);
-            rowControllers.add(partOneC);
-            rowControllers.add(partTwoC);
-            rowControllers.add(partThreeC);
-          }
-          return rowControllers;
-        }).toList();
+        controllers =
+            (widget.WeaponOne ?? []).map<List<TextEditingController>>((
+                dynamic suspect) {
+              List<TextEditingController> rowControllers = [];
+              for (int i = 0; i < textValues.length; i++) {
+                String partOne = suspect['partOne 1'] ?? '';
+                String partTwo = suspect['partTwo 2'] ?? '';
+                String partThree = suspect['partThree 3'] ?? '';
+                TextEditingController partOneC = TextEditingController(
+                    text: partOne);
+                TextEditingController partTwoC = TextEditingController(
+                    text: partTwo);
+                TextEditingController partThreeC = TextEditingController(
+                    text: partThree);
+                rowControllers.add(partOneC);
+                rowControllers.add(partTwoC);
+                rowControllers.add(partThreeC);
+              }
+              return rowControllers;
+            }).toList();
 
         final int bodyTwo = widget.WeaponTwo?.length ?? 0;
         final int textValues1Length = textValues1.length;
@@ -80,21 +109,26 @@ class _WeaponsPageState extends State<WeaponsPage> {
             textValues1.add('');
           }
         }
-        controllers1 = (widget.WeaponTwo ?? []).map<List<TextEditingController>>((dynamic suspect) {
-          List<TextEditingController> rowControllers = [];
-          for (int i = 0; i < textValues1.length; i++) {
-            String partOne  = suspect['partOne 1'] ?? '';
-            String partTwo = suspect['partTwo 2'] ?? '';
-            String partThree = suspect['partThree 3'] ?? '';
-            TextEditingController partOneC = TextEditingController(text: partOne);
-            TextEditingController partTwoC = TextEditingController(text: partTwo);
-            TextEditingController partThreeC = TextEditingController(text: partThree);
-            rowControllers.add(partOneC);
-            rowControllers.add(partTwoC);
-            rowControllers.add(partThreeC);
-          }
-          return rowControllers;
-        }).toList();
+        controllers1 =
+            (widget.WeaponTwo ?? []).map<List<TextEditingController>>((
+                dynamic suspect) {
+              List<TextEditingController> rowControllers = [];
+              for (int i = 0; i < textValues1.length; i++) {
+                String partOne = suspect['partOne 1'] ?? '';
+                String partTwo = suspect['partTwo 2'] ?? '';
+                String partThree = suspect['partThree 3'] ?? '';
+                TextEditingController partOneC = TextEditingController(
+                    text: partOne);
+                TextEditingController partTwoC = TextEditingController(
+                    text: partTwo);
+                TextEditingController partThreeC = TextEditingController(
+                    text: partThree);
+                rowControllers.add(partOneC);
+                rowControllers.add(partTwoC);
+                rowControllers.add(partThreeC);
+              }
+              return rowControllers;
+            }).toList();
 
         final int bodythree = widget.WeaponThree?.length ?? 0;
         final int textValues3Length = textValues2.length;
@@ -103,38 +137,43 @@ class _WeaponsPageState extends State<WeaponsPage> {
             textValues2.add('');
           }
         }
-        controllers2 = (widget.WeaponThree ?? []).map<List<TextEditingController>>((dynamic suspect) {
-          List<TextEditingController> rowControllers = [];
-          for (int i = 0; i < textValues2.length; i++) {
-            String partOne  = suspect['partOne 1'] ?? '';
-            String partTwo = suspect['partTwo 2'] ?? '';
-            String partThree = suspect['partThree 3'] ?? '';
-            TextEditingController partOneC = TextEditingController(text: partOne);
-            TextEditingController partTwoC = TextEditingController(text: partTwo);
-            TextEditingController partThreeC = TextEditingController(text: partThree);
-            rowControllers.add(partOneC);
-            rowControllers.add(partTwoC);
-            rowControllers.add(partThreeC);
-          }
-          return rowControllers;
-        }).toList();
-
+        controllers2 =
+            (widget.WeaponThree ?? []).map<List<TextEditingController>>((
+                dynamic suspect) {
+              List<TextEditingController> rowControllers = [];
+              for (int i = 0; i < textValues2.length; i++) {
+                String partOne = suspect['partOne 1'] ?? '';
+                String partTwo = suspect['partTwo 2'] ?? '';
+                String partThree = suspect['partThree 3'] ?? '';
+                TextEditingController partOneC = TextEditingController(
+                    text: partOne);
+                TextEditingController partTwoC = TextEditingController(
+                    text: partTwo);
+                TextEditingController partThreeC = TextEditingController(
+                    text: partThree);
+                rowControllers.add(partOneC);
+                rowControllers.add(partTwoC);
+                rowControllers.add(partThreeC);
+              }
+              return rowControllers;
+            }).toList();
       });
     });
     initialize();
-
   }
+
   List<List<String>> tableData = [];
 
   String id = " ";
+
   Future<void> initialize() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    id =  prefs.getString("id").toString();
+    id = prefs.getString("id").toString();
     print(id);
-
   }
-  TextEditingController title =TextEditingController();
 
+  TextEditingController title = TextEditingController();
+  TextEditingController CaseTitle = TextEditingController();
 
   List<String> textValues = [];
   List<List<String>> errorMessages = [];
@@ -145,58 +184,10 @@ class _WeaponsPageState extends State<WeaponsPage> {
   List<String> textValues2 = [];
   List<List<String>> errorMessages2 = [];
   List<List<TextEditingController>> controllers2 = [];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.black,
-        items: <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Transform.translate(
-              offset: const Offset(0, 10),
-              child: SvgPicture.asset('assets/Component 12 – 1.svg'),
-            ),
-            label: '',
-          ),
-          BottomNavigationBarItem(
-            icon: Transform.translate(
-              offset: const Offset(0, -20),
-              child: Container(
-                decoration: BoxDecoration(
-                    border: Border.all(
-                  color: Colors.black,
-                )),
-                child: SizedBox(
-                  height: 25,
-                  width: 25,
-                  child: Transform.scale(
-                    scale: 2,
-
-                    child: CircleAvatar(
-                        backgroundColor: Colors.white,
-                        child: Transform.translate(
-
-                          offset: const Offset(0, 0),
-                          child: const Icon(
-                            Icons.add,
-                            color: Colors.black,
-                            size: 25,
-                          ),
-                        )),
-                  ),
-                ),
-              ),
-            ),
-            label: '',
-          ),
-          BottomNavigationBarItem(
-            icon: Transform.translate(
-                offset: const Offset(0, 10),
-                child: Image.asset('assets/Iconly-Bold-Setting.png')),
-            label: '',
-          ),
-        ],
-      ),
       body: ListView(
         scrollDirection: Axis.vertical,
         children: [
@@ -207,9 +198,17 @@ class _WeaponsPageState extends State<WeaponsPage> {
               Transform.translate(
                 offset: const Offset(0, -25),
                 child: Container(
-                  height: MediaQuery.of(context).size.height / 3.5,
-                  width: MediaQuery.of(context).size.width,
-                  decoration: const BoxDecoration(image: DecorationImage(image: AssetImage('assets/capp.png'),alignment: Alignment.centerRight),
+                  height: MediaQuery
+                      .of(context)
+                      .size
+                      .height / 3.5,
+                  width: MediaQuery
+                      .of(context)
+                      .size
+                      .width,
+                  decoration: const BoxDecoration(image: DecorationImage(
+                      image: AssetImage('assets/capp.png'),
+                      alignment: Alignment.centerRight),
                       color: Colors.black,
                       borderRadius: BorderRadius.only(
                         bottomLeft: Radius.circular(30),
@@ -232,7 +231,7 @@ class _WeaponsPageState extends State<WeaponsPage> {
                                                 topRight: Radius.circular(30),
                                                 bottomLeft: Radius.circular(0),
                                                 bottomRight:
-                                                    Radius.circular(30),
+                                                Radius.circular(30),
                                                 topLeft: Radius.circular(0)),
                                             borderSide: BorderSide(
                                               color: Colors.white,
@@ -243,28 +242,30 @@ class _WeaponsPageState extends State<WeaponsPage> {
                                             borderRadius: BorderRadius.only(
                                                 topLeft: Radius.circular(0),
                                                 bottomRight:
-                                                    Radius.circular(30),
+                                                Radius.circular(30),
                                                 bottomLeft: Radius.circular(0),
                                                 topRight:
-                                                    Radius.circular(30))))),
+                                                Radius.circular(30))))),
                               ),
                               Transform.translate(
                                 offset: const Offset(-70, -28),
                                 child: SizedBox(
                                   height: 26,
                                   width: 26,
-                                  child: InkWell(onTap:() {
+                                  child: InkWell(onTap: () {
                                     Navigator.push(
                                       context,
-                                      MaterialPageRoute(builder: (context) => notebook()),
+                                      MaterialPageRoute(
+                                          builder: (context) => notebook()),
                                     );
                                   },
                                     child: CircleAvatar(
                                       backgroundColor: Colors.black,
-                                      child: InkWell(onTap:() {
+                                      child: InkWell(onTap: () {
                                         Navigator.push(
                                           context,
-                                          MaterialPageRoute(builder: (context) => notebook()),
+                                          MaterialPageRoute(
+                                              builder: (context) => notebook()),
                                         );
                                       },
                                         child: const Icon(
@@ -290,7 +291,7 @@ class _WeaponsPageState extends State<WeaponsPage> {
                   ),
                 ),
               ),
-               Padding(
+              Padding(
                 padding: EdgeInsets.only(left: 30, right: 30),
                 child: TextField(
                   controller: title,
@@ -301,7 +302,20 @@ class _WeaponsPageState extends State<WeaponsPage> {
                       border: UnderlineInputBorder()),
                 ),
               ),
-              const SizedBox(height: 40,)
+              const SizedBox(height: 20,),
+              widget.FolderName == "new" ? Padding(
+                padding: EdgeInsets.only(left: 30, right: 30),
+                child: TextField(
+                  controller: CaseTitle,
+                  decoration: InputDecoration(
+                      enabledBorder: UnderlineInputBorder(),
+                      hintText: '                                  Add Case Nmae',
+                      hintStyle: TextStyle(fontSize: 14),
+                      border: UnderlineInputBorder()),
+                ),
+              ) : const SizedBox.shrink(),
+              const SizedBox(height: 20,),
+
             ],
           ),
           Column(
@@ -333,7 +347,10 @@ class _WeaponsPageState extends State<WeaponsPage> {
                           children: [
                             Container(
                               height: 100,
-                              width: MediaQuery.of(context).size.width / 3.5,
+                              width: MediaQuery
+                                  .of(context)
+                                  .size
+                                  .width / 3.5,
                               decoration: BoxDecoration(
                                   color: const Color(0xff86898E),
                                   borderRadius: const BorderRadius.only(
@@ -350,7 +367,10 @@ class _WeaponsPageState extends State<WeaponsPage> {
                             ),
                             Container(
                               height: 100,
-                              width: MediaQuery.of(context).size.width / 3.5,
+                              width: MediaQuery
+                                  .of(context)
+                                  .size
+                                  .width / 3.5,
                               decoration: BoxDecoration(
                                   color: const Color(0xff86898E),
                                   borderRadius: const BorderRadius.only(
@@ -367,7 +387,10 @@ class _WeaponsPageState extends State<WeaponsPage> {
                             ),
                             Container(
                               height: 100,
-                              width: MediaQuery.of(context).size.width / 3.5,
+                              width: MediaQuery
+                                  .of(context)
+                                  .size
+                                  .width / 3.5,
                               decoration: const BoxDecoration(
                                   color: Color(0xff86898E),
                                   borderRadius: BorderRadius.only(
@@ -387,71 +410,81 @@ class _WeaponsPageState extends State<WeaponsPage> {
                   rows: List<DataRow>.generate(
                     textValues.length,
                     // Generate rows based on the number of text fields
-                        (index) => DataRow(
-                      cells: [
-                        DataCell(Row(
-                          children: <Widget>[
-                            SizedBox(
-                              width: MediaQuery.of(context).size.width / 3.5,
-                              child:  TextField(
-                                controller: controllers[index][0],
-                                decoration: const InputDecoration(
-                                  isDense: true,
-                                  focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Colors.black, width: 1.0),
+                        (index) =>
+                        DataRow(
+                          cells: [
+                            DataCell(Row(
+                              children: <Widget>[
+                                SizedBox(
+                                  width: MediaQuery
+                                      .of(context)
+                                      .size
+                                      .width / 3.5,
+                                  child: TextField(
+                                    controller: controllers[index][0],
+                                    decoration: const InputDecoration(
+                                      isDense: true,
+                                      focusedBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                            color: Colors.black, width: 1.0),
+                                      ),
+                                      enabledBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                            color: Colors.black, width: 1.0),
+                                      ),
+                                      hintText: '',
+                                    ),
+                                    textAlign: TextAlign.center,
                                   ),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Colors.black, width: 1.0),
-                                  ),
-                                  hintText: '',
                                 ),
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
-                            SizedBox(
-                              width: MediaQuery.of(context).size.width / 3.5,
-                              child:  TextField(
-                                controller: controllers[index][1],
-                                decoration: const InputDecoration(
-                                  isDense: true,
-                                  focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Colors.black, width: 1.0),
+                                SizedBox(
+                                  width: MediaQuery
+                                      .of(context)
+                                      .size
+                                      .width / 3.5,
+                                  child: TextField(
+                                    controller: controllers[index][1],
+                                    decoration: const InputDecoration(
+                                      isDense: true,
+                                      focusedBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                            color: Colors.black, width: 1.0),
+                                      ),
+                                      enabledBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                            color: Colors.black, width: 1.0),
+                                      ),
+                                      hintText: '',
+                                    ),
+                                    textAlign: TextAlign.center,
                                   ),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Colors.black, width: 1.0),
-                                  ),
-                                  hintText: '',
                                 ),
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
-                            SizedBox(
-                              width: MediaQuery.of(context).size.width / 3.5,
-                              child:  TextField(
-                                controller: controllers[index][2],
-                                decoration: const InputDecoration(
-                                  isDense: true,
-                                  focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Colors.black, width: 1.0),
+                                SizedBox(
+                                  width: MediaQuery
+                                      .of(context)
+                                      .size
+                                      .width / 3.5,
+                                  child: TextField(
+                                    controller: controllers[index][2],
+                                    decoration: const InputDecoration(
+                                      isDense: true,
+                                      focusedBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                            color: Colors.black, width: 1.0),
+                                      ),
+                                      enabledBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                            color: Colors.black, width: 1.0),
+                                      ),
+                                      hintText: '',
+                                    ),
+                                    textAlign: TextAlign.center,
                                   ),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Colors.black, width: 1.0),
-                                  ),
-                                  hintText: '',
-                                ),
-                                textAlign: TextAlign.center,
-                              ),
-                            )
+                                )
+                              ],
+                            )),
                           ],
-                        )),
-                      ],
-                    ),
+                        ),
                   ),
                 ),
               ),
@@ -488,8 +521,16 @@ class _WeaponsPageState extends State<WeaponsPage> {
                             onPressed: () {
                               setState(() {
                                 textValues.add('');
-                                controllers.add([TextEditingController(), TextEditingController(), TextEditingController()]);
-                                errorMessages.add(['', '', '']);// Add an empty value to the list
+                                controllers.add([
+                                  TextEditingController(),
+                                  TextEditingController(),
+                                  TextEditingController()
+                                ]);
+                                errorMessages.add([
+                                  '',
+                                  '',
+                                  ''
+                                ]); // Add an empty value to the list
                               });
                             },
                             child: const Text(
@@ -565,7 +606,10 @@ class _WeaponsPageState extends State<WeaponsPage> {
                           children: [
                             Container(
                               height: 100,
-                              width: MediaQuery.of(context).size.width / 3.5,
+                              width: MediaQuery
+                                  .of(context)
+                                  .size
+                                  .width / 3.5,
                               decoration: BoxDecoration(
                                   color: const Color(0xff86898E),
                                   borderRadius: const BorderRadius.only(
@@ -582,7 +626,10 @@ class _WeaponsPageState extends State<WeaponsPage> {
                             ),
                             Container(
                               height: 100,
-                              width: MediaQuery.of(context).size.width / 3.5,
+                              width: MediaQuery
+                                  .of(context)
+                                  .size
+                                  .width / 3.5,
                               decoration: BoxDecoration(
                                   color: const Color(0xff86898E),
                                   borderRadius: const BorderRadius.only(
@@ -599,7 +646,10 @@ class _WeaponsPageState extends State<WeaponsPage> {
                             ),
                             Container(
                               height: 100,
-                              width: MediaQuery.of(context).size.width / 3.5,
+                              width: MediaQuery
+                                  .of(context)
+                                  .size
+                                  .width / 3.5,
                               decoration: const BoxDecoration(
                                   color: Color(0xff86898E),
                                   borderRadius: BorderRadius.only(
@@ -619,71 +669,81 @@ class _WeaponsPageState extends State<WeaponsPage> {
                   rows: List<DataRow>.generate(
                     textValues1.length,
                     // Generate rows based on the number of text fields
-                        (index) => DataRow(
-                      cells: [
-                        DataCell(Row(
-                          children: <Widget>[
-                            SizedBox(
-                              width: MediaQuery.of(context).size.width / 3.5,
-                              child:  TextField(
-                                controller: controllers1[index][0],
-                                decoration: const InputDecoration(
-                                  isDense: true,
-                                  focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Colors.black, width: 1.0),
+                        (index) =>
+                        DataRow(
+                          cells: [
+                            DataCell(Row(
+                              children: <Widget>[
+                                SizedBox(
+                                  width: MediaQuery
+                                      .of(context)
+                                      .size
+                                      .width / 3.5,
+                                  child: TextField(
+                                    controller: controllers1[index][0],
+                                    decoration: const InputDecoration(
+                                      isDense: true,
+                                      focusedBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                            color: Colors.black, width: 1.0),
+                                      ),
+                                      enabledBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                            color: Colors.black, width: 1.0),
+                                      ),
+                                      hintText: '',
+                                    ),
+                                    textAlign: TextAlign.center,
                                   ),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Colors.black, width: 1.0),
-                                  ),
-                                  hintText: '',
                                 ),
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
-                            SizedBox(
-                              width: MediaQuery.of(context).size.width / 3.5,
-                              child:  TextField(
-                                controller: controllers1[index][1],
-                                decoration: const InputDecoration(
-                                  isDense: true,
-                                  focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Colors.black, width: 1.0),
+                                SizedBox(
+                                  width: MediaQuery
+                                      .of(context)
+                                      .size
+                                      .width / 3.5,
+                                  child: TextField(
+                                    controller: controllers1[index][1],
+                                    decoration: const InputDecoration(
+                                      isDense: true,
+                                      focusedBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                            color: Colors.black, width: 1.0),
+                                      ),
+                                      enabledBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                            color: Colors.black, width: 1.0),
+                                      ),
+                                      hintText: '',
+                                    ),
+                                    textAlign: TextAlign.center,
                                   ),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Colors.black, width: 1.0),
-                                  ),
-                                  hintText: '',
                                 ),
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
-                            SizedBox(
-                              width: MediaQuery.of(context).size.width / 3.5,
-                              child:  TextField(
-                                controller: controllers1[index][2],
-                                decoration: const InputDecoration(
-                                  isDense: true,
-                                  focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Colors.black, width: 1.0),
+                                SizedBox(
+                                  width: MediaQuery
+                                      .of(context)
+                                      .size
+                                      .width / 3.5,
+                                  child: TextField(
+                                    controller: controllers1[index][2],
+                                    decoration: const InputDecoration(
+                                      isDense: true,
+                                      focusedBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                            color: Colors.black, width: 1.0),
+                                      ),
+                                      enabledBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                            color: Colors.black, width: 1.0),
+                                      ),
+                                      hintText: '',
+                                    ),
+                                    textAlign: TextAlign.center,
                                   ),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Colors.black, width: 1.0),
-                                  ),
-                                  hintText: '',
-                                ),
-                                textAlign: TextAlign.center,
-                              ),
-                            )
+                                )
+                              ],
+                            )),
                           ],
-                        )),
-                      ],
-                    ),
+                        ),
                   ),
                 ),
               ),
@@ -720,7 +780,11 @@ class _WeaponsPageState extends State<WeaponsPage> {
                             onPressed: () {
                               setState(() {
                                 textValues1.add('');
-                                controllers1.add([TextEditingController(), TextEditingController(), TextEditingController()]);
+                                controllers1.add([
+                                  TextEditingController(),
+                                  TextEditingController(),
+                                  TextEditingController()
+                                ]);
                                 errorMessages1.add(['', '', '']);
                               });
                             },
@@ -794,7 +858,10 @@ class _WeaponsPageState extends State<WeaponsPage> {
                           children: [
                             Container(
                               height: 100,
-                              width: MediaQuery.of(context).size.width / 3.5,
+                              width: MediaQuery
+                                  .of(context)
+                                  .size
+                                  .width / 3.5,
                               decoration: BoxDecoration(
                                   color: const Color(0xff86898E),
                                   borderRadius: const BorderRadius.only(
@@ -811,7 +878,10 @@ class _WeaponsPageState extends State<WeaponsPage> {
                             ),
                             Container(
                               height: 100,
-                              width: MediaQuery.of(context).size.width / 3.5,
+                              width: MediaQuery
+                                  .of(context)
+                                  .size
+                                  .width / 3.5,
                               decoration: BoxDecoration(
                                   color: const Color(0xff86898E),
                                   borderRadius: const BorderRadius.only(
@@ -828,7 +898,10 @@ class _WeaponsPageState extends State<WeaponsPage> {
                             ),
                             Container(
                               height: 100,
-                              width: MediaQuery.of(context).size.width / 3.5,
+                              width: MediaQuery
+                                  .of(context)
+                                  .size
+                                  .width / 3.5,
                               decoration: const BoxDecoration(
                                   color: Color(0xff86898E),
                                   borderRadius: BorderRadius.only(
@@ -847,73 +920,83 @@ class _WeaponsPageState extends State<WeaponsPage> {
                   ],
                   rows: List<DataRow>.generate(
                     textValues2.length,
-                        (index) => DataRow(
-                      cells: [
-                        DataCell(Row(
-                          children: <Widget>[
-                            SizedBox(
-                              width: MediaQuery.of(context).size.width / 3.5,
-                              child:  TextField(
-                                controller: controllers2[index][0],
-                                decoration: const InputDecoration(
-                                  isDense: true,
-                                  focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Colors.black, width: 1.0),
+                        (index) =>
+                        DataRow(
+                          cells: [
+                            DataCell(Row(
+                              children: <Widget>[
+                                SizedBox(
+                                  width: MediaQuery
+                                      .of(context)
+                                      .size
+                                      .width / 3.5,
+                                  child: TextField(
+                                    controller: controllers2[index][0],
+                                    decoration: const InputDecoration(
+                                      isDense: true,
+                                      focusedBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                            color: Colors.black, width: 1.0),
+                                      ),
+                                      enabledBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                            color: Colors.black, width: 1.0),
+                                      ),
+                                      hintText: '',
+                                    ),
+                                    textAlign: TextAlign.center,
                                   ),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Colors.black, width: 1.0),
-                                  ),
-                                  hintText: '',
                                 ),
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
-                            SizedBox(
-                              width: MediaQuery.of(context).size.width / 3.5,
-                              child:  TextField(
-                                controller: controllers2[index][1],
+                                SizedBox(
+                                  width: MediaQuery
+                                      .of(context)
+                                      .size
+                                      .width / 3.5,
+                                  child: TextField(
+                                    controller: controllers2[index][1],
 
-                                decoration: const InputDecoration(
-                                  isDense: true,
-                                  focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Colors.black, width: 1.0),
+                                    decoration: const InputDecoration(
+                                      isDense: true,
+                                      focusedBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                            color: Colors.black, width: 1.0),
+                                      ),
+                                      enabledBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                            color: Colors.black, width: 1.0),
+                                      ),
+                                      hintText: '',
+                                    ),
+                                    textAlign: TextAlign.center,
                                   ),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Colors.black, width: 1.0),
-                                  ),
-                                  hintText: '',
                                 ),
-                                textAlign: TextAlign.center,
-                              ),
-                            ),
-                            SizedBox(
-                              width: MediaQuery.of(context).size.width / 3.5,
-                              child:  TextField(
-                                controller: controllers2[index][2],
+                                SizedBox(
+                                  width: MediaQuery
+                                      .of(context)
+                                      .size
+                                      .width / 3.5,
+                                  child: TextField(
+                                    controller: controllers2[index][2],
 
-                                decoration: const InputDecoration(
-                                  isDense: true,
-                                  focusedBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Colors.black, width: 1.0),
+                                    decoration: const InputDecoration(
+                                      isDense: true,
+                                      focusedBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                            color: Colors.black, width: 1.0),
+                                      ),
+                                      enabledBorder: OutlineInputBorder(
+                                        borderSide: BorderSide(
+                                            color: Colors.black, width: 1.0),
+                                      ),
+                                      hintText: '',
+                                    ),
+                                    textAlign: TextAlign.center,
                                   ),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderSide: BorderSide(
-                                        color: Colors.black, width: 1.0),
-                                  ),
-                                  hintText: '',
-                                ),
-                                textAlign: TextAlign.center,
-                              ),
-                            )
+                                )
+                              ],
+                            )),
                           ],
-                        )),
-                      ],
-                    ),
+                        ),
                   ),
                 ),
               ),
@@ -950,7 +1033,11 @@ class _WeaponsPageState extends State<WeaponsPage> {
                             onPressed: () {
                               setState(() {
                                 textValues2.add('');
-                                controllers2.add([TextEditingController(), TextEditingController(), TextEditingController()]);
+                                controllers2.add([
+                                  TextEditingController(),
+                                  TextEditingController(),
+                                  TextEditingController()
+                                ]);
                                 errorMessages2.add(['', '', '']);
                               });
                             },
@@ -1003,7 +1090,7 @@ class _WeaponsPageState extends State<WeaponsPage> {
               const SizedBox(
                 height: 20,
               ),
-              widget.Edited != "true" ?  SizedBox(
+              widget.Edited != "true" ? SizedBox(
                 height: 30,
                 child: Container(
                   decoration: const BoxDecoration(
@@ -1029,16 +1116,13 @@ class _WeaponsPageState extends State<WeaponsPage> {
                                     topRight: Radius.circular(20)))),
                         onPressed: () {
                           save();
-
-
-
                         },
                         child: const Text(
                           'Save',
                         )),
                   ),
                 ),
-              ):
+              ) :
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Row(
@@ -1053,7 +1137,8 @@ class _WeaponsPageState extends State<WeaponsPage> {
                               BoxShadow(blurRadius: 3.5, color: Colors.grey)
                             ],
                             color: Colors.white,
-                            borderRadius: BorderRadius.all(Radius.circular(20))),
+                            borderRadius: BorderRadius.all(Radius.circular(
+                                20))),
                         child: SizedBox(
                           width: 150,
                           child: ElevatedButton(
@@ -1065,7 +1150,7 @@ class _WeaponsPageState extends State<WeaponsPage> {
                                           topLeft: Radius.circular(20),
                                           bottomRight: Radius.circular(20),
                                           topRight: Radius.circular(20)))),
-                              onPressed: ()  {
+                              onPressed: () {
                                 delete();
                                 save();
                               },
@@ -1087,7 +1172,8 @@ class _WeaponsPageState extends State<WeaponsPage> {
                               BoxShadow(blurRadius: 3.5, color: Colors.grey)
                             ],
                             color: Colors.white,
-                            borderRadius: BorderRadius.all(Radius.circular(20))),
+                            borderRadius: BorderRadius.all(Radius.circular(
+                                20))),
                         child: SizedBox(
                           width: 150,
                           child: ElevatedButton(
@@ -1099,7 +1185,7 @@ class _WeaponsPageState extends State<WeaponsPage> {
                                           topLeft: Radius.circular(20),
                                           bottomRight: Radius.circular(20),
                                           topRight: Radius.circular(20)))),
-                              onPressed: ()  {
+                              onPressed: () {
                                 delete();
                               },
                               child: const Text(
@@ -1125,18 +1211,24 @@ class _WeaponsPageState extends State<WeaponsPage> {
       ),
     );
   }
+
   void showErrorMessage(String message) {
     final snackBar = SnackBar(content: Text(message));
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
-  void delete(){
-    CollectionReference casesCollection = FirebaseFirestore.instance.collection('Cases');
-    CollectionReference newCaseRef = casesCollection.doc(id).collection("AllFolders");
-    DocumentReference allCasesCollection = newCaseRef.doc(widget.FolderName).collection("AllCases").doc(widget.id);
+
+  void delete() {
+    CollectionReference casesCollection = FirebaseFirestore.instance.collection(
+        'Cases');
+    CollectionReference newCaseRef = casesCollection.doc(id).collection(
+        "AllFolders");
+    DocumentReference allCasesCollection = newCaseRef.doc(widget.FolderName)
+        .collection("AllCases")
+        .doc(widget.id);
     allCasesCollection.delete().then((value) {
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) =>  BottomBarPage()),
+        MaterialPageRoute(builder: (context) => BottomBarPage()),
       );
     });
   }
@@ -1147,8 +1239,8 @@ class _WeaponsPageState extends State<WeaponsPage> {
     List<Map<String, dynamic>> WeaponThree = [];
 
     Map<String, dynamic> data = {
-      "Type" : "Weapons",
-      "Title" : "Body",
+      "Type": "Weapons",
+      "Title": "Body",
 
     };
     for (int i = 0; i < textValues.length; i++) {
@@ -1158,7 +1250,7 @@ class _WeaponsPageState extends State<WeaponsPage> {
       String partThree = rowControllers[2].text;
 
       if (partOne.isNotEmpty && partTwo.isNotEmpty && partThree.isNotEmpty) {
-        Map<String, dynamic>  rowDataa = {
+        Map<String, dynamic> rowDataa = {
           'partOne 1': partOne,
           'partTwo 2': partTwo,
           'partThree 3': partThree,
@@ -1177,7 +1269,7 @@ class _WeaponsPageState extends State<WeaponsPage> {
       String partThree = rowControllers[2].text;
 
       if (partOne.isNotEmpty && partTwo.isNotEmpty && partThree.isNotEmpty) {
-        Map<String, dynamic>  rowDataa = {
+        Map<String, dynamic> rowDataa = {
           'partOne 1': partOne,
           'partTwo 2': partTwo,
           'partThree 3': partThree,
@@ -1196,7 +1288,7 @@ class _WeaponsPageState extends State<WeaponsPage> {
       String partThree = rowControllers[2].text;
 
       if (partOne.isNotEmpty && partTwo.isNotEmpty && partThree.isNotEmpty) {
-        Map<String, dynamic>  rowDataa = {
+        Map<String, dynamic> rowDataa = {
           'partOne 1': partOne,
           'partTwo 2': partTwo,
           'partThree 3': partThree,
@@ -1208,43 +1300,67 @@ class _WeaponsPageState extends State<WeaponsPage> {
         return; // Stop further processing
       }
     }
-    CollectionReference casesCollection = FirebaseFirestore.instance.collection('Cases');
-    CollectionReference newCaseRef = casesCollection.doc(id).collection("AllFolders");
-    bool folderExists = false;
-    await newCaseRef
-        .where('Name', isEqualTo: widget.FolderName)
-        .get()
-        .then((querySnapshot) {
-      folderExists = querySnapshot.docs.isNotEmpty;
-    })
-        .catchError((error) {
-      print("Error checking folder name: $error");
-    });
+    if (widget.FolderName == "new") {
+      if (CaseTitle.text.isEmpty) {
+        showErrorMessage('Case Name cannot be empty');
+      } else {
+        // Your code if CaseTitle is not empty
+      }
+    } else {
+      // Your code for a different case
+    }
 
-// If the folder name doesn't exist, add it
-    if (!folderExists) {
-      newCaseRef.add({"Name": widget.FolderName})
-          .then((value) {
-        // Folder name added successfully
-        print("Folder name added successfully");
-      })
-          .catchError((error) {
+    CollectionReference casesCollection = FirebaseFirestore.instance.collection(
+        'Cases');
+    CollectionReference newCaseRef = casesCollection.doc(id).collection(
+        "AllFolders");
+    if (widget.FolderName == "new") {
+      newCaseRef.add({"Name": CaseTitle.text,}).then((value) {
+        print("Creating New CaseName");
+      }).catchError((error) {
         // Handle the error if folder name couldn't be added
         print("Error adding folder name: $error");
       });
+    } else {
+      // newCaseRef.add({"Name": widget.FolderName,}).then((value) {
+      //   // Folder name added successfully
+      //   print("Using  Older CaseName");
+      //
+      // }).catchError((error) {
+      //   // Handle the error if folder name couldn't be added
+      //   print("Error adding folder name: $error");
+      // });
     }
-
-    data['WeaponOne'] = WeaponOne;
+    if (widget.FolderName == "new") {
+      data['WeaponOne'] = WeaponOne;
+      data['WeaponTwo'] = WeaponTwo;
+      data['WeaponThree'] = WeaponThree;
+      DocumentReference allCasesCollection = newCaseRef.doc(CaseTitle.text)
+          .collection("AllCases")
+          .doc();
+      data['docId'] = allCasesCollection.id;
+      allCasesCollection.set(data).then((value) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => BottomBarPage()),
+        );
+      });
+    }
+    else {      data['WeaponOne'] = WeaponOne;
     data['WeaponTwo'] = WeaponTwo;
     data['WeaponThree'] = WeaponThree;
-    DocumentReference allCasesCollection = newCaseRef.doc(widget.FolderName).collection("AllCases").doc();
+    DocumentReference allCasesCollection = newCaseRef.doc(widget.FolderName)
+        .collection("AllCases")
+        .doc();
     data['docId'] = allCasesCollection.id;
     allCasesCollection.set(data).then((value) {
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) =>  BottomBarPage()),
+        MaterialPageRoute(builder: (context) => BottomBarPage()),
       );
-    });
-
+    });}
   }
+
+
+
 }

@@ -20,6 +20,7 @@ class StoryPage extends StatefulWidget {
 
 class _StoryPageState extends State<StoryPage> {
   TextEditingController story = TextEditingController();
+  TextEditingController CaseTitle = TextEditingController();
   TextEditingController title = TextEditingController();
   String id = " ";
   Future<void> initialize() async {
@@ -43,70 +44,6 @@ class _StoryPageState extends State<StoryPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        // bottomNavigationBar: BottomNavigationBar(
-        //   backgroundColor: Colors.black,
-        //   items: <BottomNavigationBarItem>[
-        //     BottomNavigationBarItem(
-        //       icon: Transform.translate(
-        //         offset: const Offset(0, 10),
-        //         child: SvgPicture.asset('assets/Component 12 – 1.svg'),
-        //       ),
-        //       label: '',
-        //     ),
-        //     BottomNavigationBarItem(
-        //       icon: Transform.translate(
-        //         offset: const Offset(0, -20),
-        //         child: Container(
-        //           decoration: BoxDecoration(
-        //               border: Border.all(
-        //             color: Colors.black,
-        //           )),
-        //           child: SizedBox(
-        //             height: 25,
-        //             width: 25,
-        //             child: Transform.scale(
-        //               scale: 2,
-        //               child: InkWell(
-        //                 onTap: () {
-        //                   Navigator.push(
-        //                     context,
-        //                     MaterialPageRoute(builder: (context) =>  StoryPage()),
-        //                   );
-        //                 },
-        //                 child: CircleAvatar(
-        //                     backgroundColor: Colors.white,
-        //                     child: Transform.translate(
-        //                       offset: const Offset(0, 0),
-        //                       child: InkWell(
-        //                         onTap: () {
-        //                           Navigator.push(
-        //                             context,
-        //                             MaterialPageRoute(
-        //                                 builder: (context) =>  StoryPage()),
-        //                           );
-        //                         },
-        //                         child: const Icon(
-        //                           Icons.add,
-        //                           color: Colors.black,
-        //                           size: 25,
-        //                         ),
-        //                       ),
-        //                     )),
-        //               ),
-        //             ),
-        //           ),
-        //         ),
-        //       ),
-        //       label: '',
-        //     ),
-        //     BottomNavigationBarItem(
-        //       icon: Transform.translate(
-        //           offset: const Offset(0, 10),
-        //           child: Image.asset('assets/Iconly-Bold-Setting.png')),
-        //       label: '',
-        //     ),
-        //   ],
-        // ),
         body: SingleChildScrollView(
           child: Column(children: [
             Container(
@@ -213,6 +150,43 @@ class _StoryPageState extends State<StoryPage> {
                                     topLeft: Radius.circular(30))))),
                   ),
                 ),
+                SizedBox(height: 20,),
+                widget.FolderName == "new"  ?     Padding(
+                  padding: const EdgeInsets.only(left: 20, right: 20),
+                  child: Container(
+                    decoration: const BoxDecoration(
+                        boxShadow: [
+                          BoxShadow(color: Colors.grey, blurRadius: 3.5)
+                        ],
+                        color: Colors.white,
+                        borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(30),
+                            topRight: Radius.circular(30),
+                            bottomRight: Radius.circular(30),
+                            bottomLeft: Radius.circular(30))),
+                    height: 30,
+                    child:  TextField(
+                        controller: CaseTitle,
+                        decoration: const InputDecoration(
+                            enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.white),
+                                borderRadius: BorderRadius.only(
+                                    bottomLeft: Radius.circular(30),
+                                    bottomRight: Radius.circular(30),
+                                    topRight: Radius.circular(30),
+                                    topLeft: Radius.circular(30))),
+                            filled: true,
+                            fillColor: Colors.white,
+                            hintText: '                                  Add Case Name',hintStyle: TextStyle(fontSize: 14),
+                            contentPadding: EdgeInsets.all(8),
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.only(
+                                    bottomLeft: Radius.circular(30),
+                                    bottomRight: Radius.circular(30),
+                                    topRight: Radius.circular(30),
+                                    topLeft: Radius.circular(30))))),
+                  ),
+                ): const SizedBox.shrink(),
+
                 const SizedBox(height: 10,),
                Padding(
                  padding: const EdgeInsets.symmetric(horizontal: 20,vertical: 20),
@@ -391,39 +365,58 @@ class _StoryPageState extends State<StoryPage> {
     CollectionReference casesCollection = FirebaseFirestore.instance.collection('Cases');
     CollectionReference newCaseRef = casesCollection.doc(id).collection("AllFolders");
 
-// Check if the folder name already exists in the "AllFolders" collection
-    bool folderExists = false;
-    await newCaseRef
-        .where('Name', isEqualTo: widget.FolderName)
-        .get()
-        .then((querySnapshot) {
-      folderExists = querySnapshot.docs.isNotEmpty;
-    })
-        .catchError((error) {
-      print("Error checking folder name: $error");
-    });
+    if (widget.FolderName == "new") {
+      if (CaseTitle.text.isEmpty) {
+        showErrorMessage('Case Name cannot be empty');
+      } else {
+        // Your code if CaseTitle is not empty
+      }
+    } else {
+      // Your code for a different case
+    }
 
-// If the folder name doesn't exist, add it
-    if (!folderExists) {
-      newCaseRef.add({"Name": widget.FolderName})
-          .then((value) {
-        // Folder name added successfully
-        print("Folder name added successfully");
-      })
-          .catchError((error) {
+    if (widget.FolderName == "new") {
+      newCaseRef.add({"Name": CaseTitle.text,}).then((value) {
+        print("Creating New CaseName");
+
+      }).catchError((error) {
         // Handle the error if folder name couldn't be added
         print("Error adding folder name: $error");
       });
+    }else {
+      // newCaseRef.add({"Name": widget.FolderName,}).then((value) {
+      //   // Folder name added successfully
+      //   print("Using  Older CaseName");
+      //
+      // }).catchError((error) {
+      //   // Handle the error if folder name couldn't be added
+      //   print("Error adding folder name: $error");
+      // });
     }
 
-    DocumentReference allCasesCollection = newCaseRef.doc(widget.FolderName).collection("AllCases").doc();
-    data['docId'] = allCasesCollection.id;
-    allCasesCollection.set(data).then((value) {
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) =>  BottomBarPage()),
-      );
-    });
+    if (widget.FolderName == "new") {
+      DocumentReference allCasesCollection = newCaseRef.doc(CaseTitle.text)
+          .collection("AllCases")
+          .doc();
+      data['docId'] = allCasesCollection.id;
+      allCasesCollection.set(data).then((value) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => BottomBarPage()),
+        );
+      });
+    }else{
+      DocumentReference allCasesCollection = newCaseRef.doc(widget.FolderName)
+          .collection("AllCases")
+          .doc();
+      data['docId'] = allCasesCollection.id;
+      allCasesCollection.set(data).then((value) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => BottomBarPage()),
+        );
+      });
+    }
   }
   void showErrorMessage(String message) {
     final snackBar = SnackBar(content: Text(message));

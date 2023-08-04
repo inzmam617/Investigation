@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -15,9 +17,13 @@ import 'UploadCases/evidence.dart';
 import 'UploadCases/scenesketch.dart';
 import 'notebook.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+import 'package:pdf/widgets.dart' as pdfWidgets;
+import 'package:path_provider/path_provider.dart';
+import 'package:share/share.dart';
+
 
 class AllCases extends StatefulWidget {
-  final int? FolderName;
+  final String? FolderName;
   const AllCases({Key? key,  this.FolderName}) : super(key: key);
   @override
   State<AllCases> createState() => _AllCasesState();
@@ -73,7 +79,7 @@ class _AllCasesState extends State<AllCases> {
         body: Column(
           children: [
             Container(
-              height: MediaQuery.of(context).size.height / 3.5,
+              height: MediaQuery.of(context).size.height / 2.8,
               decoration: const BoxDecoration(
                   boxShadow: [BoxShadow(color: Colors.grey, blurRadius: 3.5)],
                   color: Colors.black,
@@ -117,7 +123,7 @@ class _AllCasesState extends State<AllCases> {
                           ),
                         ),
                       ),
-                    Row(
+                    Column(
                       children: [
                         ElevatedButton(
                           style: ButtonStyle(
@@ -180,7 +186,55 @@ class _AllCasesState extends State<AllCases> {
 
 
                             }, child: const Text("Delete folder",style: TextStyle(color: Colors.black),)),
-                        const SizedBox(width: 10,),
+                          ElevatedButton(
+                          style: ButtonStyle(
+                            backgroundColor: MaterialStateProperty.all(Colors.grey),
+                            shape: MaterialStateProperty.all(const RoundedRectangleBorder(
+                              borderRadius: BorderRadius.all(Radius.circular(20))
+                            ))
+                          ),
+                            onPressed: () async {
+                              // setState(() {
+                              //
+                              //   _loading = true;
+                              // });
+                              CollectionReference casesCollection = firestore.collection('Cases');
+                              CollectionReference folderRef = casesCollection.doc(id).collection("AllFolders");
+                              CollectionReference querySnapshot = folderRef.doc(widget.FolderName).collection("AllCases");
+
+                              final pdf = pdfWidgets.Document();
+
+                              QuerySnapshot collectionSnapshot = await querySnapshot.get();
+                              List<QueryDocumentSnapshot> documents = collectionSnapshot.docs;
+
+                              for (QueryDocumentSnapshot documentSnapshot in documents) {
+                                Map<String, dynamic> data = documentSnapshot.data() as Map<String, dynamic>;
+
+                                pdf.addPage(
+                                  pdfWidgets.Page(
+                                    build: (context) {
+                                      return pdfWidgets.Center(
+                                        child: pdfWidgets.Text(data.toString()),
+                                      );
+                                    },
+                                  ),
+                                );
+                              }
+
+                              final output = await getTemporaryDirectory();
+                              final pdfFile = File('${output.path}/collection.pdf');
+                              await pdfFile.writeAsBytes(await pdf.save());
+
+                              Share.shareFiles([pdfFile.path]);
+
+
+                                  setState(() {
+
+                                    _loading = false;
+                                  });
+
+                            }, child: const Text("Share folder",style: TextStyle(color: Colors.black),)),
+
                       ],
                     ),
                   ],
