@@ -57,7 +57,8 @@ class StartingPageTwo extends StatelessWidget {
               const SizedBox(
                 height: 30,
               ),
-              const Text('Lorem ipsum dollar sitam',
+
+              const Text('Court Reminder',
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 23,
@@ -65,20 +66,13 @@ class StartingPageTwo extends StatelessWidget {
               const SizedBox(
                 height: 10,
               ),
-              const Text('et consectur',
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 23,
-                      color: Colors.white)),
-              const SizedBox(
-                height: 10,
-              ),
+
               const Text(
-                'lorem ipsum dollar sit amet,consectetu',
+                'Remind yourself of the next court date for',
                 style: TextStyle(fontSize: 12, color: Colors.white),
               ),
               const Text(
-                'elit,sed do eiusmod tempor',
+                'any subpoena, deposition, or trial. ',
                 style: TextStyle(fontSize: 12, color: Colors.white),
               ),
               const SizedBox(

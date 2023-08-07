@@ -618,24 +618,8 @@ class _SceneMeasurementPageState extends State<SceneMeasurementPage> {
       return  showErrorMessage('Title cannot be empty');
 
     }
-    for (int i = 0; i < textValues.length; i++) {
-      var rowControllers = controllers[i];
-      String rooms = rowControllers[0].text;
-      String d1 = rowControllers[1].text;
-      String d2 = rowControllers[2].text;
-
-      if (rooms.isNotEmpty && d1.isNotEmpty && d2.isNotEmpty) {
-        Map<String, dynamic>  rowDataa = {
-          'Rooms ${i +1}': rooms,
-          'direction 1': d1,
-          'direction 2': d2,
-        };
-        Rooms.add(rowDataa);
-      } else {
-        // Show SnackBar with error message
-        showErrorMessage('Field values cannot be empty');
-        return; // Stop further processing
-      }
+    if (CaseTitle.text.isEmpty) {
+      showErrorMessage('Case Name cannot be empty');
     }
     if (widget.FolderName == "new") {
       if (CaseTitle.text.isEmpty) {
@@ -646,29 +630,54 @@ class _SceneMeasurementPageState extends State<SceneMeasurementPage> {
     } else {
       // Your code for a different case
     }
+    for (int i = 0; i < textValues.length; i++) {
+      var rowControllers = controllers[i];
+      String rooms = rowControllers[0].text;
+      String d1 = rowControllers[1].text;
+      String d2 = rowControllers[2].text;
+
+      // if (rooms.isNotEmpty && d1.isNotEmpty && d2.isNotEmpty) {
+        Map<String, dynamic>  rowDataa = {
+          'Rooms ${i +1}': rooms,
+          'direction 1': d1,
+          'direction 2': d2,
+        };
+        Rooms.add(rowDataa);
+      // } else {
+      //   // Show SnackBar with error message
+      //   showErrorMessage('Field values cannot be empty');
+      //   return; // Stop further processing
+      // }
+    }
+
 
     CollectionReference casesCollection = FirebaseFirestore.instance.collection('Cases');
     CollectionReference newCaseRef = casesCollection.doc(id).collection("AllFolders");
 
-    if (widget.FolderName == "new") {
-      newCaseRef.add({"Name": CaseTitle.text,}).then((value) {
-        print("Creating New CaseName");
 
-      }).catchError((error) {
-        // Handle the error if folder name couldn't be added
-        print("Error adding folder name: $error");
-      });
-    }else {
-      // newCaseRef.add({"Name": widget.FolderName,}).then((value) {
-      //   // Folder name added successfully
-      //   print("Using  Older CaseName");
-      //
-      // }).catchError((error) {
-      //   // Handle the error if folder name couldn't be added
-      //   print("Error adding folder name: $error");
-      // });
-    }
     if (widget.FolderName == "new") {
+      if (widget.FolderName == "new") {
+        if (CaseTitle.text.isEmpty) {
+          showErrorMessage('Case Name cannot be empty');
+        }else {
+          newCaseRef.add({"Name": CaseTitle.text,}).then((value) {
+          print("Creating New CaseName");
+
+        }).catchError((error) {
+          // Handle the error if folder name couldn't be added
+          print("Error adding folder name: $error");
+        });
+        }
+      }else {
+        // newCaseRef.add({"Name": widget.FolderName,}).then((value) {
+        //   // Folder name added successfully
+        //   print("Using  Older CaseName");
+        //
+        // }).catchError((error) {
+        //   // Handle the error if folder name couldn't be added
+        //   print("Error adding folder name: $error");
+        // });
+      }
       data['Rooms'] = Rooms;
       DocumentReference allCasesCollection = newCaseRef.doc(CaseTitle.text)
           .collection("AllCases")

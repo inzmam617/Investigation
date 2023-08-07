@@ -1249,18 +1249,18 @@ class _WeaponsPageState extends State<WeaponsPage> {
       String partTwo = rowControllers[1].text;
       String partThree = rowControllers[2].text;
 
-      if (partOne.isNotEmpty && partTwo.isNotEmpty && partThree.isNotEmpty) {
+      // if (partOne.isNotEmpty && partTwo.isNotEmpty && partThree.isNotEmpty) {
         Map<String, dynamic> rowDataa = {
           'partOne 1': partOne,
           'partTwo 2': partTwo,
           'partThree 3': partThree,
         };
         WeaponOne.add(rowDataa);
-      } else {
-        // Show SnackBar with error message
-        print('Field values cannot be empty');
-        return; // Stop further processing
-      }
+      // } else {
+      //   // Show SnackBar with error message
+      //   print('Field values cannot be empty');
+      //   return; // Stop further processing
+      // }
     }
     for (int i = 0; i < textValues1.length; i++) {
       var rowControllers = controllers1[i];
@@ -1268,18 +1268,18 @@ class _WeaponsPageState extends State<WeaponsPage> {
       String partTwo = rowControllers[1].text;
       String partThree = rowControllers[2].text;
 
-      if (partOne.isNotEmpty && partTwo.isNotEmpty && partThree.isNotEmpty) {
+      // if (partOne.isNotEmpty && partTwo.isNotEmpty && partThree.isNotEmpty) {
         Map<String, dynamic> rowDataa = {
           'partOne 1': partOne,
           'partTwo 2': partTwo,
           'partThree 3': partThree,
         };
         WeaponTwo.add(rowDataa);
-      } else {
-        // Show SnackBar with error message
-        showErrorMessage('Field values cannot be empty');
-        return; // Stop further processing
-      }
+      // } else {
+      //   // Show SnackBar with error message
+      //   showErrorMessage('Field values cannot be empty');
+      //   return; // Stop further processing
+      // }
     }
     for (int i = 0; i < textValues2.length; i++) {
       var rowControllers = controllers2[i];
@@ -1287,18 +1287,18 @@ class _WeaponsPageState extends State<WeaponsPage> {
       String partTwo = rowControllers[1].text;
       String partThree = rowControllers[2].text;
 
-      if (partOne.isNotEmpty && partTwo.isNotEmpty && partThree.isNotEmpty) {
+      // if (partOne.isNotEmpty && partTwo.isNotEmpty && partThree.isNotEmpty) {
         Map<String, dynamic> rowDataa = {
           'partOne 1': partOne,
           'partTwo 2': partTwo,
           'partThree 3': partThree,
         };
         WeaponThree.add(rowDataa);
-      } else {
-        // Show SnackBar with error message
-        showErrorMessage('Field values cannot be empty');
-        return; // Stop further processing
-      }
+      // } else {
+      //   // Show SnackBar with error message
+      //   showErrorMessage('Field values cannot be empty');
+      //   return; // Stop further processing
+      // }
     }
     if (widget.FolderName == "new") {
       if (CaseTitle.text.isEmpty) {

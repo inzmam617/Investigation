@@ -1635,113 +1635,115 @@ class _BalisticPageState extends State<BalisticPage> {
 
     if (title.text == "") {
       showErrorMessage('Title cannot be empty');
+    }  if (CaseTitle.text == "") {
+      showErrorMessage('Title cannot be empty');
     }
     for (int i = 0; i < textValues.length; i++) {
       var rowControllers = controllers[i];
       String partOne = rowControllers[0].text;
 
-      if (partOne.isNotEmpty) {
+      // if (partOne.isNotEmpty) {
         Map<String, dynamic> rowDataa = {
           'Hole ${i + 1}': partOne,
         };
         Hole.add(rowDataa);
-      } else {
-        // Show SnackBar with error message
-        showErrorMessage('Field values cannot be empty');
-        return; // Stop further processing
-      }
+    //   } else {
+    //     // Show SnackBar with error message
+    //     showErrorMessage('Field values cannot be empty');
+    //     return; // Stop further processing
+    //   }
     }
 
     for (int i = 0; i < textValues1.length; i++) {
       var rowControllers = controllers[i];
       String partOne = rowControllers[1].text;
 
-      if (partOne.isNotEmpty) {
+      // if (partOne.isNotEmpty) {
         Map<String, dynamic> rowData = {
           'EntryExit ${i + 1}': partOne,
         };
         EntryorExit.add(rowData);
-      } else {
-        // Show SnackBar with error message
-        showErrorMessage('Field values cannot be empty');
-        return; // Stop further processing
-      }
+      // } else {
+      //   // Show SnackBar with error message
+      //   showErrorMessage('Field values cannot be empty');
+      //   return; // Stop further processing
+      // }
     }
 
     for (int i = 0; i < textValues2.length; i++) {
       var rowControllers = controllers[i];
       String partOne = rowControllers[2].text;
 
-      if (partOne.isNotEmpty) {
+      // if (partOne.isNotEmpty) {
         Map<String, dynamic> rowDataa = {
           'Height fromGround ${i + 1}': partOne,
         };
         HeightfromGround.add(rowDataa);
-      } else {
-        // Show SnackBar with error message
-        showErrorMessage('Field values cannot be empty');
-        return; // Stop further processing
-      }
+      // } else {
+      //   // Show SnackBar with error message
+      //   showErrorMessage('Field values cannot be empty');
+      //   return; // Stop further processing
+      // }
     }
     for (int i = 0; i < textValues3.length; i++) {
       var rowControllers = controllers[i];
       String partOne = rowControllers[3].text;
 
-      if (partOne.isNotEmpty) {
+      // if (partOne.isNotEmpty) {
         Map<String, dynamic> rowDataa = {
           'ofSide ${i + 1}': partOne,
         };
         ofSide.add(rowDataa);
-      } else {
-        // Show SnackBar with error message
-        showErrorMessage('Field values cannot be empty');
-        return; // Stop further processing
-      }
+      // } else {
+      //   // Show SnackBar with error message
+      //   showErrorMessage('Field values cannot be empty');
+      //   return; // Stop further processing
+      // }
     }
     for (int i = 0; i < textValues4.length; i++) {
       var rowControllers = controllers[i];
       String partOne = rowControllers[4].text;
 
-      if (partOne.isNotEmpty) {
+      // if (partOne.isNotEmpty) {
         Map<String, dynamic> rowDataa = {
           'VerticalAngle ${i + 1}': partOne,
         };
         VerticalAngle.add(rowDataa);
-      } else {
-        // Show SnackBar with error message
-        showErrorMessage('Field values cannot be empty');
-        return; // Stop further processing
-      }
+      // } else {
+      //   // Show SnackBar with error message
+      //   showErrorMessage('Field values cannot be empty');
+      //   return; // Stop further processing
+      // }
     }
     for (int i = 0; i < textValues5.length; i++) {
       var rowControllers = controllers[i];
       String partOne = rowControllers[5].text;
 
-      if (partOne.isNotEmpty) {
+      // if (partOne.isNotEmpty) {
         Map<String, dynamic> rowDataa = {
           'HorizontalAngle ${i + 1}': partOne,
         };
         HorizontalAngle.add(rowDataa);
-      } else {
-        // Show SnackBar with error message
-        showErrorMessage('Field values cannot be empty');
-        return; // Stop further processing
-      }
+      // } else {
+      //   // Show SnackBar with error message
+      //   showErrorMessage('Field values cannot be empty');
+      //   return; // Stop further processing
+      // }
     }
     for (int i = 0; i < textValues6.length; i++) {
       var rowControllers = controllers[i];
       String partOne = rowControllers[6].text;
 
-      if (partOne.isNotEmpty) {
+      // if (partOne.isNotEmpty) {
         Map<String, dynamic> rowDataa = {
           'ProjectileRecovered ${i + 1}': partOne,
         };
         ProjectileRecovered.add(rowDataa);
-      } else {
-        // Show SnackBar with error message
-        showErrorMessage('Field values cannot be empty');
-        return; // Stop further processing
-      }
+      // } else {
+      //   // Show SnackBar with error message
+      //   showErrorMessage('Field values cannot be empty');
+      //   return; // Stop further processing
+      // }
     }
     CollectionReference casesCollection = FirebaseFirestore.instance.collection(
         'Cases');

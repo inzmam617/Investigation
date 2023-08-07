@@ -364,12 +364,17 @@ class _AllCasesState extends State<AllCases> {
                               Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) {
                                 return BodyMeasurementsPage(
                                   FolderName: widget. FolderName.toString(),
-
-                                  BodyOne: data?["BodyOne"],
-                                  BodyTwo: data?["BodyTwo"],
+                                     bodyOneLeft  :   data!['bodyOneLeft'] ,
+                                      bodyOneCenter   :   data['bodyOneCenter'],
+                                  bodyOneRight   :   data['bodyOneRight'],
+                                 bodyTwoLeft    :   data['bodyTwoLeft'],
+                                  bodyTwoCenter  :   data['bodyTwoCenter'],
+                                 bodyTwoRight   :   data['bodyTwoRight'],
+                                  BodyOne: data ["BodyOne"],
+                                  BodyTwo: data["BodyTwo"],
                                   Edited: "true",
-                                  id: data?["docId"].toString(),
-                                  Title: data?["Title"].toString(),
+                                  id: data["docId"].toString(),
+                                  Title: data["Title"].toString(),
                                 );
                               }));
                               print(data?["Suspects"].runtimeType);

@@ -745,48 +745,52 @@ class _evidenceState extends State<evidence> {
       String dob = rowControllers[1].text;
 
       // Check if both victim and dob are not empty
-      if (victim.isNotEmpty && dob.isNotEmpty) {
+      // if (victim.isNotEmpty && dob.isNotEmpty) {
         Map<String, dynamic> rowData = {
           'What': victim,
           'Where': dob,
         };
         WhatnWhere.add(rowData);
 
-      }
-      else {
-        // Show SnackBar with error message
-        showErrorMessage('Suspect and DOB fields cannot be empty');
-        return; // Stop further processing
-      }
+      // }
+      // else {
+      //   // Show SnackBar with error message
+      //   showErrorMessage('Suspect and DOB fields cannot be empty');
+      //   return; // Stop further processing
+      // }
     }
 
     for (int i = 0; i < textValues1.length; i++) {
       var rowControllers = controllers2[i];
       String partOne = rowControllers[0].text;
 
-      if (partOne.isNotEmpty) {
+      // if (partOne.isNotEmpty) {
         Map<String, dynamic> rowDataa = {
           'Notes ${i+1}': partOne,
         };
         Notes.add(rowDataa);
 
-      } else {
-        // Show SnackBar with error message
-        showErrorMessage('Field values cannot be empty');
-        return; // Stop further processing
-      }
+      // } else {
+      //   // Show SnackBar with error message
+      //   showErrorMessage('Field values cannot be empty');
+      //   return; // Stop further processing
+      // }
     }
     CollectionReference casesCollection = FirebaseFirestore.instance.collection('Cases');
     CollectionReference newCaseRef = casesCollection.doc(id).collection("AllFolders");
 
     if (widget.FolderName == "new") {
-      newCaseRef.add({"Name": CaseTitle.text,}).then((value) {
+      if (CaseTitle.text.isEmpty) {
+        showErrorMessage('Case Name cannot be empty');
+      } else {
+        newCaseRef.add({"Name": CaseTitle.text,}).then((value) {
         print("Creating New CaseName");
 
       }).catchError((error) {
         // Handle the error if folder name couldn't be added
         print("Error adding folder name: $error");
       });
+      }
     }else {
       // newCaseRef.add({"Name": widget.FolderName,}).then((value) {
       //   // Folder name added successfully
