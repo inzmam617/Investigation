@@ -64,7 +64,8 @@ class StartingPageOne extends StatelessWidget {
               const SizedBox(
                 height: 20,
               ),
-              const Text('Lorem ipsum dollar sitam',
+
+              const Text('Field Notes',
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 23,
@@ -72,25 +73,19 @@ class StartingPageOne extends StatelessWidget {
               const SizedBox(
                 height: 10,
               ),
-              const Text('et consectur',
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 23,
-                      color: Colors.white)),
-              const SizedBox(
-                height: 10,
-              ),
+
               const Text(
-                'lorem ipsum dollar sit amet,consectetu',
+                'Take your crime scene notes with precision and',
                 style: TextStyle(fontSize: 12, color: Colors.white),
               ),
               const Text(
-                'elit,sed do eiusmod tempor',
+                ' without the fear of missing any details. ',
                 style: TextStyle(fontSize: 12, color: Colors.white),
               ),
               const SizedBox(
                 height: 40,
               ),
+
               SizedBox(
                 width: 140,
                 child: ElevatedButton(

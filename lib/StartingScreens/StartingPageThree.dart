@@ -66,7 +66,8 @@ class _StartingPageThreeState extends State<StartingPageThree> {
               const SizedBox(
                 height: 30,
               ),
-              const Text('Lorem ipsum dollar sitam',
+
+              const Text('Checklist',
                   style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 23,
@@ -74,24 +75,17 @@ class _StartingPageThreeState extends State<StartingPageThree> {
               const SizedBox(
                 height: 10,
               ),
-              const Text('et consectur',
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 23,
-                      color: Colors.white)),
+
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20),
+                child: Text(
+                  'Still missing something? Check yourself before you wreck yourself...I mean, leave a scene. Make sure you have everything! Remember: You only go to the same scene once',textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 12, color: Colors.white),
+                ),
+              ),
+
               const SizedBox(
-                height: 10,
-              ),
-              const Text(
-                'lorem ipsum dollar sit amet,consectetu',
-                style: TextStyle(fontSize: 12, color: Colors.white),
-              ),
-              const Text(
-                'elit,sed do eiusmod tempor',
-                style: TextStyle(fontSize: 12, color: Colors.white),
-              ),
-              const SizedBox(
-                height: 30,
+                height: 40,
               ),
               SizedBox(
                 width: 140,

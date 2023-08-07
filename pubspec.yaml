@@ -30,13 +30,39 @@ environment:
 # versions available, run `flutter pub outdated`.
 dependencies:
 
-  flutter_svg: ^0.22.0
+  flutter_svg:
   flutter:
     sdk: flutter
 
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
+#  cupertino_icons: ^1.0.2
+#  firebase_auth: ^4.6.3
+#  firebase_core: ^2.14.0
+#  firebase_database: ^10.2.3
+#  cloud_firestore: ^4.8.1
+#  shared_preferences: ^2.1.2
+#  signature: ^3.0.0
+#  firebase_storage: ^11.2.3
+#  uuid: ^3.0.7
+#  intl: ^0.17.0
+#  modal_progress_hud_nsn: ^0.4.0
+#  firebase_messaging: ^14.6.5
+#  app_settings: ^5.0.0
+#  flutter_stripe: ^9.3.0
+#  flutter_dotenv: ^5.1.0
+#  http:
+#  stripe_checkout: ^1.0.2
+#  get:
+#  flutter_background_service: ^3.0.1
+#  timezone:
+#  pdf:
+#  share:
+#  path_provider:
+#  assets_audio_player:
+#  flutter_alarm_clock: ^0.1.1
+#
   cupertino_icons: ^1.0.2
   firebase_auth: ^4.6.3
   firebase_core: ^2.14.0
@@ -49,20 +75,20 @@ dependencies:
   intl: ^0.17.0
   modal_progress_hud_nsn: ^0.4.0
   firebase_messaging: ^14.6.5
-  flutter_local_notifications:
   app_settings: ^5.0.0
-  awesome_notifications: ^0.7.4+1
   flutter_stripe: ^9.3.0
   flutter_dotenv: ^5.1.0
   http:
   stripe_checkout: ^1.0.2
-  get:
+  get: ^4.1.4
   flutter_background_service: ^3.0.1
-  timezone:
-  pdf:
-  share:
+  timezone: ^0.9.0
+  pdf: ^3.6.0
+  share: ^2.0.4
   path_provider:
-  assets_audio_player:
+  assets_audio_player: ^3.0.0
+  flutter_alarm_clock: ^0.1.1
+  flutter_local_notifications:
 
 
 

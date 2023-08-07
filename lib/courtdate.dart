@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'dart:typed_data';
+
 import 'package:assets_audio_player/assets_audio_player.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
@@ -415,14 +415,16 @@ class _courtdateState extends State<courtdate> {
                                   bottomRight: Radius.circular(20),
                                   topRight: Radius.circular(20)))),
                       onPressed: () {
-                        if (kDebugMode) {
-                          print(time.text);
-                          print(note.text);
-                          print(casenumber.text);
-                          print(reminder.text);
-                          print(date.text);
+                        // if (kDebugMode) {
+                        //   print(time.text);
+                        //   print(note.text);
+                        //   print(casenumber.text);
+                        //   print(reminder.text);
+                        //   print(date.text);
+                        //
+                        // }
 
-                        }
+                        // Schedule the alarm using the "alarm" package
 
                         setAlarm(note.text ,casenumber.text  ,reminder.text);
                       },
@@ -483,9 +485,8 @@ class _courtdateState extends State<courtdate> {
     final int hour = parsedTime.hour;
     final int minute = parsedTime.minute;
 
-    // Create a TZDateTime with the provided date and time.
     final tz.TZDateTime selectedDateTime = tz.TZDateTime(
-      tz.local,
+      tz.getLocation('US/Eastern'),
       year,
       month,
       day,
@@ -493,8 +494,12 @@ class _courtdateState extends State<courtdate> {
       minute,
     );
 
+    final Duration timeDifference = selectedDateTime.difference(tz.TZDateTime.now(tz.getLocation('US/Eastern')));
+
     // Calculate the difference between the selectedDateTime and the current time (now).
-    final Duration timeDifference = selectedDateTime.difference(tz.TZDateTime.now(tz.local));
+    // final Duration timeDifference = selectedDateTime.difference(tz.TZDateTime.now(tz.local));
+
+
     final CollectionReference alarmsCollection = FirebaseFirestore.instance.collection('alarms');
 
     await alarmsCollection.add({
@@ -521,18 +526,27 @@ class _courtdateState extends State<courtdate> {
         '$message.',
         text,
       ];
+
+
+      //show alarm here chatGpt
       showAlarmNotification(selectedDateTime, messages , title);
     }
   }
 
-  Future<void> showAlarmNotification(tz.TZDateTime alarmDateTime,  List<String>  note ,String title ) async {
+
+
+
+
+
+
+Future<void> showAlarmNotification(tz.TZDateTime alarmDateTime,  List<String>  note ,String title ) async {
     final int alarmId = alarmDateTime.millisecondsSinceEpoch ~/ 1000;
 
     final AndroidNotificationDetails androidPlatformChannelSpecifics =
     AndroidNotificationDetails(
       'channel_id',
       'channel_name',
-      'channel_description',
+
       importance: Importance.high,
       priority: Priority.high,
       showWhen: false,

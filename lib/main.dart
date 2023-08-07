@@ -23,7 +23,6 @@ void main() async {
   InitializationSettings(android: initializationSettingsAndroid);
   tzdata.initializeTimeZones();
   // tz.setLocalLocation(tz.getLocation('Asia/Karachi'));
-
   tz.setLocalLocation(tz.getLocation('US/Eastern'));
   await notifications.initialize(initializationSettings);
   await Firebase.initializeApp(); // Initialize Firebase

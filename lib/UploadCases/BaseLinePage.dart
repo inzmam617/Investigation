@@ -1270,6 +1270,9 @@ class _BaseLinePageState extends State<BaseLinePage> {
       "DistanceAtoB": dsitanceAtoB.text,
 
     };
+    if (CaseTitle.text == "") {
+      showErrorMessage('Title cannot be empty');
+    }
     List<Map<String, dynamic>> markerItem = [];
     List<Map<String, dynamic>> direction = [];
     List<Map<String, dynamic>> FirstMeasurement = [];
@@ -1280,17 +1283,17 @@ class _BaseLinePageState extends State<BaseLinePage> {
       var rowControllers = controllers[i];
       String partOne = rowControllers[0].text;
 
-      if (partOne.isNotEmpty) {
+      // if (partOne.isNotEmpty) {
         Map<String, dynamic> rowDataa = {
           'markerItem ${i + 1}': partOne,
         };
         markerItem.add(rowDataa);
-      } else {
-        // Show SnackBar with error message
-        showErrorMessage(
-            'Field values cannot be empty');
-        return; // Stop further processing
-      }
+      // } else {
+      //   // Show SnackBar with error message
+      //   showErrorMessage(
+      //       'Field values cannot be empty');
+      //   return; // Stop further processing
+      // }
     }
     if (widget.FolderName == "new") {
       if (CaseTitle.text.isEmpty) {
@@ -1306,68 +1309,68 @@ class _BaseLinePageState extends State<BaseLinePage> {
       var rowControllers = controllers[i];
       String partOne = rowControllers[1].text;
 
-      if (partOne.isNotEmpty) {
+      // if (partOne.isNotEmpty) {
         Map<String, dynamic> rowData = {
           'Direction ${i + 1}': partOne,
         };
         direction.add(rowData);
-      } else {
-        // Show SnackBar with error message
-        showErrorMessage(
-            'Field values cannot be empty');
-        return; // Stop further processing
-      }
+      // } else {
+      //   // Show SnackBar with error message
+      //   showErrorMessage(
+      //       'Field values cannot be empty');
+      //   return; // Stop further processing
+      // }
     }
 
     for (int i = 0; i < textValues2.length; i++) {
       var rowControllers = controllers[i];
       String partOne = rowControllers[2].text;
 
-      if (partOne.isNotEmpty) {
+      // if (partOne.isNotEmpty) {
         Map<String, dynamic> rowDataa = {
           'Measurement ${i + 1}': partOne,
         };
         FirstMeasurement.add(rowDataa);
-      } else {
-        // Show SnackBar with error message
-        showErrorMessage(
-            'Field values cannot be empty');
-        return; // Stop further processing
-      }
+      // } else {
+      //   // Show SnackBar with error message
+      //   showErrorMessage(
+      //       'Field values cannot be empty');
+      //   return; // Stop further processing
+      // }
     }
 
     for (int i = 0; i < textValues3.length; i++) {
       var rowControllers = controllers[i];
       String partOne = rowControllers[3].text;
 
-      if (partOne.isNotEmpty) {
+      // if (partOne.isNotEmpty) {
         Map<String, dynamic> rowDataa = {
           'DirectionofBaseline ${i + 1}': partOne,
         };
         DirectionBaseline.add(rowDataa);
-      } else {
-        // Show SnackBar with error message
-        showErrorMessage(
-            'Field values cannot be empty');
-        return; // Stop further processing
-      }
+      // } else {
+      //   // Show SnackBar with error message
+      //   showErrorMessage(
+      //       'Field values cannot be empty');
+      //   return; // Stop further processing
+      // }
     }
 
     for (int i = 0; i < textValues4.length; i++) {
       var rowControllers = controllers[i];
       String partOne = rowControllers[4].text;
 
-      if (partOne.isNotEmpty) {
+      // if (partOne.isNotEmpty) {
         Map<String, dynamic> rowDataa = {
           'SecondMeasurement ${i + 1}': partOne,
         };
         SecondMeasurement.add(rowDataa);
-      } else {
-        // Show SnackBar with error message
-        showErrorMessage(
-            'Field values cannot be empty');
-        return; // Stop further processing
-      }
+      // } else {
+      //   // Show SnackBar with error message
+      //   showErrorMessage(
+      //       'Field values cannot be empty');
+      //   return; // Stop further processing
+      // }
     }
 
     CollectionReference casesCollection = FirebaseFirestore.instance.collection('Cases');

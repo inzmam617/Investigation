@@ -930,9 +930,7 @@ bool _loading =false;
                       ),
                     const SizedBox(width: 20,),
                     SizedBox(
-                      
-                      
-                        height: 30,
+                      height: 30,
                         child: Container(
                           decoration: const BoxDecoration(
                               boxShadow: [
@@ -973,6 +971,12 @@ bool _loading =false;
   }
 
   Future<void> saveTableData() async {
+    if( title.text.isEmpty){
+      showErrorMessage('Title cannot be empty');
+      _loading = false;
+
+
+    }
     setState(() {
       _loading = true;
     });
@@ -1015,42 +1019,36 @@ bool _loading =false;
       String dob = rowControllers[1].text;
 
       // Check if both victim and dob are not empty
-      if (victim.isNotEmpty && dob.isNotEmpty) {
+      // if (victim.isNotEmpty && dob.isNotEmpty) {
         Map<String, dynamic> rowData = {
           'Victim': victim,
           'DOB': dob,
         };
         victimsData.add(rowData);
-      } else {
-        // Show SnackBar with error message
-        setState(() {
-          _loading = false;
-        });
-        showErrorMessage('Suspect and DOB fields cannot be empty');
-        return; // Stop further processing
-      }
+      // } else {
+      //   // Show SnackBar with error message
+      //   setState(() {
+      //     _loading = false;
+      //   });
+      //   showErrorMessage('Suspect and DOB fields cannot be empty');
+      //   return; // Stop further processing
+      // }
     }
     for (int i = 0; i < textValues.length; i++) {
       var rowControllers = controllers2[i];
       String suspect = rowControllers[0].text;
       String dob = rowControllers[1].text;
 
-      if (suspect.isNotEmpty && dob.isNotEmpty) {
+      // if (suspect.isNotEmpty && dob.isNotEmpty) {
         Map<String, dynamic> rowData = {
           'Suspects': suspect,
           'DOB': dob,
         };
         suspectData.add(rowData);
-      } else if (suspect.isEmpty && dob.isEmpty) {
-        setState(() {
-          _loading = false;
-        });
-        // Show SnackBar with error message
-        showErrorMessage('Suspect and DOB fields cannot be empty');
-        return; // Stop further processing
-      }
     }
-    print("this is the original folder Name: ${widget.FolderName!}");
+    if (kDebugMode) {
+      print("this is the original folder Name: ${widget.FolderName!}");
+    }
     CollectionReference casesCollection = FirebaseFirestore.instance.collection('Cases');
     CollectionReference newCaseRef = casesCollection.doc(id).collection("AllFolders");
 
@@ -1064,23 +1062,15 @@ bool _loading =false;
             print("Error adding folder name: $error");
           });
         }else {
-          // newCaseRef.add({"Name": widget.FolderName,}).then((value) {
-          //   // Folder name added successfully
-          //   print("Using  Older CaseName");
-          //
-          // }).catchError((error) {
-          //   // Handle the error if folder name couldn't be added
-          //   print("Error adding folder name: $error");
-          // });
         }
 
 
 
-    late DocumentReference allCasesCollection;
+
     if (widget.FolderName == "new") {
       print("Craeting New Casetitle");
 
-    allCasesCollection = newCaseRef.doc(CaseTitle.text).collection("AllCases").doc();
+      DocumentReference  allCasesCollection = newCaseRef.doc(CaseTitle.text).collection("AllCases").doc();
       data['docId'] = allCasesCollection.id;
       data['Victims'] = victimsData;
       data['Suspects'] = suspectData;
@@ -1093,7 +1083,7 @@ bool _loading =false;
       });
     } else {
       print("Using Older Casetitle");
-      allCasesCollection =newCaseRef.doc(widget.FolderName).collection("AllCases").doc();
+      DocumentReference  allCasesCollection =newCaseRef.doc(widget.FolderName).collection("AllCases").doc();
       data['docId'] = allCasesCollection.id;
       data['Victims'] = victimsData;
       data['Suspects'] = suspectData;

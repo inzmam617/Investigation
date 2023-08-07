@@ -52,51 +52,57 @@ class _BottomBarPageState extends State<BottomBarPage> {
   }
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: _widgetOptions.elementAt(_selectedIndex),
-      ),
-      floatingActionButton: Padding(
-        padding: const EdgeInsets.only(bottom: 30),
-        child: FloatingActionButton(
-          backgroundColor:Colors.white,
-          onPressed: () {
-            uploadDataAndNavigate(context);
-          },
-          child: const Icon(Icons.add,color: Colors.black,size: 50,),
+    return WillPopScope(
+
+      onWillPop: ()  async{
+        return false;
+      },
+      child: Scaffold(
+        body: Center(
+          child: _widgetOptions.elementAt(_selectedIndex),
         ),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: BottomNavigationBar(
-
-        backgroundColor: Colors.black,
-        items: <BottomNavigationBarItem>[
-
-
-          BottomNavigationBarItem(
-            backgroundColor: const Color(0xff2a2e4d),
-            icon: SvgPicture.asset('assets/Component 12 – 1.svg'),
-            label: '', // Remove label for spacing
+        floatingActionButton: Padding(
+          padding: const EdgeInsets.only(bottom: 30),
+          child: FloatingActionButton(
+            backgroundColor:Colors.white,
+            onPressed: () {
+              uploadDataAndNavigate(context);
+            },
+            child: const Icon(Icons.add,color: Colors.black,size: 50,),
           ),
-          const BottomNavigationBarItem(
-            backgroundColor: Color(0xff2a2e4d),
-            icon: Icon(Icons.home, size: 30),
-            label: '', // Remove label for spacing
-          ),
-          const BottomNavigationBarItem(
-            backgroundColor: Color(0xff2a2e4d),
-            icon: Icon(Icons.settings, size: 28),
-            label: '   ', // Add spacing by adjusting the label content
-          ),
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        bottomNavigationBar: BottomNavigationBar(
 
-        ],
-        type: BottomNavigationBarType.fixed,
-        currentIndex: _selectedIndex,
-        selectedItemColor: Colors.white,
-        unselectedItemColor: Colors.grey,
-        selectedIconTheme: const IconThemeData(color: Colors.white),
-        onTap: _onItemTapped,
+          backgroundColor: Colors.black,
+          items: <BottomNavigationBarItem>[
 
+
+            BottomNavigationBarItem(
+              backgroundColor: const Color(0xff2a2e4d),
+              icon: SvgPicture.asset('assets/Component 12 – 1.svg'),
+              label: '', // Remove label for spacing
+            ),
+            const BottomNavigationBarItem(
+              backgroundColor: Color(0xff2a2e4d),
+              icon: Icon(Icons.home, size: 30),
+              label: '', // Remove label for spacing
+            ),
+            const BottomNavigationBarItem(
+              backgroundColor: Color(0xff2a2e4d),
+              icon: Icon(Icons.settings, size: 28),
+              label: '   ', // Add spacing by adjusting the label content
+            ),
+
+          ],
+          type: BottomNavigationBarType.fixed,
+          currentIndex: _selectedIndex,
+          selectedItemColor: Colors.white,
+          unselectedItemColor: Colors.grey,
+          selectedIconTheme: const IconThemeData(color: Colors.white),
+          onTap: _onItemTapped,
+
+        ),
       ),
     );
   }

@@ -371,6 +371,9 @@ class _scenesketchState extends State<scenesketch> {
     if(title.text == ""){
  return showErrorMessage("Title cannot be empty");
     }
+    if(CaseTitle.text == ""){
+      return showErrorMessage("Title cannot be empty");
+    }
     final signatureData = await _controller.toPngBytes();
     if (signatureData != null) {
       try {
@@ -412,7 +415,10 @@ class _scenesketchState extends State<scenesketch> {
 
 // If the folder name doesn't exist, add it
         if (!folderExists) {
-          newCaseRef.add({"Name": widget.FolderName})
+          if (CaseTitle.text.isEmpty) {
+            showErrorMessage('Case Name cannot be empty');
+          }else {
+            newCaseRef.add({"Name": widget.FolderName})
               .then((value) {
             // Folder name added successfully
             print("Folder name added successfully");
@@ -421,6 +427,7 @@ class _scenesketchState extends State<scenesketch> {
             // Handle the error if folder name couldn't be added
             print("Error adding folder name: $error");
           });
+          }
         }
         await uploadTask
             .whenComplete(() => print('Signature uploaded to Firebase'));
