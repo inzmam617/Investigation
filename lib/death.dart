@@ -63,13 +63,19 @@ class _deathState extends State<death> {
                               ),
                               Transform.translate(
                                 offset: Offset(-60, -28),
-                                child: SizedBox(
-                                  height: 26,
-                                  width: 26,
-                                  child: CircleAvatar(
-                                    backgroundColor: Colors.black,
-                                    child: Icon(Icons.arrow_back_ios_new_outlined,
-                                        size: 16),
+                                child: GestureDetector(
+                                  onTap: (){
+                                    Navigator.pop(context);
+
+                                  },
+                                  child: SizedBox(
+                                    height: 26,
+                                    width: 26,
+                                    child: CircleAvatar(
+                                      backgroundColor: Colors.black,
+                                      child: Icon(Icons.arrow_back_ios_new_outlined,
+                                          size: 16),
+                                    ),
                                   ),
                                 ),
                               ),

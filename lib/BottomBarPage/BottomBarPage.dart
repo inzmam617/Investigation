@@ -48,8 +48,9 @@ class _BottomBarPageState extends State<BottomBarPage> {
   Future<void> initialize() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     id =  prefs.getString("id").toString();
-    print("thisis the id : " + id);
+    print("this is the id : " + id);
   }
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(

@@ -121,16 +121,7 @@ class _courtdateState extends State<courtdate> {
                                 topLeft: Radius.circular(0),
                                 bottomLeft: Radius.circular(0))),
                       ),
-                      Transform.translate(
-                        offset: const Offset(-130, 0),
-                        child: const SizedBox(
-                            height: 30,
-                            width: 30,
-                            child: CircleAvatar(
-                              backgroundColor: Colors.black,
-                              child: Icon(Icons.arrow_back_ios, size: 14),
-                            )),
-                      ),
+
                       Transform.translate(
                         offset: const Offset(-115, 0),
                         child: const Text(
