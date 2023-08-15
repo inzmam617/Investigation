@@ -158,53 +158,71 @@ class _AllCasesState extends State<AllCases> {
                                           borderRadius: BorderRadius.all(
                                               Radius.circular(20))))),
                               onPressed: () async {
-                                // setState(() {
-                                //
-                                //   _loading = true;
-                                // });
-                                CollectionReference casesCollection =
-                                    firestore.collection('Cases');
-                                CollectionReference folderRef = casesCollection
-                                    .doc(id)
-                                    .collection("AllFolders");
-                                CollectionReference querySnapshot = folderRef
-                                    .doc(widget.FolderName)
-                                    .collection("AllCases");
+                                CollectionReference casesCollection = firestore.collection('Cases');
+                                CollectionReference folderRef = casesCollection.doc(id).collection("AllFolders");
+                                CollectionReference querySnapshot = folderRef.doc(widget.FolderName).collection("AllCases");
 
                                 final pdf = pdfWidgets.Document();
 
-                                QuerySnapshot collectionSnapshot =
-                                    await querySnapshot.get();
-                                List<QueryDocumentSnapshot> documents =
-                                    collectionSnapshot.docs;
+                                QuerySnapshot collectionSnapshot = await querySnapshot.get();
+                                List<QueryDocumentSnapshot> documents = collectionSnapshot.docs;
 
-                                for (QueryDocumentSnapshot documentSnapshot
-                                    in documents) {
-                                  Map<String, dynamic> data = documentSnapshot
-                                      .data() as Map<String, dynamic>;
-
-                                  pdf.addPage(
-                                    pdfWidgets.Page(
-                                      build: (context) {
-                                        return pdfWidgets.Center(
-                                          child:
-                                              pdfWidgets.Text(data.toString()),
-                                        );
-                                      },
-                                    ),
-                                  );
+                                if (documents.isEmpty) {
+                                  return; // No data to generate a table
                                 }
 
+                                // Extract column headers from the first document
+                                Map<String, dynamic> firstDocumentData = documents[0].data() as Map<String, dynamic>;
+                                List<String> columnHeaders = firstDocumentData.keys.toList();
+
+                                // Create a list to store rows of the table
+                                List<List<String>> tableData = [];
+
+                                // Add column headers to the table
+                                tableData.add(columnHeaders);
+
+                                for (QueryDocumentSnapshot documentSnapshot in documents) {
+                                  Map<String, dynamic> data = documentSnapshot.data() as Map<String, dynamic>;
+
+                                  // Extract data from the JSON structure
+                                  List<String> rowData = columnHeaders.map((header) => data[header].toString()).toList();
+
+                                  // Add a row to the table
+                                  tableData.add(rowData);
+                                }
+
+                                // Define table styling
+                                final table = pdfWidgets.Table.fromTextArray(
+                                  // context: context,
+                                  data: tableData,
+                                  cellPadding: pdfWidgets.EdgeInsets.all(10),
+                                  headerCount: 1,
+                                  // headerDecoration: pdfWidgets.BoxDecoration(color: PdfColors.grey300),
+                                  cellStyle: pdfWidgets.TextStyle(fontSize: 12),
+                                  headerStyle: pdfWidgets.TextStyle(fontSize: 14, fontWeight: pdfWidgets.FontWeight.bold),
+                                );
+
+                                pdf.addPage(
+                                  pdfWidgets.Page(
+                                    build: (context) {
+                                      return pdfWidgets.Center(
+                                        child: pdfWidgets.Column(
+                                          children: [
+                                            pdfWidgets.Text("Table of Cases", style: pdfWidgets.TextStyle(fontSize: 18, fontWeight: pdfWidgets.FontWeight.bold)),
+                                            pdfWidgets.SizedBox(height: 20),
+                                            table,
+                                          ],
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                );
+
                                 final output = await getTemporaryDirectory();
-                                final pdfFile =
-                                    File('${output.path}/collection.pdf');
+                                final pdfFile = File('${output.path}/collection.pdf');
                                 await pdfFile.writeAsBytes(await pdf.save());
 
                                 Share.shareFiles([pdfFile.path]);
-
-                                setState(() {
-                                  _loading = false;
-                                });
                               },
                               child: const Text(
                                 "Share folder",
@@ -595,9 +613,9 @@ class _AllCasesState extends State<AllCases> {
 
                           // After the folder, its content, and the value are deleted, you can navigate to the desired page
                           // ignore: use_build_context_synchronously
-                          Navigator.of(context).pop();
+                          // Navigator.of(context).pop();
 
-                          Navigator.of(context).pushReplacement(MaterialPageRoute(
+                          Navigator.of(context).push(MaterialPageRoute(
                             builder: (context) => BottomBarPage(page: 1),
                           ));
                           // setState(() {

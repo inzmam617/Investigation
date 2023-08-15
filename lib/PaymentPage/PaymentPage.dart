@@ -102,9 +102,14 @@ class _PaymentpageState extends State<Paymentpage> {
                                     width: 30,
                                     child: Padding(
                                       padding: const EdgeInsets.only(left: 8.0),
-                                      child: Icon(
-                                        Icons.arrow_back_ios,
-                                        color: Colors.white,
+                                      child: InkWell(
+                                        onTap: (){
+                                          Navigator.pop(context);
+                                        },
+                                        child: Icon(
+                                          Icons.arrow_back_ios,
+                                          color: Colors.white,
+                                        ),
                                       ),
                                     ),
                                   ),

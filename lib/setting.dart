@@ -57,7 +57,7 @@ class _settingState extends State<setting> {
       child: Scaffold(
         body: Column(children: [
           Container(
-            height: MediaQuery.of(context).size.height * 0.3,
+            height: MediaQuery.of(context).size.height * 0.35,
             width: MediaQuery.of(context).size.width,
             decoration: const BoxDecoration(
                 color: Colors.black,
@@ -275,8 +275,10 @@ class _settingState extends State<setting> {
         return AlertDialog(
           title: Text('Contact Us'),
           content: SizedBox(
-            height: MediaQuery.of(context).size.height * 0.1,
-            width: double.infinity,
+            height: MediaQuery.of(context).size.height * 0.15,
+            width: MediaQuery.of(context).size.width ,
+
+            // width: double.infinity,
             child: Column(
               children: [
                 Row(
@@ -284,7 +286,7 @@ class _settingState extends State<setting> {
                     // crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Transform.scale(
-                          scale: 0.6,
+                          scale: 0.5,
                           child: SvgPicture.asset('assets/icons8-gmail.svg')),
                       // const SizedBox(
                       //   width: 20,
@@ -293,7 +295,7 @@ class _settingState extends State<setting> {
                       Text(
                         'crimescenegeeks@gmail.com',
                         style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 16),
+                            fontWeight: FontWeight.bold, fontSize: 13),
                       ),
                     ]),
                 SizedBox(
@@ -308,8 +310,8 @@ class _settingState extends State<setting> {
                       ),
                       Image.asset(
                         'assets/instagram.png',
-                        height: 25,
-                        width: 25,
+                        height: 22,
+                        width: 22,
                       ),
                       const SizedBox(
                         width: 20,
@@ -317,7 +319,7 @@ class _settingState extends State<setting> {
                       Text(
                         'Crimescenegeeks',
                         style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 16),
+                            fontWeight: FontWeight.bold, fontSize: 13),
                       ),
                     ]),
               ],
