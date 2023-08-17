@@ -78,18 +78,9 @@ class _StoryPageState extends State<StoryPage> {
                                 Navigator.of(context).pop();
 
                               },
-                              child: CircleAvatar(
+                              child: const CircleAvatar(
                                 backgroundColor: Colors.black,
-                                child: InkWell(
-                                    onTap: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>  notebook()),
-                                      );
-                                    },
-                                    child:
-                                        const Icon(Icons.arrow_back_ios, size: 14)),
+                                child: Icon(Icons.arrow_back_ios, size: 14),
                               ),
                             )),
                       ),

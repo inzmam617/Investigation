@@ -118,24 +118,7 @@ class _evidenceState extends State<evidence> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        bottomNavigationBar: BottomNavigationBar(
-          backgroundColor: Colors.black,
-          items: <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon: Transform.translate(
-                offset: const Offset(0, 10),
-                child: SvgPicture.asset('assets/Component 12 – 1.svg'),
-              ),
-              label: '',
-            ),
-            BottomNavigationBarItem(
-              icon: Transform.translate(
-                  offset: const Offset(0, 10),
-                  child: Image.asset('assets/Iconly-Bold-Setting.png')),
-              label: '',
-            ),
-          ],
-        ),
+
         body: ListView(children: [
           Column(
             crossAxisAlignment: CrossAxisAlignment.center,
