@@ -31,6 +31,7 @@ class _PaymentpageState extends State<Paymentpage> {
 
   String Pakage = "";
   String timeLeft = "";
+  String amount= '';
 
   Future<void> get() async {
     final data =
@@ -38,6 +39,7 @@ class _PaymentpageState extends State<Paymentpage> {
     setState(() {
       Pakage = data["package"];
       timeLeft = data["Duration"];
+      amount=data["Amount"];
     });
   }
 
@@ -164,6 +166,8 @@ class _PaymentpageState extends State<Paymentpage> {
                               ),
                             )
                           : const SizedBox(),
+                      // Text("Amount: $amount"),
+
                     ],
                   ),
                 ),

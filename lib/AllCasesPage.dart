@@ -178,16 +178,22 @@ class _AllCasesState extends State<AllCases> {
                                 // Create a list to store rows of the table
                                 List<List<String>> tableData = [];
 
-                                // Add column headers to the table
+                                // Add column headers to the table data
+                                columnHeaders.remove('docId');
+
                                 tableData.add(columnHeaders);
+                                // tableData.remove('docId');
 
                                 for (QueryDocumentSnapshot documentSnapshot in documents) {
                                   Map<String, dynamic> data = documentSnapshot.data() as Map<String, dynamic>;
 
-                                  // Extract data from the JSON structure
-                                  List<String> rowData = columnHeaders.map((header) => data[header].toString()).toList();
+                                  // Exclude the attributes you want to exclude
+                                  data.remove('docId');
 
-                                  // Add a row to the table
+                                  // Extract data from the JSON structure
+                                  List<String> rowData = columnHeaders.map((header) => data[header]?.toString() ?? "").toList();
+
+                                  // Add a row to the table data
                                   tableData.add(rowData);
                                 }
 
@@ -197,7 +203,7 @@ class _AllCasesState extends State<AllCases> {
                                   data: tableData,
                                   cellPadding: pdfWidgets.EdgeInsets.all(10),
                                   headerCount: 1,
-                                  // headerDecoration: pdfWidgets.BoxDecoration(color: PdfColors.grey300),
+                                  // headerDecoration: pdfWidgets.BoxDecoration(color: pdf.PdfColors.grey300),
                                   cellStyle: pdfWidgets.TextStyle(fontSize: 12),
                                   headerStyle: pdfWidgets.TextStyle(fontSize: 14, fontWeight: pdfWidgets.FontWeight.bold),
                                 );

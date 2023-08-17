@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_stripe/flutter_stripe.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:timezone/timezone.dart' as tz;
 import 'package:timezone/data/latest.dart' as tzdata;
@@ -13,7 +14,11 @@ import 'StartingScreens/StartingPageOne.dart';
 
 
 void main() async {
+  var devices=['2b2496d0bc1c7ece'];
   WidgetsFlutterBinding.ensureInitialized();
+  MobileAds.instance.initialize(); // Initialize the plugin with your App ID
+  // RequestConfiguration requestConfiguration=RequestConfiguration(testDeviceIds:  devices);
+  // MobileAds.instance.updateRequestConfiguration(requestConfiguration);
   Stripe.publishableKey = "pk_test_51MwR8TAKJqb8m8FnzPItMaBA4LVkjLVRbDOOPeEWbAYQZYVuSJcFJvXlPxkHiAoZsAQEhHzRY4XtnZm1llQvRuLj00yoKZ45vL";
   initializeApp();
   final FlutterLocalNotificationsPlugin notifications = FlutterLocalNotificationsPlugin();

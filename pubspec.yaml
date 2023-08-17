@@ -86,6 +86,7 @@ dependencies:
   pdf: ^3.6.0
   image_picker: ^1.0.2
   share: ^2.0.4
+  google_mobile_ads:
   path_provider:
   assets_audio_player: ^3.0.0
   flutter_alarm_clock: ^0.1.1

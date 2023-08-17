@@ -122,51 +122,51 @@ class _checklistState extends State<checklist> {
                                     bottomRight: Radius.circular(20))))),
                   )),
             ]),
-            StreamBuilder<QuerySnapshot>(
-              stream: FirebaseFirestore.instance.collection('Users').snapshots(),
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const CircularProgressIndicator();
-                }
-                return Transform.translate(
-                  offset: const Offset(-50, 15),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          const Text('Package: ',style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold),),
-                          Text(package),
-                        ],
-                      ),
-                      package != "Basic" ?   Column(
-                        children: [
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              const Text('Time Till: ',style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold),),
-                              Text(timeLeft),
-                            ],
-                          ),
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              const Text('Amount: ',style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold),),
-                              Text( "\$$Amount"),
-                            ],
-                          ),
-                        ],
-                      ) :SizedBox() ,
-                    ],
-                  ),
-                );
-              },
-            ),
+            // StreamBuilder<QuerySnapshot>(
+            //   stream: FirebaseFirestore.instance.collection('Users').snapshots(),
+            //   builder: (context, snapshot) {
+            //     if (snapshot.connectionState == ConnectionState.waiting) {
+            //       return const CircularProgressIndicator();
+            //     }
+            //     return Transform.translate(
+            //       offset: const Offset(-50, 15),
+            //       child: Column(
+            //         mainAxisAlignment: MainAxisAlignment.start,
+            //         crossAxisAlignment: CrossAxisAlignment.start,
+            //         children: [
+            //           Row(
+            //             crossAxisAlignment: CrossAxisAlignment.start,
+            //             mainAxisAlignment: MainAxisAlignment.start,
+            //             children: [
+            //               const Text('Package: ',style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold),),
+            //               Text(package),
+            //             ],
+            //           ),
+            //           package != "Basic" ?   Column(
+            //             children: [
+            //               Row(
+            //                 crossAxisAlignment: CrossAxisAlignment.start,
+            //                 mainAxisAlignment: MainAxisAlignment.start,
+            //                 children: [
+            //                   const Text('Time Till: ',style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold),),
+            //                   Text(timeLeft),
+            //                 ],
+            //               ),
+            //               Row(
+            //                 crossAxisAlignment: CrossAxisAlignment.start,
+            //                 mainAxisAlignment: MainAxisAlignment.start,
+            //                 children: [
+            //                   const Text('Amount: ',style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold),),
+            //                   Text( "\$$Amount"),
+            //                 ],
+            //               ),
+            //             ],
+            //           ) :SizedBox() ,
+            //         ],
+            //       ),
+            //     );
+            //   },
+            // ),
             const SizedBox(height: 50,),
             Column(
               children: [
