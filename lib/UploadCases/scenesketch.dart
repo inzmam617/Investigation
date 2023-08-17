@@ -371,9 +371,14 @@ class _scenesketchState extends State<scenesketch> {
     if(title.text == ""){
  return showErrorMessage("Title cannot be empty");
     }
-    if(CaseTitle.text == ""){
-      return showErrorMessage("Title cannot be empty");
+    if (widget.FolderName == "new") {
+      if (CaseTitle.text == "") {
+        showErrorMessage('Case Name cannot be empty');
+      } else {
+        // Your code if CaseTitle is not empty
+      }
     }
+
     final signatureData = await _controller.toPngBytes();
     if (signatureData != null) {
       try {
@@ -391,15 +396,7 @@ class _scenesketchState extends State<scenesketch> {
         CollectionReference casesCollection = FirebaseFirestore.instance.collection('Cases');
         CollectionReference newCaseRef = casesCollection.doc(id).collection("AllFolders");
 
-        if (widget.FolderName == "new") {
-          if (CaseTitle.text.isEmpty) {
-            showErrorMessage('Case Name cannot be empty');
-          } else {
-            // Your code if CaseTitle is not empty
-          }
-        } else {
-          // Your code for a different case
-        }
+
 
 // Check if the folder name already exists in the "AllFolders" collection
         bool folderExists = false;

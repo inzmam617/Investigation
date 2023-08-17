@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:crime_investigation/AllCasesPage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -10,6 +11,8 @@ import 'package:crime_investigation/courtdate.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+import 'package:uuid/uuid.dart';
 
 import 'PaymentPage/PaymentPage.dart';
 import 'SignIn_SignUp/SignInPage.dart';
@@ -36,7 +39,55 @@ class _settingState extends State<setting> {
       setState(() {
         _image = File(pickedFile.path);
       });
+
+      await _uploadImageToFirebase();
     }
+  }
+  String uid =  FirebaseAuth.instance.currentUser!.uid;
+
+  String? downloadURL;
+  Future<void> _uploadImageToFirebase() async {
+    if (_image != null) {
+      final uniqueFilename = '${const Uuid().v4()}.png';
+      final storageRef = firebase_storage.FirebaseStorage.instance
+          .ref()
+          .child('Images')
+          .child(uniqueFilename);
+
+      print("this is the link: $storageRef");
+
+      final uploadTask = storageRef.putFile(_image!);
+      final snapshot = await uploadTask;
+
+      if (snapshot.state == firebase_storage.TaskState.success) {
+        print('Image uploaded to Firebase Storage.');
+
+        downloadURL = await snapshot.ref.getDownloadURL();
+        await FirebaseFirestore.instance.collection('Users').doc(uid).update({
+          "ImageUrl" : downloadURL
+        });
+
+        // Now you have the download URL of the uploaded image
+        print('Download URL: $downloadURL');
+      }
+    }
+  }
+  @override
+  void initState(){
+    super.initState();
+
+    initialize();
+  }
+  String? storedDownloadURL;
+  Future<void> initialize() async {
+    print("THis is the inatialingi");
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      storedDownloadURL = prefs.getString('downloadURL');
+      print("this is the Downloaed Linik:$storedDownloadURL" );
+
+
+    });
   }
 
   Future<void> _getImageFromCamera() async {
@@ -52,6 +103,7 @@ class _settingState extends State<setting> {
 
   @override
   Widget build(BuildContext context) {
+
     return ModalProgressHUD(
       inAsyncCall: _loading,
       child: Scaffold(
@@ -89,20 +141,43 @@ class _settingState extends State<setting> {
                 Column(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    ClipOval(
-                      child: _image == null
-                          ? Image.asset(
-                  'assets/glas.png',
-                  // Replace with your image URL
-                  width: 100.0,
-                  height: 100.0,
-                  fit: BoxFit.cover,
-                )
-                          : Image.file(_image!,height: 100,width: 100,fit: BoxFit.cover,),
-
-
+                    StreamBuilder<DocumentSnapshot<Map<String, dynamic>>>(
+                      stream: FirebaseFirestore.instance.collection('Users').doc(uid).snapshots(),
+                      builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot<Map<String, dynamic>>> snapshot) {
+                        if (snapshot.connectionState == ConnectionState.waiting) {
+                          return const CircularProgressIndicator();
+                        }
+                        if (snapshot.hasError) {
+                          return Text('Error: ${snapshot.error}');
+                        }
+                        final userData = snapshot.data?.data();
+                        final userImageUrl = userData?['ImageUrl'] + '?t=${DateTime.now().millisecondsSinceEpoch}';
+                        return  ClipOval(
+                          child: userImageUrl == null
+                              ? Image.asset(
+                            'assets/glas.png',
+                            width: 100.0,
+                            height: 100.0,
+                            fit: BoxFit.cover,
+                          )
+                              : Image.network(
+                            userImageUrl,
+                            height: 100,
+                            width: 100,
+                            fit: BoxFit.cover,
+                            loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
+                              if (loadingProgress == null) {
+                                return child;
+                              } else if (loadingProgress.cumulativeBytesLoaded > 0) {
+                                return const CircularProgressIndicator();
+                              } else {
+                                return const CircularProgressIndicator();
+                              }
+                            },
+                          ),
+                        );
+                      },
                     ),
-
                     TextButton(
                         onPressed: () {
                           _getImageFromGallery();
