@@ -213,77 +213,67 @@ class _WeaponsPageState extends State<WeaponsPage> {
                       borderRadius: BorderRadius.only(
                         bottomLeft: Radius.circular(30),
                       )),
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 60, right: 90),
-                    child: Transform.translate(
-                      offset: const Offset(-45, 0),
-                      child: Align(
-                        alignment: Alignment.centerLeft,
-                        child: SingleChildScrollView(
-                          child: Column(
-                            children: [
-                              const SizedBox(
-                                height: 30,
-                                child: TextField(
-                                    decoration: InputDecoration(
-                                        enabledBorder: OutlineInputBorder(
-                                            borderRadius: BorderRadius.only(
-                                                topRight: Radius.circular(30),
-                                                bottomLeft: Radius.circular(0),
-                                                bottomRight:
-                                                Radius.circular(30),
-                                                topLeft: Radius.circular(0)),
-                                            borderSide: BorderSide(
-                                              color: Colors.white,
-                                            )),
-                                        filled: true,
-                                        fillColor: Colors.white,
-                                        border: OutlineInputBorder(
-                                            borderRadius: BorderRadius.only(
-                                                topLeft: Radius.circular(0),
-                                                bottomRight:
-                                                Radius.circular(30),
-                                                bottomLeft: Radius.circular(0),
-                                                topRight:
-                                                Radius.circular(30))))),
-                              ),
-                              Transform.translate(
-                                offset: const Offset(-70, -28),
-                                child: SizedBox(
-                                  height: 26,
-                                  width: 26,
-                                  child: InkWell(onTap: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => notebook()),
-                                    );
-                                  },
+                  child: InkWell(
+                    onTap: (){
+                      Navigator.of(context).pop();
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.only(top: 60, right: 90),
+                      child: Transform.translate(
+                        offset: const Offset(-45, 0),
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: SingleChildScrollView(
+                            child: Column(
+                              children: [
+                                const SizedBox(
+                                  height: 30,
+                                  child: TextField(
+                                    enabled: false,
+                                      decoration: InputDecoration(
+                                          enabledBorder: OutlineInputBorder(
+                                              borderRadius: BorderRadius.only(
+                                                  topRight: Radius.circular(30),
+                                                  bottomLeft: Radius.circular(0),
+                                                  bottomRight:
+                                                  Radius.circular(30),
+                                                  topLeft: Radius.circular(0)),
+                                              borderSide: BorderSide(
+                                                color: Colors.white,
+                                              )),
+                                          filled: true,
+                                          fillColor: Colors.white,
+                                          border: OutlineInputBorder(
+                                              borderRadius: BorderRadius.only(
+                                                  topLeft: Radius.circular(0),
+                                                  bottomRight:
+                                                  Radius.circular(30),
+                                                  bottomLeft: Radius.circular(0),
+                                                  topRight:
+                                                  Radius.circular(30))))),
+                                ),
+                                Transform.translate(
+                                  offset: const Offset(-70, -28),
+                                  child: SizedBox(
+                                    height: 26,
+                                    width: 26,
                                     child: CircleAvatar(
                                       backgroundColor: Colors.black,
-                                      child: InkWell(onTap: () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) => notebook()),
-                                        );
-                                      },
-                                        child: const Icon(
-                                            Icons.arrow_back_ios_new_outlined,
-                                            size: 16),
-                                      ),
+                                      child: const Icon(
+                                          Icons.arrow_back_ios_new_outlined,
+                                          size: 16),
                                     ),
                                   ),
                                 ),
-                              ),
-                              Transform.translate(
-                                  offset: const Offset(40, -52),
-                                  child: const Text(
-                                    'Weapon Measurement',
-                                    style: TextStyle(
-                                        fontSize: 18, color: Color(0xff86898E)),
-                                  ))
-                            ],
+                                Transform.translate(
+                                    offset: const Offset(40, -52),
+                                    child: const Text(
+                                      'Weapon Measurement',
+                                      style: TextStyle(
+                                          fontSize: 18, color: Color(0xff86898E)),
+                                    ))
+                              ],
+                            ),
                           ),
                         ),
                       ),
