@@ -54,7 +54,6 @@ class _BottomBarPageState extends State<BottomBarPage> {
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-
       onWillPop: ()  async{
         return false;
       },
@@ -63,7 +62,7 @@ class _BottomBarPageState extends State<BottomBarPage> {
           child: _widgetOptions.elementAt(_selectedIndex),
         ),
         floatingActionButton: Padding(
-          padding: const EdgeInsets.only(bottom: 30),
+          padding: const EdgeInsets.only(bottom: 120),
           child: FloatingActionButton(
             backgroundColor:Colors.white,
             onPressed: () {

@@ -29,23 +29,7 @@ class _notebookState extends State<notebook> {
   String userId = FirebaseAuth.instance.currentUser!.uid;
   String timeLeft = "";
   String Amount = "";
-  // Future<String?> getHighestFolderName() async {
-  //   QuerySnapshot<Map<String, dynamic>> snapshot = await FirebaseFirestore.instance
-  //       .collection('Cases')
-  //       .doc(userId)
-  //       .collection('AllFolders')
-  //       .orderBy('Name', descending: true)
-  //       .limit(1)
-  //       .get();
-  //
-  //   if (snapshot.docs.isNotEmpty) {
-  //     String highestFolderName =    snapshot.docs.first.get('Name');
-  //     return highestFolderName;
-  //   } else {
-  //     print("No folders found");
-  //     return null;
-  //   }
-  // }
+
 
   Future<void> reset() async {
     await FirebaseFirestore.instance.collection('Users').doc(userId).update({

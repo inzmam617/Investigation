@@ -1,8 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:crime_investigation/notebook.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../BottomBarPage/BottomBarPage.dart';
 
@@ -10,7 +8,7 @@ class BodyMeasurementsPage extends StatefulWidget {
   final String?  bodyOneLeft;
   final String?   bodyOneCenter;
   final String?  bodyOneRight;
-  final String? bodyTwoLeft;
+  final String?  bodyTwoLeft;
   final String?   bodyTwoCenter;
   final String?  bodyTwoRight;
 
