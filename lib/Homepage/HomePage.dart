@@ -33,7 +33,7 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     initialize();
     _bannerAd = BannerAd(
-      adUnitId: 'ca-app-pub-3940256099942544/6300978111', // Your Ad Unit ID
+      adUnitId: 'ca-app-pub-7401908970609565/7468795124', // Your Ad Unit ID
       size: AdSize.banner,
       request: AdRequest(),
       listener: BannerAdListener(

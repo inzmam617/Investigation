@@ -62,7 +62,7 @@ class _BottomBarPageState extends State<BottomBarPage> {
           child: _widgetOptions.elementAt(_selectedIndex),
         ),
         floatingActionButton: Padding(
-          padding: const EdgeInsets.only(bottom: 120),
+          padding: const EdgeInsets.only(bottom: 100,right: 10),
           child: FloatingActionButton(
             backgroundColor:Colors.white,
             onPressed: () {
@@ -71,7 +71,7 @@ class _BottomBarPageState extends State<BottomBarPage> {
             child: const Icon(Icons.add,color: Colors.black,size: 50,),
           ),
         ),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        // floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
         bottomNavigationBar: BottomNavigationBar(
 
           backgroundColor: Colors.black,

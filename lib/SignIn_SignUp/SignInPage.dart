@@ -18,8 +18,8 @@ class SignInPage extends StatefulWidget {
   State<SignInPage> createState() => _SignInPageState();
 }
 class _SignInPageState extends State<SignInPage> {
-  TextEditingController _emailController = TextEditingController(text: "15312321321@gmail.com");
-  TextEditingController _passwordController = TextEditingController(text: "12304567");
+  TextEditingController _emailController = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
 
   String? created;
 

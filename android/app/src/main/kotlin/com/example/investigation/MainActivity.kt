@@ -1,4 +1,4 @@
-package com.example.investigation
+package com.INAR.investigation
 
 import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.android.FlutterFragmentActivity

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>API_KEY</key>
+	<string>AIzaSyCpQ9E2xELLNyWRhpfypC3yqpmdwtxH6fE</string>
+	<key>GCM_SENDER_ID</key>
+	<string>710361977612</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.INAR.investigation</string>
+	<key>PROJECT_ID</key>
+	<string>investigation-25a89</string>
+	<key>STORAGE_BUCKET</key>
+	<string>investigation-25a89.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:710361977612:ios:82c1a840270c00bcf4af29</string>
+	<key>DATABASE_URL</key>
+	<string>https://investigation-25a89-default-rtdb.firebaseio.com</string>
+</dict>
+</plist>

@@ -91,11 +91,11 @@ class _notebookState extends State<notebook> {
       // Do something for dates after the current date
     } else {
       reset();
-
       print("The provided date is the same as the current date.");
       // Do something for dates equal to the current date
     }
   }
+  String? url;
   initilize() async {
     FirebaseFirestore.instance.collection('Users').doc(userId).get().then((value) async {
       final SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -103,6 +103,8 @@ class _notebookState extends State<notebook> {
         setState(() {
           package = value.data()!['package']; // Assign the value from Firestore to the 'package' variable
           prefs.setString("package", package);
+        url =  prefs.get("imgUrl").toString();
+        print(url);
         });
         print("this is the id: $package");
       } else {
@@ -160,20 +162,32 @@ class _notebookState extends State<notebook> {
                 Container(
                     height: 150,
                     width: MediaQuery.of(context).size.width,
-                    decoration: const BoxDecoration(
+                    decoration:  BoxDecoration(
                         color: Colors.black,
                         borderRadius: BorderRadius.only(
                           bottomLeft: Radius.circular(40),
                         )),
                     child: Padding(
                       padding:
-                          const EdgeInsets.only(left: 20, right: 100, top: 60),
+                           EdgeInsets.only(left: 20, right: 100, top: 60),
                       child: TextField(
                           decoration: InputDecoration(
                               prefixIcon:
                                   Image.asset('assets/Iconly-Bold-Search.png'),
                               contentPadding: const EdgeInsets.all(10),
-                              suffixIcon: Image.asset('assets/assa.png'),
+                              suffixIcon: url == null
+                                  ? const CircularProgressIndicator()
+                                  : (url == "" || url == "null")
+                                  ? Image.asset('assets/assa.png')
+                                  : ClipRRect(
+                                borderRadius: const BorderRadius.all(Radius.circular(360)),
+                                child: Image.network(
+                                  url.toString(),
+                                  height: 10,
+                                  width: 10,
+                                ),
+                              ),
+
                               hintText: 'Search',
                               hintStyle: const TextStyle(),
                               fillColor: Colors.white,

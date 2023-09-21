@@ -47,6 +47,7 @@ class _settingState extends State<setting> {
 
   String? downloadURL;
   Future<void> _uploadImageToFirebase() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
     if (_image != null) {
       final uniqueFilename = '${const Uuid().v4()}.png';
       final storageRef = firebase_storage.FirebaseStorage.instance
@@ -66,6 +67,7 @@ class _settingState extends State<setting> {
         await FirebaseFirestore.instance.collection('Users').doc(uid).update({
           "ImageUrl" : downloadURL
         });
+        prefs.setString("imgUrl", downloadURL.toString());
 
         // Now you have the download URL of the uploaded image
         print('Download URL: $downloadURL');

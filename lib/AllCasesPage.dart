@@ -158,55 +158,66 @@ class _AllCasesState extends State<AllCases> {
                                           borderRadius: BorderRadius.all(
                                               Radius.circular(20))))),
                               onPressed: () async {
-                                CollectionReference casesCollection = firestore.collection('Cases');
-                                CollectionReference folderRef = casesCollection.doc(id).collection("AllFolders");
-                                CollectionReference querySnapshot = folderRef.doc(widget.FolderName).collection("AllCases");
+                                CollectionReference casesCollection =
+                                    FirebaseFirestore.instance
+                                        .collection('Cases');
+                                CollectionReference folderRef = casesCollection
+                                    .doc(id)
+                                    .collection("AllFolders");
+                                CollectionReference querySnapshot = folderRef
+                                    .doc(widget.FolderName)
+                                    .collection("AllCases");
 
                                 final pdf = pdfWidgets.Document();
 
-                                QuerySnapshot collectionSnapshot = await querySnapshot.get();
-                                List<QueryDocumentSnapshot> documents = collectionSnapshot.docs;
+                                QuerySnapshot collectionSnapshot =
+                                    await querySnapshot.get();
+                                List<QueryDocumentSnapshot> documents =
+                                    collectionSnapshot.docs;
 
                                 if (documents.isEmpty) {
                                   return; // No data to generate a table
                                 }
 
-                                // Extract column headers from the first document
-                                Map<String, dynamic> firstDocumentData = documents[0].data() as Map<String, dynamic>;
-                                List<String> columnHeaders = firstDocumentData.keys.toList();
-
-                                // Create a list to store rows of the table
-                                List<List<String>> tableData = [];
-
-                                // Add column headers to the table data
+                                Map<String, dynamic> firstDocumentData =
+                                    documents[0].data() as Map<String, dynamic>;
+                                List<String> columnHeaders =
+                                    firstDocumentData.keys.toList();
                                 columnHeaders.remove('docId');
 
-                                tableData.add(columnHeaders);
-                                // tableData.remove('docId');
+                                List<List<String>> tableData = [];
 
-                                for (QueryDocumentSnapshot documentSnapshot in documents) {
-                                  Map<String, dynamic> data = documentSnapshot.data() as Map<String, dynamic>;
-
-                                  // Exclude the attributes you want to exclude
+                                for (QueryDocumentSnapshot documentSnapshot
+                                    in documents) {
+                                  Map<String, dynamic> data = documentSnapshot
+                                      .data() as Map<String, dynamic>;
                                   data.remove('docId');
 
-                                  // Extract data from the JSON structure
-                                  List<String> rowData = columnHeaders.map((header) => data[header]?.toString() ?? "").toList();
-
-                                  // Add a row to the table data
+                                  List<String> rowData = columnHeaders
+                                      .map((header) =>
+                                          data[header]?.toString() ?? "")
+                                      .toList();
                                   tableData.add(rowData);
                                 }
 
-                                // Define table styling
-                                final table = pdfWidgets.Table.fromTextArray(
-                                  // context: context,
-                                  data: tableData,
+                                final verticalTableData = <List<String>>[];
+                                for (int i = 0; i < columnHeaders.length; i++) {
+                                  final column = <String>[columnHeaders[i]];
+                                  for (final rowData in tableData) {
+                                    column.add(rowData[i]);
+                                  }
+                                  verticalTableData.add(column);
+                                }
+
+                                final verticalTable =
+                                    pdfWidgets.Table.fromTextArray(
+                                  data: verticalTableData,
                                   cellPadding: pdfWidgets.EdgeInsets.all(10),
-                                  headerCount: 1,
-                                  // headerDecoration: pdfWidgets.BoxDecoration(color: pdf.PdfColors.grey300),
+                                  cellAlignment:
+                                      pdfWidgets.Alignment.centerLeft,
                                   cellStyle: pdfWidgets.TextStyle(fontSize: 12),
-                                  headerStyle: pdfWidgets.TextStyle(fontSize: 14, fontWeight: pdfWidgets.FontWeight.bold),
-                                );
+
+                                    );
 
                                 pdf.addPage(
                                   pdfWidgets.Page(
@@ -214,9 +225,13 @@ class _AllCasesState extends State<AllCases> {
                                       return pdfWidgets.Center(
                                         child: pdfWidgets.Column(
                                           children: [
-                                            pdfWidgets.Text("Table of Cases", style: pdfWidgets.TextStyle(fontSize: 18, fontWeight: pdfWidgets.FontWeight.bold)),
+                                            pdfWidgets.Text("Table of Cases",
+                                                style: pdfWidgets.TextStyle(
+                                                    fontSize: 18,
+                                                    fontWeight: pdfWidgets
+                                                        .FontWeight.bold)),
                                             pdfWidgets.SizedBox(height: 20),
-                                            table,
+                                            verticalTable,
                                           ],
                                         ),
                                       );
@@ -225,7 +240,8 @@ class _AllCasesState extends State<AllCases> {
                                 );
 
                                 final output = await getTemporaryDirectory();
-                                final pdfFile = File('${output.path}/collection.pdf');
+                                final pdfFile =
+                                    File('${output.path}/collection.pdf');
                                 await pdfFile.writeAsBytes(await pdf.save());
 
                                 Share.shareFiles([pdfFile.path]);
@@ -552,9 +568,8 @@ class _AllCasesState extends State<AllCases> {
                     flex: 1,
                     child: TextButton(
                       style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all(Colors.grey
-                            .withOpacity(
-                                0.4)),
+                        backgroundColor: MaterialStateProperty.all(
+                            Colors.grey.withOpacity(0.4)),
                       ),
                       onPressed: () {
                         Navigator.of(context).pop(); // Close the dialog
@@ -581,7 +596,8 @@ class _AllCasesState extends State<AllCases> {
                         //   _loading = true;
                         // });
 
-                        FirebaseFirestore firestore = FirebaseFirestore.instance;
+                        FirebaseFirestore firestore =
+                            FirebaseFirestore.instance;
 
                         // Reference to the 'Cases' collection
                         CollectionReference casesCollection =
